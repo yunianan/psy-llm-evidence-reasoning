@@ -11,7 +11,6 @@ from shared.llm_client import ask_llm_stream, get_model
 
 from ..diagnosis.schemas import (
     CandidateGeneration,
-    DiagnosticCandidate,
     EliminativeAssessment,
     RewardModelAssessment,
     SUPPORTED_DISORDERS,
@@ -85,13 +84,6 @@ def _l3_reasoning_extra(model: str) -> dict[str, Any] | None:
 
 class CLINICRReasoner(Protocol):
     def generate_candidates(self, profile: dict[str, Any]) -> CandidateGeneration:
-        ...
-
-    def evaluate_candidate(
-        self,
-        profile: dict[str, Any],
-        candidate: DiagnosticCandidate,
-    ) -> EliminativeAssessment:
         ...
 
 
@@ -266,7 +258,7 @@ from shared.disorder_catalog import DISORDER_COUNT, candidate_knowledge, disorde
 
 
 class APICLINICRReasoner:
-    """生产用 API 推理器：Step 1 候选生成与 Step 2 逐候选排除。"""
+    """生产用 API 推理器：仅在 Step 1 生成候选并逐项取证。"""
 
     def __init__(self, model: str | None = None) -> None:
         self.model = model or os.getenv("L3_REASONER_MODEL") or get_model()
@@ -423,78 +415,6 @@ confidence 是主观初步支持度，范围0至1；不是检索分数、标准�
             raise CLINICRModelUnavailable(
                 f"CLINICR Step 1模型输出不合法：{type(exc).__name__}"
             ) from exc
-
-    def evaluate_candidate(
-        self,
-        profile: dict[str, Any],
-        candidate: DiagnosticCandidate,
-    ) -> EliminativeAssessment:
-        clinical_profile, allowed_refs = _prompt_profile(profile)
-        evidence_catalog = _evidence_catalog(clinical_profile, allowed_refs)
-        prompt = f"""你是心理评估系统 L3 的 ELIMINATIVE 逐项排除器。
-只执行 Step 2：对指定候选逐条核对 DSM-5，读取下列 MentalKG 原始条件及鉴别说明，不改变医学规则。
-原始知识：{json.dumps(candidate_knowledge(candidate.disorder), ensure_ascii=False)}
-失眠使用输入中的 DSM-5 补充 JSON，不属于原始 MentalKG。失眠核对需覆盖 A–H；B 的痛苦或功能影响是 OR 关系。未达到某一完整条件或尚未知时，不可宣称满足完整标准；不能把共存疾病直接当作排除。标准来源直接定位输入 source_ref 和 criterion_source_refs，不编造论文或书籍页码。
-完整读取条件与 additional_requirements，注意聚合节点和时间起点；不可把单个字段脱离上下文作为排除依据。
-只能使用患者画像中的事实，禁止把量表总分当成多个具体症状，禁止因“未提及”直接判定不符合。
-status 规则：有明确支持证据为 met；有明确反证为 not_met；未提及或证据不足为 pending。
-结论只能为：meets_criteria（满足完整诊断标准）、watch（部分满足/亚临床/仍待确认）、ruled_out（明确不满足核心标准）。
-所有 met 或 not_met 条目必须携带证据；evidence_refs 只能从“允许的 evidence_refs”列表中逐字复制，禁止自行拼接或创造。pending 条目不得虚构证据，必须通过 missing_dimensions 给出可执行追问。
-
-只输出严格 JSON：
-{{
-  "disorder": "{candidate.disorder}",
-  "criteria_detail": [
-    {{"code":"A1","name":"标准名称","status":"met","rationale":"判定理由","evidence_refs":["证据标识"]}}
-  ],
-  "conclusion": "meets_criteria|watch|ruled_out",
-  "conclusion_reason": "结论依据",
-  "missing_dimensions": [
-    {{"field":"字段名","purpose":"为何需要","suggested_question":"建议L2追问"}}
-  ]
-}}
-
-允许的 evidence_refs（只能复制 ref；target_path 和 patient_quote 仅帮助理解）：{json.dumps(evidence_catalog, ensure_ascii=False)}
-患者画像：{json.dumps(clinical_profile, ensure_ascii=False)}
-候选诊断：{candidate.model_dump_json()}
-"""
-        try:
-            def request(step_prompt: str) -> str:
-                return ask_llm_stream(
-                    step_prompt,
-                    model=self.model,
-                    temperature=0,
-                    timeout=_l3_timeout_seconds(),
-                    extra_body=_l3_reasoning_extra(self.model),
-                    response_format=JSON_OBJECT_RESPONSE_FORMAT,
-                )
-
-            def validate(raw: str) -> EliminativeAssessment:
-                payload = _canonicalize_payload_evidence_refs(
-                    _parse_json_object(raw), clinical_profile, allowed_refs
-                )
-                _assert_payload_evidence_refs(payload, allowed_refs)
-                return EliminativeAssessment.model_validate(payload)
-
-            repair_prompt = (
-                prompt
-                + "\n上一次回答不是符合上述结构的合法 JSON 对象，或包含证据白名单外的引用。"
-                "请重新独立生成完整结果；只输出一个合法 JSON 对象，"
-                "所有 evidence_refs 必须从允许列表逐字复制，"
-                "不要解释、不要 Markdown、不要省略字段。"
-            )
-            return _request_structured_output_with_one_retry(
-                request, validate, prompt, repair_prompt
-            )
-        except APIError as exc:
-            raise CLINICRAPIError(
-                f"CLINICR Step 2 API错误：{type(exc).__name__}"
-            ) from exc
-        except Exception as exc:
-            raise CLINICRModelUnavailable(
-                f"CLINICR Step 2模型输出不合法：{type(exc).__name__}"
-            ) from exc
-
 
 class APIRewardModelVerifier:
     """训练奖励模型上线前的 API 适配器；接口可直接替换为本地奖励模型。"""

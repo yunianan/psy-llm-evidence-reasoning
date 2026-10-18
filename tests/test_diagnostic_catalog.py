@@ -57,23 +57,11 @@ class NodeReasoner:
         self.node = node
 
     def generate_candidates(self, profile):
-        return CandidateGeneration.model_validate({
-            "considered_disorders": list(SUPPORTED_DISORDERS),
-            "candidates": [{"disorder": self.node, "label": "测试标签",
-                            "symptom_match": {"matched": 1, "total": 1},
-                            "core_evidence_summary": "受控接口测试，非医学标准验证",
-                            "evidence_refs": ["patient_utterance_L008"], "confidence": .9}],
-        })
-
-    def evaluate_candidate(self, profile, candidate):
-        codes = ["A1", "A2", "A3", "A4", "A6"] if self.node in {"D013", "D015"} else ["CORE"]
-        return EliminativeAssessment.model_validate({
-            "disorder": candidate.disorder,
-            "criteria_detail": [{"code": code, "name": "受控测试条目", "status": "met",
-                                 "rationale": "测试替身", "evidence_refs": ["patient_utterance_L008"]}
-                                for code in codes],
-            "conclusion": "meets_criteria", "conclusion_reason": "受控测试结论",
-        })
+        from tests.tree_test_support import controlled_generation
+        return controlled_generation(
+            [self.node], ref="patient_utterance_L008", complete_labels=[self.node],
+            confidences={self.node: .9},
+        )
 
 
 @pytest.mark.parametrize("node", SUPPORTED_DISORDERS)
@@ -88,6 +76,7 @@ def test_all_twenty_four_nodes_complete_diagnostic_pipeline(node):
     assert len(parsed.considered_disorders) == 24
     assert parsed.candidates[0]["disorder"] == node
     assert parsed.checked[0]["disorder"] == node
+    assert parsed.checked[0]["source"] == "step1_tree_records"
     assert parsed.verifier_decision == "confirmed"
     if node in TREATMENT_KEY_BY_NODE:
         assert report["l3_validation"]["passed"]
@@ -102,7 +91,7 @@ def test_all_twenty_four_nodes_complete_diagnostic_pipeline(node):
 
 @pytest.mark.parametrize("removed", ["MDD", "Bipolar", "PanicDisorder", "SocialAnxietyDisorder", "SomaticSymptomDisorder"])
 def test_old_labels_are_not_active_candidates(removed):
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValueError):
         NodeReasoner(removed).generate_candidates({})
 
 

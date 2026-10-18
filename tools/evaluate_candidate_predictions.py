@@ -62,7 +62,12 @@ def _normalize_prediction(row):
     result = dict(row.get("report", row))
     result["case_id"] = row["case_id"]
     if "checked" in result and "step2_decisions" not in result:
-        result["step2_decisions"] = {item["disorder"]: item["conclusion"] for item in result["checked"]}
+        # Current reports reuse Step 1 records. Only historical, independently
+        # generated ELIMINATIVE results count as a second-stage evaluation.
+        legacy = [item for item in result["checked"]
+                  if item.get("source") != "step1_tree_records"]
+        if legacy:
+            result["step2_decisions"] = {item["disorder"]: item["conclusion"] for item in legacy}
     if "diagnosis" in result and "final_diagnoses" not in result:
         diagnosis = result["diagnosis"]
         result["final_diagnoses"] = [item["disorder"] for item in [diagnosis.get("primary"), *diagnosis.get("secondary", [])] if item]

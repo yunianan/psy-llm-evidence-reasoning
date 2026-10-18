@@ -35,7 +35,7 @@ EVAL 的隔离病例、来源元数据和答案与其 gold 一起封存；不输
 `tools/evaluate_candidate_predictions.py` 兼容单独的 candidates 输出和完整 L3 report。单标签参考任务与 Type 3 的 admissible_candidates 分开报告，混合输入不再给出一个可被误读成统一诊断效果的总体 PPV/召回。
 
 - Step 1：严格标注匹配的 micro PPV/召回、Top-K 召回和命中、空候选比例、按标签 precision/recall/F1 和 macro。macro 对有金标准支持的标签求平均；未预测该标签时其 macro precision 取 0。
-- Step 2：统计被实际核对的正确候选中有多少被 ruled_out；单独报告分母，缺失核对结果不视为已评测。
+- 历史 Step 2：仅对旧报告中的独立排除结果统计误排除率并报告分母。当前流程已移除重复 ELIMINATIVE 调用，`checked[].source=step1_tree_records` 表示复用 Step 1，不计作独立 Step 2；相应评测分母为零、误排除率为 null。
 - 最终结果：仅对单一参考标签任务报告命中和集合 exact match。Type 3 不作为确诊共病或唯一最终诊断的标准。
 - MentalBench 标签覆盖的分母为 23；系统范围仍为 24。Insomnia 没有参考样本，召回为不适用。若模型输出 Insomnia，继续保留在严格标注 PPV 的预测数中，并单独计数，不能静默删掉，也不能据此证明临床上不存在该病。
 - 分开报告记录、来源组、超级组数量，不宣称某个数量就是统计有效样本量。严格组外实验以超级组聚类 bootstrap 为主要区间，同时提供来源组聚类敏感性区间；默认 1,000 次，种子 20261015。

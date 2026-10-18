@@ -7,145 +7,51 @@ from layers.layer3.llm import client
 from tests.tree_test_support import node_payload
 
 
-def test_production_clinicr_uses_api_for_all_three_steps(monkeypatch):
+def test_production_clinicr_only_calls_step1_and_verifier(monkeypatch):
     monkeypatch.delenv("L3_LLM_TIMEOUT_SECONDS", raising=False)
     monkeypatch.delenv("L3_REASONING_EFFORT", raising=False)
     monkeypatch.setenv("LLM_MODEL", "qwen3.8-flash")
-    profile = {
-        "PHQ9": 16,
-        "MDQ": 3,
-        "PHQ9_items": {
-            "item1": 3,
-            "item2": 3,
-            "item3": 2,
-            "item4": 2,
-            "item5": 2,
-        },
-    }
-    mdd = {
-        "disorder": "D013",
-        "criteria_detail": [
-            {
-                "code": f"A{index}",
-                "name": f"MDD条目{index}",
-                "status": "met",
-                "rationale": "单题证据支持",
-                "evidence_refs": [f"PHQ9_item{index}={profile['PHQ9_items'][f'item{index}']}"],
-            }
-            for index in range(1, 6)
-        ],
-        "conclusion": "meets_criteria",
-        "conclusion_reason": "满足5/9条并包含核心条目",
-        "missing_dimensions": [],
-    }
-    gad = {
-        "disorder": "D011",
-        "criteria_detail": [{
-            "code": "C1",
-            "name": "过度担忧",
-            "status": "pending",
-            "rationale": "信息不足",
-            "evidence_refs": [],
-        }],
-        "conclusion": "watch",
-        "conclusion_reason": "部分满足，继续观察",
-        "missing_dimensions": [{
-            "field": "gad.duration",
-            "purpose": "确认持续时间",
-            "suggested_question": "这种担忧持续多久了？",
-        }],
-    }
-    bipolar = {
-        "disorder": "D009",
-        "criteria_detail": [{
-            "code": "CORE",
-            "name": "轻躁狂史",
-            "status": "not_met",
-            "rationale": "MDQ筛查不支持",
-            "evidence_refs": ["MDQ=3"],
-        }],
-        "conclusion": "ruled_out",
-        "conclusion_reason": "不满足核心条件",
-        "missing_dimensions": [],
-    }
-    verifier = {
-        "score": 0.87,
-        "dimensions": [
-            {
-                "dimension": dimension,
-                "score": 0.87,
-                "reason": "推理质量通过要求",
-                "evidence_refs": ["PHQ9=16"] if dimension == "evidence_sufficiency" else [],
-            }
-            for dimension in (
-                "evidence_sufficiency",
-                "logic_coherence",
-                "differential_coverage",
-                "no_reasoning_leaps",
-            )
-        ],
-        "fail_reasons": [],
-        "missing_dimensions": [],
-    }
-    candidate_results = {"D013": mdd, "D011": gad, "D009": bipolar}
+    profile = {"PHQ9": 16, "PHQ9_items": {"item2": 3}}
     calls = []
 
-    def controlled_api(
-        prompt,
-        model="deepseek-chat",
-        temperature=0,
-        *,
-        timeout=10,
-        extra_body=None,
-        response_format=None,
-    ):
-        calls.append({
-            "prompt": prompt,
-            "model": model,
-            "temperature": temperature,
-            "timeout": timeout,
-            "extra_body": extra_body,
-            "response_format": response_format,
-        })
+    def controlled_api(prompt, **kwargs):
+        calls.append({"prompt": prompt, **kwargs})
         if "DSM-5 决策树节点判定器" in prompt:
-            response = node_payload(prompt, ["D013", "D011", "D009"], "PHQ9_item2=3")
-        elif "Reward Model Verifier" in prompt:
-            response = verifier
-        else:
-            response = next(
-                value
-                for disorder, value in candidate_results.items()
-                if f'"disorder":"{disorder}"' in prompt
+            response = node_payload(
+                prompt, ["D013", "D011", "D009"], "PHQ9_item2=3", complete_labels=["D013"]
             )
+        elif "Reward Model Verifier" in prompt:
+            response = {
+                "score": .87,
+                "dimensions": [{"dimension": name, "score": .87, "reason": "受控终验",
+                                "evidence_refs": ["PHQ9_item2=3"]}
+                               for name in ["evidence_sufficiency", "logic_coherence",
+                                            "differential_coverage", "no_reasoning_leaps"]],
+                "fail_reasons": [], "missing_dimensions": [],
+            }
+        else:
+            pytest.fail("A duplicate per-candidate diagnostic request was made")
         return json.dumps(response, ensure_ascii=False)
 
-    monkeypatch.setattr("layers.layer3.llm.client.ask_llm_stream", controlled_api)
-
+    monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
     result = CLINICR().run(profile)
-
     assert result["diagnosis"]["primary"]["disorder"] == "D013"
-    assert result["verifier_score"] == 0.87
-    assert len(calls) > 5
-    assert len([call for call in calls if "ELIMINATIVE" in call["prompt"]]) == 3
+    assert result["verifier_score"] == .87
+    assert not any("ELIMINATIVE" in call["prompt"] for call in calls)
+    assert sum("Reward Model Verifier" in call["prompt"] for call in calls) == 1
+    assert not hasattr(client.APICLINICRReasoner, "evaluate_candidate")
+    assert all(row["source"] == "step1_tree_records" for row in result["checked"])
     assert result["candidate_generation_method"] == "dsm5_decision_tree"
     assert result["tree_trace"]
     assert all(call["temperature"] == 0 for call in calls)
     assert all(call["timeout"] == 60.0 for call in calls)
-    assert all(call["extra_body"] == {
-        "enable_thinking": True,
-        "reasoning_effort": "medium",
-    } for call in calls)
-    assert calls[0]["response_format"] == {"type": "json_object"}
-    assert all(
-        call["response_format"] == {"type": "json_object"}
-        for call in calls[1:4]
-    )
-    assert calls[4]["response_format"] == {"type": "json_object"}
+    assert all(call["extra_body"] == {"enable_thinking": True, "reasoning_effort": "medium"}
+               for call in calls)
+    assert all(call["response_format"] == {"type": "json_object"} for call in calls)
     assert all("允许的 evidence_refs（只能复制 ref" in call["prompt"] for call in calls)
     assert "PHQ9=16" in calls[0]["prompt"]
-    assert "PHQ9_item2=3" in calls[0]["prompt"]
     assert "_allowed_evidence_refs" not in calls[0]["prompt"]
-    assert "\"confidence\"" not in calls[-1]["prompt"]
+    assert '"confidence"' not in calls[-1]["prompt"]
 
 
 def test_step1_maps_exact_scalar_field_alias_to_traceable_evidence_node(monkeypatch):
@@ -211,18 +117,7 @@ def test_invalid_qwen_reasoning_effort_is_rejected(monkeypatch):
         client._l3_reasoning_extra("qwen3.8-flash")
 
 
-def _step2_candidate():
-    return client.DiagnosticCandidate.model_validate({
-        "disorder": "D013",
-        "label": "重性抑郁障碍",
-        "symptom_match": {"matched": 1, "total": 9},
-        "core_evidence_summary": "情绪低落",
-        "evidence_refs": ["ev-mood"],
-        "confidence": 0.7,
-    })
-
-
-def _valid_step2_payload():
+def _valid_assessment_payload():
     return {
         "disorder": "D013",
         "criteria_detail": [{
@@ -240,157 +135,6 @@ def _valid_step2_payload():
             "suggested_question": "还出现了哪些变化？",
         }],
     }
-
-
-def test_step2_retries_once_when_first_json_is_malformed(monkeypatch):
-    responses = iter([
-        '{"disorder":"D013" "criteria_detail":[]}',
-        json.dumps(_valid_step2_payload(), ensure_ascii=False),
-    ])
-    calls = []
-
-    def controlled_api(prompt, **kwargs):
-        calls.append({"prompt": prompt, **kwargs})
-        return next(responses)
-
-    monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    profile = {
-        "evidence_nodes": [{
-            "evidence_id": "ev-mood",
-            "target_path": "symptoms.depressed_mood",
-            "quote": "最近一直情绪低落",
-        }],
-        client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"],
-    }
-
-    result = client.APICLINICRReasoner("deepseek-chat").evaluate_candidate(
-        profile, _step2_candidate()
-    )
-
-    assert result.disorder == "D013"
-    assert len(calls) == 2
-    assert all(call["response_format"] == {"type": "json_object"} for call in calls)
-    assert "上一次回答不是" not in calls[0]["prompt"]
-    assert "上一次回答不是" in calls[1]["prompt"]
-
-
-def test_step2_fails_closed_after_one_invalid_json_retry(monkeypatch):
-    calls = []
-
-    def controlled_api(prompt, **kwargs):
-        calls.append(prompt)
-        return '{"disorder":"D013" "criteria_detail":[]}'
-
-    monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    profile = {client.ALLOWED_EVIDENCE_REFS_KEY: []}
-
-    with pytest.raises(client.CLINICRModelUnavailable, match="JSONDecodeError"):
-        client.APICLINICRReasoner("deepseek-chat").evaluate_candidate(
-            profile, _step2_candidate()
-        )
-
-    assert len(calls) == 2
-
-
-def test_step2_retries_unknown_evidence_without_silently_accepting_it(monkeypatch):
-    invalid = _valid_step2_payload()
-    invalid["criteria_detail"][0]["evidence_refs"] = ["invented-evidence-id"]
-    responses = iter([
-        json.dumps(invalid, ensure_ascii=False),
-        json.dumps(_valid_step2_payload(), ensure_ascii=False),
-    ])
-    calls = []
-
-    def controlled_api(prompt, **kwargs):
-        calls.append(prompt)
-        return next(responses)
-
-    monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    profile = {
-        "evidence_nodes": [{
-            "evidence_id": "ev-mood",
-            "target_path": "symptoms.depressed_mood",
-            "quote": "最近一直情绪低落",
-        }],
-        client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"],
-    }
-
-    result = client.APICLINICRReasoner("deepseek-chat").evaluate_candidate(
-        profile, _step2_candidate()
-    )
-
-    assert result.criteria_detail[0].evidence_refs == ["ev-mood"]
-    assert len(calls) == 2
-    assert "证据白名单外" in calls[1]
-
-
-def test_step2_fails_closed_when_retry_still_invents_evidence(monkeypatch):
-    invalid = _valid_step2_payload()
-    invalid["criteria_detail"][0]["evidence_refs"] = ["invented-evidence-id"]
-    calls = []
-
-    def controlled_api(prompt, **kwargs):
-        calls.append(prompt)
-        return json.dumps(invalid, ensure_ascii=False)
-
-    monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    profile = {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]}
-
-    with pytest.raises(client.CLINICRModelUnavailable, match="ValueError"):
-        client.APICLINICRReasoner("deepseek-chat").evaluate_candidate(
-            profile, _step2_candidate()
-        )
-
-    assert len(calls) == 2
-
-
-def test_step2_retries_provider_structured_json_api_error_once(monkeypatch):
-    class FakeAPIError(Exception):
-        pass
-
-    calls = []
-
-    def controlled_api(prompt, **kwargs):
-        calls.append(prompt)
-        if len(calls) == 1:
-            raise FakeAPIError(
-                "Model output became abnormal while generating a JSON response "
-                "for response_format; partial output may be incomplete or invalid JSON"
-            )
-        return json.dumps(_valid_step2_payload(), ensure_ascii=False)
-
-    monkeypatch.setattr(client, "APIError", FakeAPIError)
-    monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    profile = {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]}
-
-    result = client.APICLINICRReasoner("deepseek-chat").evaluate_candidate(
-        profile, _step2_candidate()
-    )
-
-    assert result.disorder == "D013"
-    assert len(calls) == 2
-
-
-def test_step2_reports_non_structured_api_failure_as_api_error_without_retry(monkeypatch):
-    class FakeAPIError(Exception):
-        pass
-
-    calls = []
-
-    def controlled_api(prompt, **kwargs):
-        calls.append(prompt)
-        raise FakeAPIError("authentication failed")
-
-    monkeypatch.setattr(client, "APIError", FakeAPIError)
-    monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-
-    with pytest.raises(client.CLINICRAPIError, match="Step 2 API错误"):
-        client.APICLINICRReasoner("deepseek-chat").evaluate_candidate(
-            {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]},
-            _step2_candidate(),
-        )
-
-    assert len(calls) == 1
 
 
 def _valid_verifier_payload():
@@ -428,7 +172,7 @@ def _score_with_test_inputs(model):
         }],
         client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"],
     }
-    assessment = client.EliminativeAssessment.model_validate(_valid_step2_payload())
+    assessment = client.EliminativeAssessment.model_validate(_valid_assessment_payload())
     return model.score_reasoning(
         profile,
         {"disorder": "D013", "evidence_refs": ["ev-mood"]},

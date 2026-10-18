@@ -49,6 +49,37 @@ def _symptom_pool(value: Any) -> set[str]:
     return set()
 
 
+def criterion_nodes(label: str) -> dict[str, dict[str, Any]]:
+    """Expand source conditions once in the same form used by traversal and reporting."""
+    knowledge = candidate_knowledge(label)
+    entries = []
+    for key, value in knowledge["criteria"]["required_criteria"].items():
+        if isinstance(value, list):
+            entries.extend((f"{key}/{i}", item, {}, True) for i, item in enumerate(value))
+        elif isinstance(value, dict):
+            mandatory = value.get("relation") != "include"
+            entries.extend((f"{key}/{part}", condition, value, mandatory)
+                           for part, condition in value.items()
+                           if part not in {"relation", "symptom_pool"})
+        else:
+            entries.append((key, value, {}, True))
+    result = {}
+    for key, value, group, mandatory in entries:
+        node_id = f"criterion.{label}.{key}"
+        part = key.rsplit("/", 1)[-1]
+        result[node_id] = {
+            "stage": "criterion", "question": f"患者相关病程是否满足来源字段 {key} 的原始条件？",
+            "follow_up": f"请补充与 {key} 对应的症状、时间和情境信息。",
+            "source_refs": [knowledge["source_ref"] + f"/required_criteria/{key}"],
+            "source_condition": value, "source_group": group, "mandatory": mandatory,
+            "symptom_pool": group.get("symptom_pool", []) if part in {
+                "min_count", "must_include_one_of", "must_include_all"
+            } else [],
+            "disorders": [label],
+        }
+    return result
+
+
 class DecisionTreeCandidateGenerator:
     def __init__(self, evaluate: NodeEvaluator) -> None:
         self.evaluate = evaluate
@@ -129,43 +160,14 @@ class DecisionTreeCandidateGenerator:
 
         # Full source criteria are checked to produce evidence, not to require
         # a final diagnosis at candidate time. Failed/unknown criteria remain
-        # visible for the existing Step 2 and the user's downstream scoring.
-        criterion_nodes: dict[str, list[str]] = {}
+        # visible for deterministic aggregation and the user's downstream scoring.
+        criteria_by_label: dict[str, list[str]] = {}
         for label in active:
-            knowledge = candidate_knowledge(label)
-            criterion_nodes[label] = []
-            required = knowledge["criteria"]["required_criteria"]
-            entries = []
-            for key, value in required.items():
-                if isinstance(value, list):
-                    entries.extend((f"{key}/{i}", item, {}, True) for i, item in enumerate(value))
-                elif isinstance(value, dict):
-                    # Decompose an episode into sourced count, core symptoms,
-                    # duration and impairment questions (paper section 2.3).
-                    mandatory = value.get("relation") != "include"
-                    entries.extend((f"{key}/{part}", condition, value, mandatory)
-                                   for part, condition in value.items()
-                                   if part not in {"relation", "symptom_pool"})
-                else:
-                    entries.append((key, value, {}, True))
-            for key, value, group, mandatory in entries:
-                node_id = f"criterion.{label}.{key}"
-                ref = knowledge["source_ref"] + f"/required_criteria/{key}"
-                part = key.rsplit("/", 1)[-1]
-                pool = group.get("symptom_pool", []) if part in {
-                    "min_count", "must_include_one_of", "must_include_all"
-                } else []
-                nodes_local = {
-                    "stage": "criterion", "question": f"患者相关病程是否满足来源字段 {key} 的原始条件？",
-                    "follow_up": f"请补充与 {key} 对应的症状、时间和情境信息。",
-                    "source_refs": [ref], "source_condition": value,
-                    "source_group": group, "mandatory": mandatory,
-                    "symptom_pool": pool, "disorders": [label],
-                }
-                # Keep per-request generated nodes outside the cached graph.
-                nodes[node_id] = nodes_local
-                criterion_nodes[label].append(node_id)
-        assess([n for ids in criterion_nodes.values() for n in ids])
+            definitions = criterion_nodes(label)
+            # Keep per-request generated nodes outside the cached graph.
+            nodes.update(definitions)
+            criteria_by_label[label] = list(definitions)
+        assess([n for ids in criteria_by_label.values() for n in ids])
 
         candidates = []
         for label, path in active.items():
@@ -173,7 +175,7 @@ class DecisionTreeCandidateGenerator:
             anchor_ids = [n for n in path["anchors"] if cache[n].status == "met"]
             ids = list(dict.fromkeys([*screen_ids, *anchor_ids,
                                      *[r["node_id"] for r in path["guards"]],
-                                     *criterion_nodes[label]]))
+                                     *criteria_by_label[label]]))
             records = [cache[n] for n in ids]
             pool = _symptom_pool(candidate_knowledge(label)["criteria"])
             mapped = set().union(*(set(r.symptom_ids) for r in records)) & pool

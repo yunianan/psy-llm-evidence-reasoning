@@ -50,6 +50,17 @@ def test_full_l3_reports_support_step2_and_final_metrics():
     assert report["final"]["reference_hit_rate"] == 0
 
 
+def test_reused_step1_records_are_not_counted_as_an_independent_step2():
+    rows = [gold("a", ["D013"])]
+    p = prediction("a", ["D013"])
+    p["checked"] = [{"disorder": "D013", "conclusion": "meets_criteria", "source": "step1_tree_records"}]
+    p["diagnosis"] = {"primary": {"disorder": "D013"}, "secondary": []}
+    report = evaluate(rows, [{"case_id": "a", "report": p}])
+    assert report["step2"]["cases_with_decisions"] == 0
+    assert report["step2"]["false_elimination_rate"] is None
+    assert report["final"]["exact_match_rate"] == 1
+
+
 def test_group_bootstrap_counts_source_groups_separately_from_records():
     rows = [gold("a", ["D013"], origin="same"), gold("b", ["D013"], origin="same"),
             gold("c", ["D008"], code="D008-D011", origin="other")]

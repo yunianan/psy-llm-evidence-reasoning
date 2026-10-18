@@ -27,140 +27,18 @@ def _known_ref(profile: dict[str, Any]) -> str:
 class ControlledCLINICRReasoner:
     def __init__(self) -> None:
         self.generate_calls: list[dict[str, Any]] = []
-        self.evaluate_calls: list[str] = []
 
     def generate_candidates(self, profile: dict[str, Any]) -> CandidateGeneration:
+        from tests.tree_test_support import controlled_generation
+
         self.generate_calls.append(profile)
-        ref = _known_ref(profile)
-        return CandidateGeneration.model_validate({
-            "considered_disorders": list(SUPPORTED_DISORDERS),
-            "candidates": [
-                {
-                    "disorder": "D013",
-                    "label": "重性抑郁障碍",
-                    "symptom_match": {"matched": 5, "total": 9},
-                    "core_evidence_summary": "低落、兴趣减退及相关量表证据",
-                    "evidence_refs": [ref],
-                    "confidence": 0.75,
-                },
-                {
-                    "disorder": "D011",
-                    "label": "广泛性焦虑障碍",
-                    "symptom_match": {"matched": 2, "total": 6},
-                    "core_evidence_summary": "存在需要继续核对的焦虑线索",
-                    "evidence_refs": [ref],
-                    "confidence": 0.45,
-                },
-                {
-                    "disorder": "D020",
-                    "label": "适应障碍伴抑郁情绪",
-                    "symptom_match": {"matched": 2, "total": 5},
-                    "core_evidence_summary": "存在应激相关线索",
-                    "evidence_refs": [ref],
-                    "confidence": 0.35,
-                },
-                {
-                    "disorder": "D009",
-                    "label": "双相Ⅱ型（抑郁相）",
-                    "symptom_match": {"matched": 1, "total": 7},
-                    "core_evidence_summary": "作为重要排除诊断保留",
-                    "evidence_refs": [ref],
-                    "confidence": 0.15,
-                },
-            ],
-        })
-
-    def evaluate_candidate(
-        self,
-        profile: dict[str, Any],
-        candidate: DiagnosticCandidate,
-    ) -> EliminativeAssessment:
-        self.evaluate_calls.append(candidate.disorder)
-        ref = _known_ref(profile)
-        if candidate.disorder == "D013":
-            items = profile.get("PHQ9_items") or {}
-            required = {"item1", "item2", "item3", "item4", "item6"}
-            if not required <= set(items):
-                return EliminativeAssessment.model_validate({
-                    "disorder": "D013",
-                    "criteria_detail": [{
-                        "code": "A1",
-                        "name": "心境抑郁",
-                        "status": "pending",
-                        "rationale": "缺少单题和患者叙述证据",
-                        "evidence_refs": [],
-                    }],
-                    "conclusion": "watch",
-                    "conclusion_reason": "证据不足，暂列待观察",
-                    "missing_dimensions": [{
-                        "field": "phq9_items.item2",
-                        "purpose": "核对心境抑郁条目",
-                        "suggested_question": "最近两周情绪低落出现得有多频繁？",
-                    }],
-                })
-
-            mapping = {
-                "A1": ("心境抑郁", "item2"),
-                "A2": ("兴趣减退", "item1"),
-                "A3": ("食欲/体重变化", "item5"),
-                "A4": ("睡眠障碍", "item3"),
-                "A5": ("精神运动性改变", "item8"),
-                "A6": ("疲劳/精力减退", "item4"),
-                "A7": ("无价值感/过度自责", "item6"),
-                "A8": ("注意力减退", "item7"),
-                "A9": ("自杀意念", "item9"),
-            }
-            criteria = []
-            for code, (name, item_key) in mapping.items():
-                score = items.get(item_key, 0)
-                threshold = 1 if item_key == "item9" else 2
-                criteria.append({
-                    "code": code,
-                    "name": name,
-                    "status": "met" if score >= threshold else "not_met",
-                    "rationale": "依据PHQ-9单题受控判定",
-                    "evidence_refs": [f"PHQ9_{item_key}={score}"],
-                })
-            return EliminativeAssessment.model_validate({
-                "disorder": "D013",
-                "criteria_detail": criteria,
-                "conclusion": "meets_criteria",
-                "conclusion_reason": "满足5/9条且包含A1和A2",
-                "missing_dimensions": [],
-            })
-
-        if candidate.disorder in {"D011", "D020"}:
-            return EliminativeAssessment.model_validate({
-                "disorder": candidate.disorder,
-                "criteria_detail": [{
-                    "code": "C1",
-                    "name": "核心条件",
-                    "status": "pending",
-                    "rationale": "当前画像不足以确认核心条件",
-                    "evidence_refs": [],
-                }],
-                "conclusion": "watch",
-                "conclusion_reason": "部分线索存在但不足以形成诊断",
-                "missing_dimensions": [{
-                    "field": f"{candidate.disorder}.core_criterion",
-                    "purpose": "确认核心诊断条件",
-                    "suggested_question": "这些表现通常在什么情境下发生并持续多久？",
-                }],
-            })
-
-        return EliminativeAssessment.model_validate({
-            "disorder": candidate.disorder,
-            "criteria_detail": [{
-                "code": "CORE",
-                "name": "核心诊断条件",
-                "status": "not_met",
-                "rationale": "输入证据明确不支持核心条件",
-                "evidence_refs": [ref],
-            }],
-            "conclusion": "ruled_out",
-            "conclusion_reason": "不满足核心诊断标准",
-            "missing_dimensions": [],
-        })
+        required = {"item1", "item2", "item3", "item4", "item6"}
+        complete = ["D013"] if required <= set(profile.get("PHQ9_items") or {}) else []
+        return controlled_generation(
+            ["D013", "D011", "D020", "D009"], ref=_known_ref(profile),
+            complete_labels=complete,
+            confidences={"D013": .75, "D011": .45, "D020": .35, "D009": .15},
+        )
 
 
 class ControlledRewardModelVerifier:

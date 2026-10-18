@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor
-import os
 from typing import Any
 
 from ..llm import (
@@ -17,22 +15,13 @@ from .schemas import (
     SUPPORTED_DISORDERS,
 )
 from .verifier import IndependentVerifier
+from .assessment import assessments_from_step1
 
 
 from shared.disorder_catalog import DISORDER_COUNT, candidate_knowledge, disorder_metadata
 
 MIN_PRIMARY_CANDIDATE_CONFIDENCE = 0.5
 
-
-def _step2_max_workers() -> int:
-    raw = (os.getenv("L3_STEP2_MAX_WORKERS") or "3").strip()
-    try:
-        workers = int(raw)
-    except ValueError as exc:
-        raise ValueError("L3_STEP2_MAX_WORKERS 必须是整数") from exc
-    if not 1 <= workers <= 5:
-        raise ValueError("L3_STEP2_MAX_WORKERS 必须在 1 到 5 之间")
-    return workers
 
 DISORDER_SEVERITY_SCALE = {
     "D013": "PHQ9",
@@ -62,7 +51,7 @@ SEVERITY_THRESHOLDS = {
 
 
 class CLINICR:
-    """严格执行候选生成、逐候选排除、排名第一候选独立终验。"""
+    """Step 1 一次取证、确定性汇总，再执行排名第一候选独立终验。"""
 
     def __init__(
         self,
@@ -88,18 +77,13 @@ class CLINICR:
         generation = self.reasoner.generate_candidates(model_profile)
         candidates = self._validate_generation(generation, known_refs)
 
-        # Step 2: LLM逐候选核对DSM-5标准。
-        def evaluate(candidate: DiagnosticCandidate) -> EliminativeAssessment:
-            assessment = self.reasoner.evaluate_candidate(model_profile, candidate)
-            self._validate_eliminative(candidate, assessment, known_refs)
-            return assessment
-
-        # 各候选互不依赖；map 保留候选排名顺序，Verifier 仍在全部核对后运行。
-        with ThreadPoolExecutor(
-            max_workers=max(1, min(_step2_max_workers(), len(candidates))),
-            thread_name_prefix="clinicr-step2",
-        ) as executor:
-            assessments = list(executor.map(evaluate, candidates))
+        # Reuse the completed Step 1 records; no per-candidate ELIMINATIVE call.
+        try:
+            assessments = assessments_from_step1(generation, candidates)
+        except (KeyError, ValueError) as exc:
+            raise CLINICRModelUnavailable(f"Step 1证据汇总失败：{exc}") from exc
+        for assessment in assessments:
+            self._validate_assessment(assessment, known_refs)
 
         severity = self._get_severity(profile)
         severity_level = self._get_severity_level(severity)
@@ -150,7 +134,7 @@ class CLINICR:
                     "decision": "rejected",
                     "routing": "return_to_l2",
                     "checks": [],
-                    "fail_reasons": ["没有候选诊断通过逐步排除验证"],
+                    "fail_reasons": ["Step 1候选尚未满足完整必需标准及鉴别条件"],
                     "missing_dimensions": missing,
                 },
                 safety_context=safety_context,
@@ -259,47 +243,32 @@ class CLINICR:
         )
 
     @staticmethod
-    def _validate_eliminative(
-        candidate: DiagnosticCandidate,
+    def _validate_assessment(
         assessment: EliminativeAssessment,
         known_refs: set[str],
     ) -> None:
-        if assessment.disorder != candidate.disorder:
-            raise CLINICRModelUnavailable(
-                f"Step 2返回诊断{assessment.disorder}与候选{candidate.disorder}不一致"
-            )
         codes = [item.code for item in assessment.criteria_detail]
         if len(codes) != len(set(codes)):
             raise CLINICRModelUnavailable(
-                f"Step 2候选{candidate.disorder}包含重复诊断条目"
+                f"Step 1候选{assessment.disorder}包含重复诊断条目"
             )
         for item in assessment.criteria_detail:
             if item.status in {"met", "not_met"} and not item.evidence_refs:
                 raise CLINICRModelUnavailable(
-                    f"Step 2候选{candidate.disorder}的{item.code}缺少判定证据"
+                    f"Step 1候选{assessment.disorder}的{item.code}缺少判定证据"
                 )
             CLINICR._assert_known_refs(
                 item.evidence_refs,
                 known_refs,
-                f"Step 2候选{candidate.disorder}的{item.code}",
+                f"Step 1候选{assessment.disorder}的{item.code}",
             )
         if (
             any(item.status == "pending" for item in assessment.criteria_detail)
             and not assessment.missing_dimensions
         ):
             raise CLINICRModelUnavailable(
-                f"Step 2候选{candidate.disorder}含待确认条目但没有给出L2追问"
+                f"Step 1候选{assessment.disorder}含待确认条目但没有给出L2追问"
             )
-        if assessment.disorder in {"D013", "D015"} and assessment.conclusion == "meets_criteria":
-            met = {
-                item.code
-                for item in assessment.criteria_detail
-                if item.status == "met"
-            }
-            if len(met) < 5 or not ({"A1", "A2"} & met):
-                raise CLINICRModelUnavailable(
-                    "Step 2将不满足MDD数量门槛或核心条目的候选标为满足标准"
-                )
 
     @staticmethod
     def _validate_verifier_refs(
@@ -492,6 +461,10 @@ class CLINICR:
         generation: CandidateGeneration | None = None,
     ) -> dict[str, Any]:
         evidence_refs: list[dict[str, Any]] = []
+        tree_sources = {
+            record.node_id: record.source_refs
+            for record in generation.tree_trace
+        } if generation else {}
         for candidate in candidates:
             evidence_refs.append({
                 "type": "CLINICR-step1",
@@ -505,6 +478,12 @@ class CLINICR:
             })
         for assessment in assessments:
             for criterion in assessment.criteria_detail:
+                sources = tree_sources.get(criterion.code)
+                if not sources:
+                    knowledge = candidate_knowledge(assessment.disorder)
+                    sources = [knowledge.get("criterion_source_refs", {}).get(
+                        criterion.code, knowledge["source_ref"],
+                    )]
                 evidence_refs.append({
                     "type": "DSM-5-criterion",
                     **disorder_metadata(assessment.disorder),
@@ -514,9 +493,7 @@ class CLINICR:
                         "unknown" if criterion.status == "pending" else criterion.status
                     ),
                     "evidence_refs": criterion.evidence_refs,
-                    "source_doc": candidate_knowledge(assessment.disorder).get(
-                        "criterion_source_refs", {}
-                    ).get(criterion.code, candidate_knowledge(assessment.disorder)["source_ref"]),
+                    "source_doc": sources[0],
                 })
         if provisional_primary:
             evidence_refs.append({
@@ -543,7 +520,7 @@ class CLINICR:
 
         if primary:
             summary = (
-                f"CLINICR三步推理得到{disorder_metadata(primary['disorder'])['display_name']}，"
+                f"CLINICR复用Step 1证据并终验得到{disorder_metadata(primary['disorder'])['display_name']}，"
                 f"候选置信度={primary['confidence']}，"
                 f"Verifier={verifier['score']}（{verifier['decision']}）。"
             )
@@ -579,7 +556,10 @@ class CLINICR:
             "candidate_coverage": generation.candidate_coverage if generation else {},
             "candidate_missing_dimensions": [item.model_dump(mode="json") for item in generation.missing_dimensions] if generation else [],
             "candidates": [{**item.model_dump(mode="json"), **disorder_metadata(item.disorder)} for item in candidates],
-            "checked": [item.model_dump(mode="json") for item in assessments],
+            "checked": [
+                {**item.model_dump(mode="json"), "source": "step1_tree_records"}
+                for item in assessments
+            ],
             "evidence_refs": evidence_refs,
             "confidence": verifier["score"],
             "flags": list(dict.fromkeys(flags)),

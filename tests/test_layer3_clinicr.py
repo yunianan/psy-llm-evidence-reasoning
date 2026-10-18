@@ -1,6 +1,3 @@
-import threading
-import time
-
 import pytest
 
 from layers.layer3.api import diagnose
@@ -67,9 +64,7 @@ def test_step1_considers_exactly_twenty_four_disorders_and_keeps_a_relevant_subs
     assert set(SUPPORTED_DISORDERS) == set(
         reasoner.generate_candidates(_profile()).considered_disorders
     )
-    assert reasoner.evaluate_calls == [
-        "D013", "D011", "D020", "D009"
-    ]
+    assert not hasattr(reasoner, "evaluate_candidate")
     assert len(verifier.calls) == 1
 
 
@@ -84,50 +79,34 @@ def test_allowed_evidence_refs_are_rule_generated_not_accepted_from_input():
     assert "PHQ9=16" in observed
 
 
-def test_step2_candidates_are_evaluated_concurrently_and_keep_rank_order(monkeypatch):
-    class ConcurrentReasoner(ControlledCLINICRReasoner):
-        def __init__(self):
-            super().__init__()
-            self.active = 0
-            self.peak = 0
-            self.lock = threading.Lock()
-
-        def evaluate_candidate(self, profile, candidate):
-            with self.lock:
-                self.active += 1
-                self.peak = max(self.peak, self.active)
-            try:
-                time.sleep(0.03)
-                return super().evaluate_candidate(profile, candidate)
-            finally:
-                with self.lock:
-                    self.active -= 1
+def test_candidate_assessments_reuse_step1_without_a_second_model_call():
+    class NoSecondPass(ControlledCLINICRReasoner):
+        def evaluate_candidate(self, *args):
+            pytest.fail("ELIMINATIVE must not run after Step 1")
 
     engine, _, verifier = controlled_clinicr()
-    reasoner = ConcurrentReasoner()
+    reasoner = NoSecondPass()
     engine.reasoner = reasoner
-    monkeypatch.setenv("L3_STEP2_MAX_WORKERS", "4")
-
     result = engine.run(_profile())
-
-    assert reasoner.peak > 1
-    assert [item["disorder"] for item in result["checked"]] == [
-        "D013", "D011", "D020", "D009"
-    ]
+    assert len(reasoner.generate_calls) == 1
+    assert [item["disorder"] for item in result["checked"]] == ["D013", "D011", "D020", "D009"]
+    assert all(item["source"] == "step1_tree_records" for item in result["checked"])
     assert len(verifier.calls) == 1
 
 
-def test_step2_preserves_low_confidence_differentials_and_binds_dsm_evidence():
+def test_step1_preserves_low_confidence_differentials_and_binds_source_evidence():
     engine, _, _ = controlled_clinicr()
 
     result = engine.run(_profile())
 
     primary = result["diagnosis"]["primary"]
     assert primary["disorder"] == "D013"
-    assert primary["dsm5_criteria_met"] == ["A1", "A2", "A4", "A6", "A7"]
     detail = {item["code"]: item for item in primary["dsm5_criteria_detail"]}
-    assert detail["A1"]["evidence_refs"] == ["PHQ9_item2=3"]
-    assert detail["A2"]["evidence_refs"] == ["PHQ9_item1=3"]
+    core = detail["criterion.D013.depressive_episode/must_include_one_of"]
+    assert core["status"] == "met"
+    assert core["evidence_refs"] == ["PHQ9_item2=3"]
+    assert primary["dsm5_criteria_met"]
+
 
     candidate_confidences = {
         item["disorder"]: item["confidence"] for item in result["candidates"]
@@ -135,19 +114,17 @@ def test_step2_preserves_low_confidence_differentials_and_binds_dsm_evidence():
     assert candidate_confidences["D020"] == 0.35
     assert candidate_confidences["D009"] == 0.15
     assert {item["disorder"] for item in result["diagnosis"]["under_observation"]} == {
-        "D011", "D020"
+        "D011", "D020", "D009"
     }
-    assert {item["disorder"] for item in result["diagnosis"]["ruled_out"]} == {
-        "D009"
-    }
+    assert result["diagnosis"]["ruled_out"] == []
 
 
-def test_no_candidate_reaches_verifier_when_step2_only_returns_watch_or_excluded():
+def test_no_candidate_reaches_verifier_when_step1_is_only_provisional():
     engine, reasoner, verifier = controlled_clinicr()
 
     result = engine.run({"PHQ9": 20})
 
-    assert len(reasoner.evaluate_calls) == 4
+    assert len(reasoner.generate_calls) == 1
     assert verifier.calls == []
     assert result["diagnosis"]["primary"] is None
     assert result["verifier_decision"] == "rejected"
@@ -192,7 +169,7 @@ def test_unknown_model_evidence_is_rejected_before_diagnosis():
     assert verifier_model.calls == []
 
 
-def test_diagnose_runs_clinicr_before_therapy_and_preserves_three_step_result():
+def test_diagnose_reuses_step1_before_verifier_and_therapy():
     engine, _, verifier = controlled_clinicr(score=0.87)
 
     raw = diagnose(_profile(), clinicr=engine)

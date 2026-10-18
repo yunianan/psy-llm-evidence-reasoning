@@ -94,10 +94,9 @@ L4_MAX_REWRITE_ATTEMPTS=3
 | `L1_BSSA_TIMEOUT_SECONDS` | L1 BSSA 访谈提取的单次 API 超时；未设置时沿用 `L1_LLM_TIMEOUT_SECONDS` |
 | `L1_SUPPORT_TIMEOUT_SECONDS` | L1 个性化安全支持回应的单次 API 超时，默认 `12` 秒；失败时使用审计过的保底文本 |
 | `L2_LLM_TIMEOUT_SECONDS` | L2 语义分析和 MI 回复各次 API 调用的超时秒数，默认 `60`，允许 `1–300` |
-| `L3_LLM_TIMEOUT_SECONDS` | L3 CLINICR Step 1、逐候选 Step 2 和 Verifier 使用内部流式接收，各次调用超时默认 `60` 秒，允许 `1–300` |
+| `L3_LLM_TIMEOUT_SECONDS` | L3 CLINICR Step 1 和 Verifier 使用内部流式接收，各次调用超时默认 `60` 秒，允许 `1–300` |
 | `L3_INSTRUCTION_TIMEOUT_SECONDS` | L3 每轮动态治疗指令模型的调用超时，默认 `60` 秒，允许 `1–300` |
 | `L3_REASONING_EFFORT` | Qwen3 的 L3 推理强度，默认 `medium`，可选 `low/medium/xhigh`；始终保留思考模式 |
-| `L3_STEP2_MAX_WORKERS` | Step 2 同时核对的候选数，默认 `3`，允许 `1–5`；输出仍按候选排名排序 |
 | `DEEPSEEK_API_KEY`、`DEEPSEEK_BASE_URL` | L1、L2、L3、L5 共用的 API 连接 |
 | `L3_REASONER_MODEL` | CLINICR 候选生成与逐候选排除模型 |
 | `L3_VERIFIER_MODEL` | 独立终验评分模型 |
@@ -129,7 +128,7 @@ LLM_MODEL=控制台实际模型ID
 
 L2 语义分析或回复生成的 API、JSON 解析、模型输出结构校验失败时，当前会话进入 `STOPPED`，终端提示模型不可用并退出，不再读取患者输入，失败这一轮不提交到 L2 对话和画像。普通访谈和画像确认阶段都执行此规则。
 
-L2 的自然语言语义分析使用内部流式接收，服务端片段先在后端拼接，得到完整 JSON 并通过 Schema 校验后才写入画像；不会把未完成或未经校验的片段展示给患者。L2 的语义分析和 MI 回复调用默认各等待 60 秒，可通过 `L2_LLM_TIMEOUT_SECONDS` 调整；MI 回复保持非流式。L3 的 CLINICR 三步同样使用内部流式接收，完整拼接后才解析和校验，通过 `L3_LLM_TIMEOUT_SECONDS` 独立设置为默认 60 秒；诊断完成后的每轮动态治疗指令通过 `L3_INSTRUCTION_TIMEOUT_SECONDS` 设置，默认 60 秒。L5 审核使用 `L5_LLM_TIMEOUT_SECONDS`，默认也是 60 秒；未显式覆盖的其他共享调用仍默认 10 秒。排查时查看终端的 `[开发调试]` 事件：`L2_OUTPUT_REPAIR` 表示首次输出格式不合格并正在自动修复，`L2_MODEL_OUTPUT_INVALID` 表示修复后仍不合格，`L2_MODEL_UNAVAILABLE` 才表示 API 请求失败；`L3_INSTRUCTION_API_ERROR` 表示动态治疗指令 API 调用失败，`L3_INSTRUCTION_MODEL_OUTPUT_INVALID` 表示 API 已返回但输出解析或 schema 校验失败。`stage` 指明具体处理位置，同时显示异常类型和可用的 HTTP 状态码；不会输出密钥、患者原话、模型原始输出或完整异常内容。这些诊断信息只写入日志输出，不放入患者回复，也不自动保存日志文件。
+L2 的自然语言语义分析使用内部流式接收，服务端片段先在后端拼接，得到完整 JSON 并通过 Schema 校验后才写入画像；不会把未完成或未经校验的片段展示给患者。L2 的语义分析和 MI 回复调用默认各等待 60 秒，可通过 `L2_LLM_TIMEOUT_SECONDS` 调整；MI 回复保持非流式。L3 的 Step 1 取证与独立终验同样使用内部流式接收，完整拼接后才解析和校验，通过 `L3_LLM_TIMEOUT_SECONDS` 独立设置为默认 60 秒；诊断完成后的每轮动态治疗指令通过 `L3_INSTRUCTION_TIMEOUT_SECONDS` 设置，默认 60 秒。L5 审核使用 `L5_LLM_TIMEOUT_SECONDS`，默认也是 60 秒；未显式覆盖的其他共享调用仍默认 10 秒。排查时查看终端的 `[开发调试]` 事件：`L2_OUTPUT_REPAIR` 表示首次输出格式不合格并正在自动修复，`L2_MODEL_OUTPUT_INVALID` 表示修复后仍不合格，`L2_MODEL_UNAVAILABLE` 才表示 API 请求失败；`L3_INSTRUCTION_API_ERROR` 表示动态治疗指令 API 调用失败，`L3_INSTRUCTION_MODEL_OUTPUT_INVALID` 表示 API 已返回但输出解析或 schema 校验失败。`stage` 指明具体处理位置，同时显示异常类型和可用的 HTTP 状态码；不会输出密钥、患者原话、模型原始输出或完整异常内容。这些诊断信息只写入日志输出，不放入患者回复，也不自动保存日志文件。
 
 L2 语义提取提示中的完整输出约束直接由 `SemanticAnalysis.model_json_schema()` 生成，不再维护一份容易漂移的手写 Schema。提示额外明确 `possible_scale_domains` 的六个精确枚举、`structured_fields` 的 `field/value/evidence_quote` 对象结构，以及 `clarification_needed` 的字符串数组结构。首次 JSON 解析或 Schema 校验失败时，不提交当前输出，而是要求同一模型只进行一次结构修复，并记录 `L2_OUTPUT_REPAIR` 调试事件；修复时不能新增临床事实，无法绑定患者原话的候选必须删除。第二次仍不合格时以 `L2_MODEL_OUTPUT_INVALID` 终止会话，并与 API 不可用错误区分。当前未启用阿里原生 `response_format=json_schema`，以避免为了结构化输出而隐式关闭模型思考模式；本地 Pydantic 仍执行最终严格校验。
 
@@ -140,14 +139,14 @@ L2 语义提取提示中的完整输出约束直接由 `SemanticAnalysis.model_j
 1. **安全入口**：每条可处理消息先进入 L1。LLM 仅识别患者本人自杀风险语义和越狱风险，并输出带原文证据的结构化事实；规则按“自杀安全优先、越狱其次、正常放行最后”路由。存在自杀风险或无法排除风险时，由规则启动 NIMH ASQ；ASQ 非急性阳性或拒答后进入成人门诊 BSSA。BSSA 的自然访谈和事实提取由 API 完成，急性条件、处置路由、普通疗程暂停和 L2 放行均由规则与守卫决定。急性危机及需要进一步专业评估时不关闭界面，而是暂停普通疗程并保留安全转介页面。API错误与模型结构错误分别返回 `L1_API_ERROR` 和 `L1_MODEL_OUTPUT_INVALID`，都不放行到 L2。
 2. **L2 评估**：入口守卫验证本轮安全通行证；API 负责自然语言理解、语义提取和 MI 回复，规则负责证据记录、量表许可与计分、信息充分度和阶段转换。
 3. **画像确认**：信息充分后展示患者确认卡。修改则继续采集，暂停则停止自动推进；确认并通过 L2 出口守卫后进入 L3。
-4. **L3 三大功能**：CLINICR 通过 API 生成候选、逐项排除和独立终验；疗法三步选择及会话级指令编码使用规则。候选置信度与 Verifier 分数分开保存；插件选择只输出选择结果和依据，不调用插件 API。
+4. **L3 三大功能**：CLINICR 在 Step 1 通过 API 一次完成候选取证、标准核对和鉴别剪枝，程序复用节点记录汇总状态，再调用独立终验；不再逐候选重复调用 ELIMINATIVE 模型；疗法三步选择及会话级指令编码使用规则。候选置信度与 Verifier 分数分开保存；插件选择只输出选择结果和依据，不调用插件 API。
 5. **治疗轮次**：通过 L3→L4 守卫后建立治疗会话。之后每轮根据新消息、历史和静态指令调用 L3 指令 API，经过规则守卫后交给 L4 生成回复，再由 L5 审核。
 
 不是每条消息都完整跑一次五层：评估期间主要运行 L1/L2；治疗期间运行 L1、L3 本轮指令、L4/L5，不会每轮重新诊断和匹配疗法。
 
 > 临床边界：本仓库是研发原型，不等同于医疗机构完成 NPSG.15.01.01 合规。ASQ 中文题目是项目翻译，不是 NIMH 官方验证中文版；NIMH 的成人门诊 BSSA 面向具备资质的临床人员，系统给出的处置不能替代专业判断、当地急救流程或人工交接。
 
-CLINICR 调用前由规则从量表、画像来源和证据节点生成唯一的 `allowed_evidence_refs`，Step 1、Step 2 与 Verifier 只能选择其中的引用；提示中同时给出证据 ID 对应的字段和患者原话，帮助模型正确选择。若模型把已有、值完全一致且有证据节点的诊断字段写成 `字段=值`，解析层会确定性换回该证据节点 ID；无法映射的引用仍由 L3 守卫拒绝。该列表不会作为临床事实传入，外部输入中的同名字段也会被覆盖。
+CLINICR 调用前由规则从量表、画像来源和证据节点生成唯一的 `allowed_evidence_refs`，Step 1 与 Verifier 只能选择其中的引用；中间汇总直接复用 Step 1 的判断和引用；提示中同时给出证据 ID 对应的字段和患者原话，帮助模型正确选择。若模型把已有、值完全一致且有证据节点的诊断字段写成 `字段=值`，解析层会确定性换回该证据节点 ID；无法映射的引用仍由 L3 守卫拒绝。该列表不会作为临床事实传入，外部输入中的同名字段也会被覆盖。
 
 ### 阶段与安全回环
 
@@ -182,7 +181,7 @@ HTML 仅是调试视图，不是可恢复的会话存档。L5 连续审核失败
 ├── layers/                  # L1-L5 各层实现
 │   ├── layer1/              # L1 安全层（LLM语义分流 + 规则ASQ + LLM辅助BSSA + 规则处置/守卫）
 │   ├── layer2/              # L2 MI评估、量表、患者画像与自然语言适配
-│   ├── layer3/              # L3 诊断推理层（CLINICR三步 + 疗法选择 + L1-L4指令生成）
+│   ├── layer3/              # L3 诊断推理层（CLINICR候选取证与终验 + 疗法选择 + L1-L4指令生成）
 │   │   ├── diagnosis/       # CLINICR 鉴别诊断、独立终验及诊断模型
 │   │   ├── therapy/         # 基础疗法、插件选择和个体化微调
 │   │   ├── instructions/   # 会话级四段指令与每轮动态指令

@@ -241,7 +241,7 @@ def test_main_reports_safe_clinicr_stage_without_arbitrary_error_text(monkeypatc
 
     unsafe_cause = ValueError("患者原话和sk-secret不得显示")
     clinicr_error = CLINICRModelUnavailable(
-        "CLINICR Step 2 API不可用或输出不合法：JSONDecodeError"
+        "CLINICR Step 1 API不可用或输出不合法：JSONDecodeError"
     )
     clinicr_error.__cause__ = unsafe_cause
     monkeypatch.setattr(entry, "configure_api", lambda: None)
@@ -250,7 +250,7 @@ def test_main_reports_safe_clinicr_stage_without_arbitrary_error_text(monkeypatc
 
     assert entry.main() == 1
     output = capsys.readouterr().out
-    assert '"stage": "L3.CLINICR.Step2"' in output
+    assert '"stage": "L3.CLINICR.Step1"' in output
     assert '"exception": "ValueError"' in output
     assert "患者原话" not in output
     assert "sk-secret" not in output
@@ -259,7 +259,7 @@ def test_main_reports_safe_clinicr_stage_without_arbitrary_error_text(monkeypatc
 def test_main_labels_clinicr_api_error_separately(monkeypatch, capsys):
     from layers.layer3.llm import CLINICRAPIError
 
-    api_error = CLINICRAPIError("CLINICR Step 2 API错误：APIError")
+    api_error = CLINICRAPIError("CLINICR Step 1 API错误：APIError")
     api_error.__cause__ = RuntimeError("provider-secret")
     monkeypatch.setattr(entry, "configure_api", lambda: None)
     monkeypatch.setattr(entry, "create_pipeline", lambda: object())
@@ -267,7 +267,7 @@ def test_main_labels_clinicr_api_error_separately(monkeypatch, capsys):
 
     assert entry.main() == 1
     output = capsys.readouterr().out
-    assert '[开发调试] API_ERROR {"stage": "L3.CLINICR.Step2"' in output
+    assert '[开发调试] API_ERROR {"stage": "L3.CLINICR.Step1"' in output
     assert "运行中止：CLINICRAPIError" in output
     assert "provider-secret" not in output
 

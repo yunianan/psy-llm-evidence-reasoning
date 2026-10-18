@@ -104,7 +104,7 @@ def test_api_rejects_invalid_nodes_after_one_repair(monkeypatch, bad):
     assert len(calls) == 2
 
 
-def test_failed_full_criterion_kept_visible_for_step2():
+def test_failed_full_criterion_kept_visible_in_step1_evidence():
     result = DecisionTreeCandidateGenerator(evaluator(["D013"], {"criterion.D013.depressive_episode/min_duration": "not_met"})).generate()
     assert result.candidates
     assert any(r.node_id == "criterion.D013.depressive_episode/min_duration" and r.status == "not_met" for r in result.tree_trace)
