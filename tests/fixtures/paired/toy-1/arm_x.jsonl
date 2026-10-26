@@ -1,0 +1,1 @@
+{"case_id": "toy-1", "candidates": [{"disorder": "D001", "confidence": 0.8}, {"disorder": "D004", "confidence": 0.8}], "final_diagnoses": ["D001"], "model_failure": false, "run_failure": false, "failure_class": null}

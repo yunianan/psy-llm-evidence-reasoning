@@ -9,6 +9,7 @@ from layers.layer3.diagnosis.schemas import TreeNodeJudgment
 from layers.layer3.diagnosis.clinicr import CLINICR
 from layers.layer3.llm import client
 from shared.disorder_catalog import SUPPORTED_DISORDERS
+from shared.diagnostic_knowledge import JsonDiagnosticKnowledgeProvider
 from tests.tree_test_support import node_payload
 
 
@@ -21,9 +22,13 @@ def evaluator(labels=("D013",), overrides=None):
     return evaluate
 
 
+def generator(evaluate):
+    return DecisionTreeCandidateGenerator(evaluate, knowledge=JsonDiagnosticKnowledgeProvider())
+
+
 @pytest.mark.parametrize("label", SUPPORTED_DISORDERS)
 def test_each_label_reachable_as_provisional_candidate(label):
-    result = DecisionTreeCandidateGenerator(evaluator([label])).generate()
+    result = generator(evaluator([label])).generate()
     assert [item.disorder for item in result.candidates] == [label]
     candidate = result.candidates[0]
     assert candidate.decision_paths[0].provisional
@@ -35,27 +40,27 @@ def test_each_label_reachable_as_provisional_candidate(label):
 
 def test_confirmed_mania_excludes_unipolar_candidates_but_unknown_preserves():
     labels = ["D008", "D009", "D013", "D014", "D015"]
-    pending = DecisionTreeCandidateGenerator(evaluator(labels)).generate()
+    pending = generator(evaluator(labels)).generate()
     assert len(pending.candidates) == 5
-    confirmed = DecisionTreeCandidateGenerator(evaluator(labels, {"history.mania": "met"})).generate()
+    confirmed = generator(evaluator(labels, {"history.mania": "met"})).generate()
     assert [item.disorder for item in confirmed.candidates] == ["D008"]
     assert confirmed.candidate_coverage["D013"] == "excluded:history.mania"
 
 
 def test_insomnia_comorbidity_does_not_automatically_exclude():
-    result = DecisionTreeCandidateGenerator(evaluator(["D013", "Insomnia"])).generate()
+    result = generator(evaluator(["D013", "Insomnia"])).generate()
     assert {item.disorder for item in result.candidates} == {"D013", "Insomnia"}
-    result = DecisionTreeCandidateGenerator(evaluator(["Insomnia"], {"sleep.explained": "met"})).generate()
+    result = generator(evaluator(["Insomnia"], {"sleep.explained": "met"})).generate()
     assert not result.candidates
 
 
 def test_unknown_screen_can_reach_positive_anchor():
-    result = DecisionTreeCandidateGenerator(evaluator(["D013"], {"screen.mood": "pending"})).generate()
+    result = generator(evaluator(["D013"], {"screen.mood": "pending"})).generate()
     assert [item.disorder for item in result.candidates] == ["D013"]
 
 
 def test_no_supported_symptom_does_not_force_a_candidate():
-    result = DecisionTreeCandidateGenerator(evaluator([])).generate()
+    result = generator(evaluator([])).generate()
     assert result.candidates == []
 
 
@@ -66,9 +71,9 @@ def test_requests_do_not_mutate_cached_graph_even_on_failure():
             raise ValueError("provider failed")
         return evaluator()(nodes)
     with pytest.raises(ValueError):
-        DecisionTreeCandidateGenerator(fail_on_criteria).generate()
+        generator(fail_on_criteria).generate()
     with ThreadPoolExecutor(max_workers=2) as pool:
-        results = list(pool.map(lambda label: DecisionTreeCandidateGenerator(evaluator([label])).generate(), ["D013", "Insomnia"]))
+        results = list(pool.map(lambda label: generator(evaluator([label])).generate(), ["D013", "Insomnia"]))
     assert [[c.disorder for c in result.candidates] for result in results] == [["D013"], ["Insomnia"]]
     assert load_candidate_graph() == original
 
@@ -76,7 +81,7 @@ def test_requests_do_not_mutate_cached_graph_even_on_failure():
 def test_empty_candidate_routes_to_l2_without_step2_or_reward():
     class EmptyReasoner:
         def generate_candidates(self, profile):
-            return DecisionTreeCandidateGenerator(evaluator([])).generate()
+            return generator(evaluator([])).generate()
         def evaluate_candidate(self, *args):
             pytest.fail("no candidate should reach Step 2")
     result = CLINICR(reasoner=EmptyReasoner()).run({"evidence_nodes": [{"evidence_id": "ev-mood"}]})
@@ -100,12 +105,14 @@ def test_api_rejects_invalid_nodes_after_one_repair(monkeypatch, bad):
         return json.dumps(payload)
     monkeypatch.setattr(client, "ask_llm_stream", respond)
     with pytest.raises(client.CLINICRModelUnavailable):
-        client.APICLINICRReasoner("offline").generate_candidates({client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]})
+        client.APICLINICRReasoner(
+            "offline", knowledge=JsonDiagnosticKnowledgeProvider(),
+        ).generate_candidates({client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]})
     assert len(calls) == 2
 
 
 def test_failed_full_criterion_kept_visible_in_step1_evidence():
-    result = DecisionTreeCandidateGenerator(evaluator(["D013"], {"criterion.D013.depressive_episode/min_duration": "not_met"})).generate()
+    result = generator(evaluator(["D013"], {"criterion.D013.depressive_episode/min_duration": "not_met"})).generate()
     assert result.candidates
     assert any(r.node_id == "criterion.D013.depressive_episode/min_duration" and r.status == "not_met" for r in result.tree_trace)
 
@@ -117,7 +124,7 @@ def test_claimed_symptom_count_cannot_exceed_supported_ids(monkeypatch):
                           "evidence_refs": ["ev-mood"], "symptom_ids": ["S024"], "confidence": 0.9}]})
     monkeypatch.setattr(client, "ask_llm_stream", respond)
     with pytest.raises(ValueError, match="below source count"):
-        client.APICLINICRReasoner("offline")._evaluate_tree_nodes(
+        client.APICLINICRReasoner("offline", knowledge=JsonDiagnosticKnowledgeProvider())._evaluate_tree_nodes(
             {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]}, [{
                 "node_id": "criterion.D013.depressive_episode/min_count", "stage": "criterion",
                 "disorders": ["D013"], "symptom_pool": ["S024", "S025", "S026", "S027", "S028"],

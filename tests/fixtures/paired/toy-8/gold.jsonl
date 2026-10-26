@@ -1,0 +1,3 @@
+{"case_id": "s1", "gold_labels": ["D001"], "reference_kind": "single_reference_label", "source_code": "D001"}
+{"case_id": "s2", "gold_labels": ["D002"], "reference_kind": "single_reference_label", "source_code": "D002"}
+{"case_id": "s3", "gold_labels": ["D003"], "reference_kind": "single_reference_label", "source_code": "D003"}

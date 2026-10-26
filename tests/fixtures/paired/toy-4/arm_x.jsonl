@@ -1,0 +1,2 @@
+{"case_id": "a", "candidates": [{"disorder": "D001", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "b", "candidates": [{"disorder": "D002", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}

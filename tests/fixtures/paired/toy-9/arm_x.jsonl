@@ -1,0 +1,20 @@
+{"case_id": "block-0", "candidates": [], "final_diagnoses": [], "model_failure": true, "run_failure": true, "failure_class": "contract"}
+{"case_id": "block-1", "candidates": [], "final_diagnoses": [], "model_failure": true, "run_failure": true, "failure_class": "contract"}
+{"case_id": "block-2", "candidates": [{"disorder": "D003", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-3", "candidates": [{"disorder": "D004", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-4", "candidates": [{"disorder": "D005", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-5", "candidates": [{"disorder": "D006", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-6", "candidates": [{"disorder": "D007", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-7", "candidates": [{"disorder": "D008", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-8", "candidates": [{"disorder": "D009", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-9", "candidates": [{"disorder": "D010", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-10", "candidates": [{"disorder": "D011", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-11", "candidates": [{"disorder": "D012", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-12", "candidates": [{"disorder": "D013", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-13", "candidates": [{"disorder": "D014", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-14", "candidates": [{"disorder": "D015", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-15", "candidates": [{"disorder": "D016", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-16", "candidates": [{"disorder": "D017", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-17", "candidates": [{"disorder": "D018", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-18", "candidates": [{"disorder": "D019", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "block-19", "candidates": [{"disorder": "D020", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}

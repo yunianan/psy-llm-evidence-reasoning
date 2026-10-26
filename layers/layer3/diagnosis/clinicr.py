@@ -18,7 +18,11 @@ from .verifier import IndependentVerifier
 from .assessment import assessments_from_step1
 
 
-from shared.disorder_catalog import DISORDER_COUNT, candidate_knowledge, disorder_metadata
+from shared.disorder_catalog import DISORDER_COUNT, disorder_metadata
+from shared.diagnostic_knowledge import (
+    DiagnosticKnowledgeNotConnected, DiagnosticKnowledgeProvider,
+    get_default_knowledge_provider,
+)
 
 MIN_PRIMARY_CANDIDATE_CONFIDENCE = 0.5
 
@@ -57,9 +61,12 @@ class CLINICR:
         self,
         reasoner: CLINICRReasoner | None = None,
         verifier: IndependentVerifier | None = None,
+        *,
+        knowledge: DiagnosticKnowledgeProvider | None = None,
     ) -> None:
-        self.reasoner = reasoner or APICLINICRReasoner()
-        self.verifier = verifier or IndependentVerifier()
+        self.knowledge = knowledge if knowledge is not None else get_default_knowledge_provider()
+        self.reasoner = reasoner or APICLINICRReasoner(knowledge=self.knowledge)
+        self.verifier = verifier or IndependentVerifier(knowledge=self.knowledge)
 
     def run(
         self,
@@ -79,8 +86,8 @@ class CLINICR:
 
         # Reuse the completed Step 1 records; no per-candidate ELIMINATIVE call.
         try:
-            assessments = assessments_from_step1(generation, candidates)
-        except (KeyError, ValueError) as exc:
+            assessments = assessments_from_step1(generation, candidates, knowledge=self.knowledge)
+        except (KeyError, ValueError, DiagnosticKnowledgeNotConnected) as exc:
             raise CLINICRModelUnavailable(f"Step 1证据汇总失败：{exc}") from exc
         for assessment in assessments:
             self._validate_assessment(assessment, known_refs)
@@ -444,8 +451,8 @@ class CLINICR:
             return 2
         return 1
 
-    @staticmethod
     def _result(
+        self,
         *,
         candidates: list[DiagnosticCandidate],
         assessments: list[EliminativeAssessment],
@@ -480,7 +487,7 @@ class CLINICR:
             for criterion in assessment.criteria_detail:
                 sources = tree_sources.get(criterion.code)
                 if not sources:
-                    knowledge = candidate_knowledge(assessment.disorder)
+                    knowledge = self.knowledge.get_candidate(assessment.disorder)
                     sources = [knowledge.get("criterion_source_refs", {}).get(
                         criterion.code, knowledge["source_ref"],
                     )]

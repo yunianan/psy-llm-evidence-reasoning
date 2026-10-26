@@ -1,0 +1,3 @@
+{"case_id": "s1", "candidates": [{"disorder": "D001", "confidence": 0.8}, {"disorder": "D005", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "s2", "candidates": [{"disorder": "D002", "confidence": 0.8}, {"disorder": "D006", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}
+{"case_id": "s3", "candidates": [{"disorder": "D004", "confidence": 0.8}, {"disorder": "D003", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}

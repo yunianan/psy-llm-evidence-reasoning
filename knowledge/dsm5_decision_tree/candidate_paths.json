@@ -683,7 +683,7 @@
       "question": "来源症状集合中是否至少有一个症状获得患者事实支持？此处仅召回候选，不表示满足诊断门槛。",
       "follow_up": "请描述相关症状的具体表现及发生情境。",
       "source_refs": [
-        "knowledge/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia"
+        "../external/MentalBench/resources/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia"
       ],
       "symptom_pool": [
         "S085",
@@ -842,7 +842,7 @@
       "follow_up": "请补充本节点所需的发作史、症状时间关系和病因判断依据。",
       "source_refs": [
         "First2014:chapter2/trees/2.19#print-pages=99-103",
-        "knowledge/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia/required_criteria/additional_requirements/4"
+        "../external/MentalBench/resources/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia/required_criteria/additional_requirements/4"
       ],
       "symptom_pool": [],
       "disorders": [
@@ -855,7 +855,7 @@
       "follow_up": "请补充本节点所需的发作史、症状时间关系和病因判断依据。",
       "source_refs": [
         "First2014:chapter2/trees/2.19#print-pages=99-103",
-        "knowledge/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia/required_criteria/additional_requirements/5"
+        "../external/MentalBench/resources/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia/required_criteria/additional_requirements/5"
       ],
       "symptom_pool": [],
       "disorders": [
@@ -868,7 +868,7 @@
       "follow_up": "请补充本节点所需的发作史、症状时间关系和病因判断依据。",
       "source_refs": [
         "First2014:chapter2/trees/2.19#print-pages=99-103",
-        "knowledge/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia/required_criteria/additional_requirements/6"
+        "../external/MentalBench/resources/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia/required_criteria/additional_requirements/6"
       ],
       "symptom_pool": [],
       "disorders": [

@@ -25,6 +25,7 @@ def _node_answers(batch, labels, ref, overrides, complete_labels, confidences):
         status = (overrides or {}).get(node["node_id"], status)
         answers.append({"node_id": node["node_id"], "status": status,
                         "rationale": "controlled engineering fixture",
+                        "denial_scope": "full" if node["stage"] == "screening" and status == "not_met" else "unknown",
                         "evidence_refs": [ref] if status != "pending" else [],
                         "symptom_ids": (node.get("symptom_pool", []) if node["stage"] == "criterion"
                                         else node.get("symptom_pool", [])[:1]) if status == "met" else [],
@@ -40,8 +41,11 @@ def node_payload(prompt, labels=("D013",), ref="ev-mood", overrides=None, *, com
 def controlled_generation(labels, *, ref="ev-mood", complete_labels=(), overrides=None, confidences=None):
     from layers.layer3.diagnosis.decision_tree import DecisionTreeCandidateGenerator
     from layers.layer3.diagnosis.schemas import TreeNodeJudgment
+    from shared.diagnostic_knowledge import JsonDiagnosticKnowledgeProvider
 
     def evaluate(nodes):
         payload = _node_answers(nodes, labels, ref, overrides, complete_labels, confidences)
         return [TreeNodeJudgment.model_validate(item) for item in payload["nodes"]]
-    return DecisionTreeCandidateGenerator(evaluate).generate()
+    return DecisionTreeCandidateGenerator(
+        evaluate, knowledge=JsonDiagnosticKnowledgeProvider(),
+    ).generate()

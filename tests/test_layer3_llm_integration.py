@@ -2,12 +2,14 @@ import json
 
 import pytest
 
+from shared.diagnostic_knowledge import JsonDiagnosticKnowledgeProvider
+
 from layers.layer3.diagnosis.clinicr import CLINICR
 from layers.layer3.llm import client
 from tests.tree_test_support import node_payload
 
 
-def test_production_clinicr_only_calls_step1_and_verifier(monkeypatch):
+def test_explicit_provider_clinicr_only_calls_step1_and_verifier(monkeypatch):
     monkeypatch.delenv("L3_LLM_TIMEOUT_SECONDS", raising=False)
     monkeypatch.delenv("L3_REASONING_EFFORT", raising=False)
     monkeypatch.setenv("LLM_MODEL", "qwen3.8-flash")
@@ -34,7 +36,7 @@ def test_production_clinicr_only_calls_step1_and_verifier(monkeypatch):
         return json.dumps(response, ensure_ascii=False)
 
     monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    result = CLINICR().run(profile)
+    result = CLINICR(knowledge=JsonDiagnosticKnowledgeProvider()).run(profile)
     assert result["diagnosis"]["primary"]["disorder"] == "D013"
     assert result["verifier_score"] == .87
     assert not any("ELIMINATIVE" in call["prompt"] for call in calls)
@@ -75,7 +77,9 @@ def test_step1_maps_exact_scalar_field_alias_to_traceable_evidence_node(monkeypa
 
     monkeypatch.setattr("layers.layer3.llm.client.ask_llm_stream", controlled_api)
 
-    result = client.APICLINICRReasoner(model="deepseek-chat")._evaluate_tree_nodes(profile, [{
+    result = client.APICLINICRReasoner(
+        model="deepseek-chat", knowledge=JsonDiagnosticKnowledgeProvider(),
+    )._evaluate_tree_nodes(profile, [{
         "node_id": "criterion.D013.depressive_episode/min_duration", "stage": "criterion", "disorders": ["D013"],
         "symptom_pool": [], "question": "是否达到来源规定病程？",
     }])
@@ -198,7 +202,9 @@ def test_step3_retries_once_when_first_payload_uses_wrong_field(monkeypatch):
 
     monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
 
-    result = _score_with_test_inputs(client.APIRewardModelVerifier("deepseek-chat"))
+    result = _score_with_test_inputs(client.APIRewardModelVerifier(
+        "deepseek-chat", knowledge=JsonDiagnosticKnowledgeProvider(),
+    ))
 
     assert result.score == 0.72
     assert len(calls) == 2
@@ -221,7 +227,9 @@ def test_step3_fails_closed_after_one_invalid_schema_retry(monkeypatch):
     monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
 
     with pytest.raises(client.CLINICRModelUnavailable, match="ValidationError"):
-        _score_with_test_inputs(client.APIRewardModelVerifier("deepseek-chat"))
+        _score_with_test_inputs(client.APIRewardModelVerifier(
+            "deepseek-chat", knowledge=JsonDiagnosticKnowledgeProvider(),
+        ))
 
     assert len(calls) == 2
 
@@ -241,7 +249,9 @@ def test_step3_retries_unknown_evidence_and_keeps_whitelist_enforced(monkeypatch
 
     monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
 
-    result = _score_with_test_inputs(client.APIRewardModelVerifier("deepseek-chat"))
+    result = _score_with_test_inputs(client.APIRewardModelVerifier(
+        "deepseek-chat", knowledge=JsonDiagnosticKnowledgeProvider(),
+    ))
 
     assert result.dimensions[0].evidence_refs == ["ev-mood"]
     assert len(calls) == 2
@@ -265,7 +275,9 @@ def test_step3_retries_provider_structured_json_api_error_once(monkeypatch):
     monkeypatch.setattr(client, "APIError", FakeAPIError)
     monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
 
-    result = _score_with_test_inputs(client.APIRewardModelVerifier("deepseek-chat"))
+    result = _score_with_test_inputs(client.APIRewardModelVerifier(
+        "deepseek-chat", knowledge=JsonDiagnosticKnowledgeProvider(),
+    ))
 
     assert result.score == 0.72
     assert len(calls) == 2

@@ -25,8 +25,21 @@ class TreeNodeJudgment(BaseModel):
     status: Literal["met", "not_met", "pending"]
     rationale: str = Field(min_length=1)
     evidence_refs: list[str] = Field(default_factory=list)
-    symptom_ids: list[str] = Field(default_factory=list)
+    symptom_ids: list[str] = Field(
+        default_factory=list,
+        description="仅 met 可携带正症状 ID；pending/not_met 必须为 []，不把未满足节点计为正症状",
+    )
     confidence: float = Field(default=0.5, ge=0, le=1)
+    denial_scope: Literal["full", "partial", "none", "unknown"] = Field(
+        default="unknown",
+        description="screening 入口的否认范围；full 仅表示整体明确否认，非 screening 使用 unknown",
+    )
+
+    @model_validator(mode="after")
+    def positive_symptoms_require_met(self) -> "TreeNodeJudgment":
+        if self.status != "met" and self.symptom_ids:
+            raise ValueError("pending/not_met must have symptom_ids=[]; positive symptoms require met")
+        return self
 
 
 class TreeDecisionRecord(TreeNodeJudgment):

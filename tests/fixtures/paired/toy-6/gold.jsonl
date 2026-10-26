@@ -1,0 +1,12 @@
+{"case_id": "boundary-D001-0", "gold_labels": ["D001"], "reference_kind": "single_reference_label", "source_code": "D001"}
+{"case_id": "boundary-D001-1", "gold_labels": ["D001"], "reference_kind": "single_reference_label", "source_code": "D001"}
+{"case_id": "boundary-D001-2", "gold_labels": ["D001"], "reference_kind": "single_reference_label", "source_code": "D001"}
+{"case_id": "boundary-D001-3", "gold_labels": ["D001"], "reference_kind": "single_reference_label", "source_code": "D001"}
+{"case_id": "boundary-D001-4", "gold_labels": ["D001"], "reference_kind": "single_reference_label", "source_code": "D001"}
+{"case_id": "boundary-D001-5", "gold_labels": ["D001"], "reference_kind": "single_reference_label", "source_code": "D001"}
+{"case_id": "boundary-D003-0", "gold_labels": ["D003"], "reference_kind": "single_reference_label", "source_code": "D003"}
+{"case_id": "boundary-D003-1", "gold_labels": ["D003"], "reference_kind": "single_reference_label", "source_code": "D003"}
+{"case_id": "boundary-D003-2", "gold_labels": ["D003"], "reference_kind": "single_reference_label", "source_code": "D003"}
+{"case_id": "boundary-D003-3", "gold_labels": ["D003"], "reference_kind": "single_reference_label", "source_code": "D003"}
+{"case_id": "boundary-D003-4", "gold_labels": ["D003"], "reference_kind": "single_reference_label", "source_code": "D003"}
+{"case_id": "boundary-D003-5", "gold_labels": ["D003"], "reference_kind": "single_reference_label", "source_code": "D003"}

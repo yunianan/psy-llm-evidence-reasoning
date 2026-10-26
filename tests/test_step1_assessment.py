@@ -1,5 +1,7 @@
 import pytest
 
+from shared.diagnostic_knowledge import JsonDiagnosticKnowledgeProvider
+
 from layers.layer3.diagnosis.clinicr import CLINICR
 from layers.layer3.diagnosis.decision_tree import criterion_nodes
 from layers.layer3.diagnosis.verifier import IndependentVerifier
@@ -19,6 +21,7 @@ def run_generation(generation):
     verifier = ControlledRewardModelVerifier()
     result = CLINICR(
         reasoner=SinglePassReasoner(), verifier=IndependentVerifier(model=verifier),
+        knowledge=JsonDiagnosticKnowledgeProvider(),
     ).run({"evidence_nodes": [{"evidence_id": "ev-mood"}]})
     return result, verifier
 
@@ -77,7 +80,9 @@ def test_negative_exclusion_fact_satisfies_a_negative_guard_requirement():
 
 
 def test_unknown_optional_group_does_not_block_complete_required_criteria():
-    optional = next(code for code, node in criterion_nodes("D008").items() if not node["mandatory"])
+    optional = next(code for code, node in criterion_nodes(
+        "D008", knowledge=JsonDiagnosticKnowledgeProvider(),
+    ).items() if not node["mandatory"])
     generation = controlled_generation(
         ["D008"], complete_labels=["D008"], overrides={optional: "pending"},
     )

@@ -1,6 +1,8 @@
 """Reuse Step 1 evidence for candidate routing; never call a diagnostic model again."""
 from __future__ import annotations
 
+from shared.diagnostic_knowledge import DiagnosticKnowledgeProvider
+
 from .decision_tree import criterion_nodes, load_candidate_graph
 from .schemas import (
     CandidateGeneration, CriterionAssessment, DiagnosticCandidate,
@@ -10,12 +12,13 @@ from .schemas import (
 
 def assessments_from_step1(
     generation: CandidateGeneration, candidates: list[DiagnosticCandidate],
+    *, knowledge: DiagnosticKnowledgeProvider | None = None,
 ) -> list[EliminativeAssessment]:
     """Keep the existing report shape, with all judgments taken from Step 1."""
     graph = load_candidate_graph()
     assessments = []
     for candidate in candidates:
-        definitions = criterion_nodes(candidate.disorder)
+        definitions = criterion_nodes(candidate.disorder, knowledge=knowledge)
         guards = graph["paths"][candidate.disorder]["guards"]
         records = {}
         for path in candidate.decision_paths:

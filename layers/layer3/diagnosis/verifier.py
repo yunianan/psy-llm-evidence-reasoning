@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from shared.diagnostic_knowledge import DiagnosticKnowledgeProvider
+
 from ..llm import APIRewardModelVerifier, CLINICRModelUnavailable, RewardModelVerifier
 from .schemas import DiagnosticCandidate, EliminativeAssessment
 
@@ -19,8 +21,11 @@ REQUIRED_DIMENSIONS = {
 class IndependentVerifier:
     """Step 3：不读取候选置信度，独立评价排名第一诊断的推理质量。"""
 
-    def __init__(self, model: RewardModelVerifier | None = None) -> None:
-        self.model = model or APIRewardModelVerifier()
+    def __init__(
+        self, model: RewardModelVerifier | None = None, *,
+        knowledge: DiagnosticKnowledgeProvider | None = None,
+    ) -> None:
+        self.model = model or APIRewardModelVerifier(knowledge=knowledge)
 
     def verify(
         self,

@@ -5,7 +5,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from shared.disorder_catalog import candidate_knowledge, SUPPORTED_DISORDERS
+from shared.disorder_catalog import SUPPORTED_DISORDERS
+from shared.diagnostic_knowledge import candidate_knowledge
 from layers.layer3.diagnosis.decision_tree import _symptom_pool
 
 

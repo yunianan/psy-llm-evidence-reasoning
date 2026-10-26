@@ -28,7 +28,7 @@
     "source_ref_prefix": "MentalKG:"
   },
   "insomnia": {
-    "path": "knowledge/dsm5_supplement/EN",
+    "path": "external/MentalBench/resources/dsm5_supplement/EN",
     "original_mental_kg_content": false,
     "public_standard_source": "https://www.ncbi.nlm.nih.gov/books/NBK519704/table/ch3.t36/"
   },

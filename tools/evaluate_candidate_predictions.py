@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from shared.disorder_catalog import DISORDERS, SUPPORTED_DISORDERS
 from tools.mentalbench_partition import family_key
+from tools.prediction_contract import normalize_prediction as _normalize_prediction
 
 
 def _basic_metrics(gold, predictions, top_k=5):
@@ -24,7 +25,7 @@ def _basic_metrics(gold, predictions, top_k=5):
     targets, outputs = keyed(gold), keyed(predictions)
     if not targets or set(targets) != set(outputs):
         raise ValueError("Prediction IDs must exactly match non-empty gold set; missing cases cannot be dropped")
-    true_positive = predicted = relevant = top_true = hits = empty = 0
+    true_positive = predicted = relevant = top_true = hits = empty = failures = 0
     by_label = {label: {"gold": 0, "retrieved": 0, "predicted": 0} for label in SUPPORTED_DISORDERS}
     for case_id, row in targets.items():
         truth = set(row["gold_labels"])
@@ -45,6 +46,7 @@ def _basic_metrics(gold, predictions, top_k=5):
         top_true += len(truth & top)
         hits += bool(truth & top)
         empty += not chosen
+        failures += outputs[case_id].get("model_failure", False)
         for label in truth: by_label[label]["gold"] += 1
         for label in chosen: by_label[label]["predicted"] += 1
         for label in truth & chosen: by_label[label]["retrieved"] += 1
@@ -54,24 +56,11 @@ def _basic_metrics(gold, predictions, top_k=5):
             "candidate_ppv_micro": true_positive / predicted if predicted else None,
             "candidate_recall_micro": true_positive / relevant,
             "top_k_recall_micro": top_true / relevant, "top_k_case_hit_rate": hits / len(targets),
-            "empty_candidate_rate": empty / len(targets), "per_label": by_label,
+            "empty_candidate_rate": empty / len(targets), "model_failure_cases": failures,
+            "model_failure_rate": failures / len(targets), "per_label": by_label,
             "test_label_coverage": sum(c["gold"] > 0 for c in by_label.values()) / len(SUPPORTED_DISORDERS)}
 
 
-def _normalize_prediction(row):
-    result = dict(row.get("report", row))
-    result["case_id"] = row["case_id"]
-    if "checked" in result and "step2_decisions" not in result:
-        # Current reports reuse Step 1 records. Only historical, independently
-        # generated ELIMINATIVE results count as a second-stage evaluation.
-        legacy = [item for item in result["checked"]
-                  if item.get("source") != "step1_tree_records"]
-        if legacy:
-            result["step2_decisions"] = {item["disorder"]: item["conclusion"] for item in legacy}
-    if "diagnosis" in result and "final_diagnoses" not in result:
-        diagnosis = result["diagnosis"]
-        result["final_diagnoses"] = [item["disorder"] for item in [diagnosis.get("primary"), *diagnosis.get("secondary", [])] if item]
-    return result
 
 
 def _cluster_intervals(gold, outputs, top_k, group_field, bootstrap, seed):

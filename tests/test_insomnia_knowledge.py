@@ -3,7 +3,8 @@ from pathlib import Path
 
 from layers.layer3.diagnosis.clinicr import CLINICR
 from layers.layer3.llm import client
-from shared.disorder_catalog import SUPPLEMENT_ROOT, candidate_knowledge
+from shared.diagnostic_knowledge import JsonDiagnosticKnowledgeProvider, candidate_knowledge
+from shared.knowledge_sources import SUPPLEMENT_ROOT
 from tests.test_diagnostic_catalog import NodeReasoner
 from tests.test_layer3_clinicr import _profile
 from tests.tree_test_support import node_payload
@@ -54,7 +55,7 @@ def test_generation_receives_supplement_without_eliminative_call(monkeypatch):
             prompt, ["Insomnia"], "patient_utterance_L008", complete_labels=["Insomnia"]
         ))
     monkeypatch.setattr(client, "ask_llm_stream", fake_ask)
-    model = client.APICLINICRReasoner(model="offline-test")
+    model = client.APICLINICRReasoner(model="offline-test", knowledge=JsonDiagnosticKnowledgeProvider())
     profile = _profile() | {client.ALLOWED_EVIDENCE_REFS_KEY: sorted(CLINICR._known_evidence_refs(_profile()))}
     generated = model.generate_candidates(profile)
     assert generated.candidates
@@ -63,7 +64,7 @@ def test_generation_receives_supplement_without_eliminative_call(monkeypatch):
     for prompt in relevant:
         assert "3 months" in prompt
         assert "S085" in prompt
-        assert "knowledge/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia" in prompt
+        assert "../external/MentalBench/resources/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia" in prompt
         assert "原图谱作者提供或审核" in prompt
     assert not hasattr(model, "evaluate_candidate")
     assert not any("ELIMINATIVE" in p for p in prompts)

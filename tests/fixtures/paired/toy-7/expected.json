@@ -1,0 +1,134 @@
+{
+  "version": "paired-evaluation-v1.1",
+  "kind": "single_reference_label",
+  "hypothesis": "H1",
+  "counts": {
+    "x": {
+      "hits": 1,
+      "predicted": 6,
+      "gold": 1,
+      "top5_hits": 0,
+      "cases": 1,
+      "empty": 0,
+      "final_hits": 0
+    },
+    "y": {
+      "hits": 1,
+      "predicted": 6,
+      "gold": 1,
+      "top5_hits": 1,
+      "cases": 1,
+      "empty": 0,
+      "final_hits": 0
+    }
+  },
+  "metrics": {
+    "x": {
+      "candidate_recall_micro": "1",
+      "candidate_ppv_micro": "1/6",
+      "top_k_recall_micro": "0",
+      "final.reference_hit_rate": "0",
+      "candidate_count_mean": "6",
+      "empty_candidate_rate": "0"
+    },
+    "y": {
+      "candidate_recall_micro": "1",
+      "candidate_ppv_micro": "1/6",
+      "top_k_recall_micro": "1",
+      "final.reference_hit_rate": "0",
+      "candidate_count_mean": "6",
+      "empty_candidate_rate": "0"
+    }
+  },
+  "deltas": {
+    "candidate_recall_micro": {
+      "point": "0",
+      "ci95": null,
+      "undefined_replicates": 0
+    },
+    "candidate_ppv_micro": {
+      "point": "0",
+      "ci95": null,
+      "undefined_replicates": 0
+    },
+    "top_k_recall_micro": {
+      "point": "1",
+      "ci95": null,
+      "undefined_replicates": 0
+    },
+    "final.reference_hit_rate": {
+      "point": "0",
+      "ci95": null,
+      "undefined_replicates": 0
+    },
+    "candidate_count_mean": {
+      "point": "0",
+      "ci95": null,
+      "undefined_replicates": 0
+    },
+    "empty_candidate_rate": {
+      "point": "0",
+      "ci95": null,
+      "undefined_replicates": 0
+    }
+  },
+  "sampling": {
+    "unit": "supergroup",
+    "groups": [
+      "D001"
+    ],
+    "replicates": 0,
+    "requested_replicates": 1000,
+    "seed": 20261015,
+    "shared_across_arms": true,
+    "quantile_indices": [
+      24,
+      974
+    ]
+  },
+  "quality": {
+    "layer": {
+      "cases": 1,
+      "complete_x": 1,
+      "complete_y": 1,
+      "joint_complete": 1,
+      "rate_x": "1",
+      "rate_y": "1",
+      "joint_rate": "1",
+      "passed": true
+    },
+    "all_qualified": {
+      "cases": 1,
+      "complete_x": 1,
+      "complete_y": 1,
+      "joint_complete": 1,
+      "rate_x": "1",
+      "rate_y": "1",
+      "joint_rate": "1",
+      "passed": true
+    }
+  },
+  "quality_gate_passed": true,
+  "tests": {
+    "iut": {
+      "recall_superior": null,
+      "ppv_noninferior": null,
+      "verdict": "not_estimable"
+    },
+    "top5_superior": null
+  },
+  "point_estimate_status": "computed",
+  "statistical_verdict": "not_estimable",
+  "inference_status": "not_estimable",
+  "confirmatory_eligible": true,
+  "failures": {
+    "x": {
+      "model_failure_cases": 0,
+      "classes": {}
+    },
+    "y": {
+      "model_failure_cases": 0,
+      "classes": {}
+    }
+  }
+}

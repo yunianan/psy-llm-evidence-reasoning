@@ -90,11 +90,13 @@ class ControlledRewardModelVerifier:
 def controlled_clinicr(score: float = 0.87):
     from layers.layer3.diagnosis.clinicr import CLINICR
     from layers.layer3.diagnosis.verifier import IndependentVerifier
+    from shared.diagnostic_knowledge import JsonDiagnosticKnowledgeProvider
 
     reasoner = ControlledCLINICRReasoner()
     verifier_model = ControlledRewardModelVerifier(score=score)
     engine = CLINICR(
         reasoner=reasoner,
         verifier=IndependentVerifier(model=verifier_model),
+        knowledge=JsonDiagnosticKnowledgeProvider(),
     )
     return engine, reasoner, verifier_model

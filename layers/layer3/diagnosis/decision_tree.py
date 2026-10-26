@@ -10,11 +10,13 @@ import json
 from pathlib import Path
 from typing import Any, Callable
 
-from shared.disorder_catalog import SUPPORTED_DISORDERS, candidate_knowledge, disorder_metadata
+from shared.disorder_catalog import SUPPORTED_DISORDERS, disorder_metadata
+from shared.diagnostic_knowledge import DiagnosticKnowledgeProvider, get_default_knowledge_provider
 from .schemas import (
     CandidateDecisionPath, CandidateGeneration, DiagnosticCandidate,
     MissingDimension, SymptomMatch, TreeDecisionRecord, TreeNodeJudgment,
 )
+from .screening import validate_screen_denial_scope
 
 TREE_FILE = Path(__file__).resolve().parents[3] / "knowledge/dsm5_decision_tree/candidate_paths.json"
 NodeEvaluator = Callable[[list[dict[str, Any]]], list[TreeNodeJudgment]]
@@ -49,11 +51,14 @@ def _symptom_pool(value: Any) -> set[str]:
     return set()
 
 
-def criterion_nodes(label: str) -> dict[str, dict[str, Any]]:
+def criterion_nodes(
+    label: str, *, knowledge: DiagnosticKnowledgeProvider | None = None,
+) -> dict[str, dict[str, Any]]:
     """Expand source conditions once in the same form used by traversal and reporting."""
-    knowledge = candidate_knowledge(label)
+    provider = knowledge if knowledge is not None else get_default_knowledge_provider()
+    source = provider.get_candidate(label)
     entries = []
-    for key, value in knowledge["criteria"]["required_criteria"].items():
+    for key, value in source["criteria"]["required_criteria"].items():
         if isinstance(value, list):
             entries.extend((f"{key}/{i}", item, {}, True) for i, item in enumerate(value))
         elif isinstance(value, dict):
@@ -70,7 +75,7 @@ def criterion_nodes(label: str) -> dict[str, dict[str, Any]]:
         result[node_id] = {
             "stage": "criterion", "question": f"患者相关病程是否满足来源字段 {key} 的原始条件？",
             "follow_up": f"请补充与 {key} 对应的症状、时间和情境信息。",
-            "source_refs": [knowledge["source_ref"] + f"/required_criteria/{key}"],
+            "source_refs": [source["source_ref"] + f"/required_criteria/{key}"],
             "source_condition": value, "source_group": group, "mandatory": mandatory,
             "symptom_pool": group.get("symptom_pool", []) if part in {
                 "min_count", "must_include_one_of", "must_include_all"
@@ -80,9 +85,38 @@ def criterion_nodes(label: str) -> dict[str, dict[str, Any]]:
     return result
 
 
+def anchor_frontier_state(
+    graph: dict[str, Any], judgments: dict[str, TreeNodeJudgment],
+) -> tuple[dict[str, Any], dict[str, str]]:
+    """The executor's exact post-anchor snapshot, also used by stage audits."""
+    paths = graph["paths"]
+    entry_active = {label: path for label, path in paths.items()
+                    if any(judgments[node].status != "not_met" for node in path["screens"])}
+    active = {label: path for label, path in entry_active.items()
+              if any(judgments[node].status == "met" for node in path["anchors"])}
+    coverage = {label: "not_triggered" for label in SUPPORTED_DISORDERS}
+    for label, path in paths.items():
+        if label in active:
+            coverage[label] = "anchor_supported"
+        elif any(node in judgments and judgments[node].status == "pending" for node in path["anchors"]):
+            coverage[label] = "anchor_pending"
+        elif any(judgments[node].status == "pending" for node in path["screens"]):
+            coverage[label] = "entry_pending"
+    return active, coverage
+
+
+def positive_symptom_ids(records, pool: set[str]) -> set[str]:
+    """Only supported nodes contribute, even if an unvalidated caller supplied IDs."""
+    return {sid for record in records if record.status == "met"
+            for sid in record.symptom_ids if sid in pool}
+
+
 class DecisionTreeCandidateGenerator:
-    def __init__(self, evaluate: NodeEvaluator) -> None:
+    def __init__(
+        self, evaluate: NodeEvaluator, *, knowledge: DiagnosticKnowledgeProvider | None = None,
+    ) -> None:
         self.evaluate = evaluate
+        self.knowledge = knowledge if knowledge is not None else get_default_knowledge_provider()
         self.graph = load_candidate_graph()
 
     def generate(self) -> CandidateGeneration:
@@ -104,7 +138,9 @@ class DecisionTreeCandidateGenerator:
             for node_id in wanted:
                 answer = by_id[node_id]
                 definition = nodes[node_id]
-                if answer.status != "pending" and not answer.evidence_refs:
+                answer, _ = validate_screen_denial_scope(answer, stage=definition["stage"])
+                anchor_absence = definition["stage"] == "anchor" and answer.status == "not_met"
+                if answer.status != "pending" and not anchor_absence and not answer.evidence_refs:
                     raise ValueError("Known node judgments require patient evidence")
                 if not set(answer.symptom_ids) <= set(definition.get("symptom_pool", [])):
                     raise ValueError("Node mapped symptoms outside its source pool")
@@ -132,17 +168,7 @@ class DecisionTreeCandidateGenerator:
             if any(cache[n].status != "not_met" for n in path["screens"])
         }
         assess([n for path in active.values() for n in path["anchors"]])
-        active = {
-            label: path for label, path in active.items()
-            if any(cache[n].status == "met" for n in path["anchors"])
-        }
-        for label in active:
-            coverage[label] = "anchor_supported"
-        for label, path in paths.items():
-            if label not in active and any(n in cache and cache[n].status == "pending" for n in path["anchors"]):
-                coverage[label] = "anchor_pending"
-            elif label not in active and any(cache[n].status == "pending" for n in path["screens"]):
-                coverage[label] = "entry_pending"
+        active, coverage = anchor_frontier_state(self.graph, cache)
 
         # Each guard is a sourced exclusion / subtype discriminator. Unknown
         # keeps a branch alive. Explicit contrary evidence prunes that branch.
@@ -163,7 +189,7 @@ class DecisionTreeCandidateGenerator:
         # visible for deterministic aggregation and the user's downstream scoring.
         criteria_by_label: dict[str, list[str]] = {}
         for label in active:
-            definitions = criterion_nodes(label)
+            definitions = criterion_nodes(label, knowledge=self.knowledge)
             # Keep per-request generated nodes outside the cached graph.
             nodes.update(definitions)
             criteria_by_label[label] = list(definitions)
@@ -177,8 +203,8 @@ class DecisionTreeCandidateGenerator:
                                      *[r["node_id"] for r in path["guards"]],
                                      *criteria_by_label[label]]))
             records = [cache[n] for n in ids]
-            pool = _symptom_pool(candidate_knowledge(label)["criteria"])
-            mapped = set().union(*(set(r.symptom_ids) for r in records)) & pool
+            pool = _symptom_pool(self.knowledge.get_candidate(label)["criteria"])
+            mapped = positive_symptom_ids(records, pool)
             refs = list(dict.fromkeys(ref for r in records if r.status == "met" for ref in r.evidence_refs))
             provisional = any(r.status != "met" for r in records if r.stage == "criterion" and nodes[r.node_id]["mandatory"]) or any(
                 cache[r["node_id"]].status == "pending" for r in path["guards"]

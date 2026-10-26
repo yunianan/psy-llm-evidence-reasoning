@@ -5,9 +5,11 @@ from pydantic import ValidationError
 from fastapi.testclient import TestClient
 
 from shared.disorder_catalog import (
-    DISORDERS, MENTALKG_ROOT, MENTALKG_SYMPTOMS, SUPPORTED_DISORDERS, SYMPTOMS,
-    TREATMENT_KEY_BY_NODE, candidate_knowledge, grouped_catalog,
+    DISORDERS, MENTALKG_SYMPTOMS, SUPPORTED_DISORDERS, SYMPTOMS,
+    TREATMENT_KEY_BY_NODE, grouped_catalog,
 )
+from shared.diagnostic_knowledge import JsonDiagnosticKnowledgeProvider, candidate_knowledge
+from shared.knowledge_sources import MENTALKG_ROOT
 from layers.layer3.api import app, diagnose
 from layers.layer3.diagnosis.clinicr import CLINICR
 from layers.layer3.diagnosis.schemas import CandidateGeneration, EliminativeAssessment
@@ -67,7 +69,8 @@ class NodeReasoner:
 @pytest.mark.parametrize("node", SUPPORTED_DISORDERS)
 def test_all_twenty_four_nodes_complete_diagnostic_pipeline(node):
     engine = CLINICR(reasoner=NodeReasoner(node),
-                     verifier=IndependentVerifier(model=ControlledRewardModelVerifier()))
+                     verifier=IndependentVerifier(model=ControlledRewardModelVerifier()),
+                     knowledge=JsonDiagnosticKnowledgeProvider())
     report = diagnose(_profile(), clinicr=engine)
     parsed = DiagnosticReport.model_validate(report)
     assert parsed.diagnosis.primary.disorder == node

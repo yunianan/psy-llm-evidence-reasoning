@@ -1,0 +1,1 @@
+{"case_id": "rank", "candidates": [{"disorder": "D001", "confidence": 0.1}, {"disorder": "D002", "confidence": 0.8}, {"disorder": "D003", "confidence": 0.8}, {"disorder": "D004", "confidence": 0.8}, {"disorder": "D005", "confidence": 0.8}, {"disorder": "D006", "confidence": 0.8}], "final_diagnoses": [], "model_failure": false, "run_failure": false, "failure_class": null}

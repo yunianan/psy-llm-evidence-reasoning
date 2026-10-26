@@ -1,0 +1,2 @@
+{"case_id": "a", "gold_labels": ["D001"], "reference_kind": "single_reference_label", "source_code": "D001"}
+{"case_id": "b", "gold_labels": ["D002"], "reference_kind": "single_reference_label", "source_code": "D002"}

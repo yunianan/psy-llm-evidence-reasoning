@@ -1,49 +1,36 @@
-"""Project labels read directly from the unmodified MentalKG release.
+"""Project labels and presentation metadata, separate from diagnostic content.
 
 Display groups and Chinese names are presentation metadata, not DSM rules.
 Insomnia is the existing project extension and is not a MentalKG node.
 """
 from __future__ import annotations
 
-from functools import lru_cache
-import json
-import os
-from pathlib import Path
 from typing import Any
+from functools import lru_cache
+
+from .knowledge_sources import SUPPLEMENT_REF, get_insomnia_source, get_mental_kg_source
 
 
-MENTALKG_ROOT = Path(os.getenv("MENTALKG_PATH") or (
-    Path(__file__).resolve().parents[2] / "external/MentalBench/resources/knowledge_graph/EN"
-))
-SUPPLEMENT_ROOT = Path(__file__).resolve().parents[1] / "knowledge/dsm5_supplement/EN"
-SUPPLEMENT_REF = "knowledge/dsm5_supplement/EN"
-
-
-def _read(relative: str) -> dict[str, Any]:
-    return json.loads((MENTALKG_ROOT / relative).read_text(encoding="utf-8-sig"))
-
-
-def _read_supplement(relative: str) -> dict[str, Any]:
-    return json.loads((SUPPLEMENT_ROOT / relative).read_text(encoding="utf-8-sig"))
-
-
-DISORDERS = _read("disorder.json")
-if set(DISORDERS) != {f"D{i:03d}" for i in range(1, 24)}:
-    raise ValueError("MentalKG must contain the original D001-D023 disorder mapping")
+DISORDERS = get_mental_kg_source().disorders
 SUPPORTED_DISORDERS = (*sorted(DISORDERS), "Insomnia")
 DISORDER_COUNT = len(SUPPORTED_DISORDERS)
-DIAGNOSTIC_CRITERIA = _read("diagnostic_criteria.json")
-SUPPLEMENT_DISORDERS = _read_supplement("disorder.json")
-SUPPLEMENT_CRITERIA = _read_supplement("diagnostic_criteria.json")
-MENTALKG_SYMPTOMS = {
-    sid: record
-    for path in sorted((MENTALKG_ROOT / "symptom").glob("*.json"))
-    for sid, record in _read(f"symptom/{path.name}").items()
-}
-SUPPLEMENT_SYMPTOMS = _read_supplement("symptom/10insomnia.json")
-if MENTALKG_SYMPTOMS.keys() & SUPPLEMENT_SYMPTOMS.keys():
-    raise ValueError("Supplement symptom IDs must not overwrite MentalKG")
-SYMPTOMS = {**MENTALKG_SYMPTOMS, **SUPPLEMENT_SYMPTOMS}
+SUPPLEMENT_DISORDERS = get_insomnia_source().disorders
+@lru_cache
+def _symptom_sources():
+    """Display labels and CandidateGeneration imports must not read symptoms."""
+    mental = get_mental_kg_source().symptoms
+    supplement = get_insomnia_source().symptoms
+    if mental.keys() & supplement.keys():
+        raise ValueError("Supplement symptom IDs must not overwrite MentalKG")
+    return mental, supplement, {**mental, **supplement}
+
+
+def __getattr__(name):
+    # Preserve existing explicit imports; resolve only when symptoms are requested.
+    names = ("MENTALKG_SYMPTOMS", "SUPPLEMENT_SYMPTOMS", "SYMPTOMS")
+    if name in names:
+        return _symptom_sources()[names.index(name)]
+    raise AttributeError(name)
 
 DISPLAY_GROUPS = {
     "attention": "注意缺陷与多动相关",
@@ -123,51 +110,7 @@ def grouped_catalog() -> list[dict[str, Any]]:
 
 
 def symptom_catalog() -> dict[str, str]:
-    return {sid: record["description"] for sid, record in SYMPTOMS.items()}
-
-
-@lru_cache
-def candidate_knowledge(node: str) -> dict[str, Any]:
-    if node == "Insomnia":
-        root_ref = f"{SUPPLEMENT_REF}/diagnostic_criteria.json#/Insomnia/required_criteria"
-        return {
-            "metadata": disorder_metadata(node),
-            "source_ref": f"{SUPPLEMENT_REF}/diagnostic_criteria.json#/Insomnia",
-            "criteria": SUPPLEMENT_CRITERIA[node],
-            "symptoms": SUPPLEMENT_SYMPTOMS,
-            "differential": _read_supplement("differential_diagnosis/Insomnia.json"),
-            "events": _read_supplement("event.json"),
-            "criterion_source_refs": {
-                "A": root_ref,
-                "A1": f"{SUPPLEMENT_REF}/symptom/10insomnia.json#/S085",
-                "A2": f"{SUPPLEMENT_REF}/symptom/10insomnia.json#/S086",
-                "A3": f"{SUPPLEMENT_REF}/symptom/10insomnia.json#/S087",
-                "B": f"{root_ref}/additional_requirements/1",
-                "C": f"{root_ref}/additional_requirements/2",
-                "D": f"{root_ref}/min_duration",
-                "E": f"{root_ref}/additional_requirements/3",
-                "F": f"{root_ref}/additional_requirements/4",
-                "G": f"{root_ref}/additional_requirements/5",
-                "H": f"{root_ref}/additional_requirements/6",
-            },
-            "note": "DSM-5 项目补充，沿用 MentalKG 格式，非原图谱作者提供或审核；共存疾病不构成自动排除。",
-        }
-    if node not in DISORDERS:
-        raise ValueError(f"Unsupported diagnostic candidate: {node}")
-    criteria = DIAGNOSTIC_CRITERIA[node]
-    ids: set[str] = set()
-    def collect(obj: Any) -> None:
-        if isinstance(obj, dict):
-            ids.update(obj.get("symptom_pool", []))
-            for v in obj.values(): collect(v)
-        elif isinstance(obj, list):
-            for v in obj: collect(v)
-    collect(criteria)
-    return {"metadata": disorder_metadata(node),
-            "source_ref": f"MentalKG:diagnostic_criteria.json#/{node}",
-            "criteria": criteria, "symptoms": {sid: SYMPTOMS[sid] for sid in sorted(ids)},
-            "differential": _read(f"differential_diagnosis/{node}.json"),
-            "events": _read("event.json")}
+    return {sid: record["description"] for sid, record in _symptom_sources()[2].items()}
 
 
 # Preserve the existing six treatment routes only. Other diagnoses have no
