@@ -2,6 +2,7 @@
 import math
 
 from shared.disorder_catalog import SUPPORTED_DISORDERS
+from shared.candidate_ordering import candidate_sort_key
 from tools.mentalbench_partition import family_key
 
 KINDS = {"single_reference_label": 1, "admissible_candidates": 2}
@@ -107,7 +108,7 @@ def normalize_for_protocol(row):
         candidates = [c for c in candidates if c["disorder"] in keep]
         if {c["disorder"] for c in candidates} != keep:
             raise ValueError("Missing retained candidate")
-    result["candidates"] = sorted(candidates, key=lambda c: (-c["confidence"], c["disorder"]))
+    result["candidates"] = sorted(candidates, key=candidate_sort_key)
     if "final_diagnoses" not in result or not isinstance(result["final_diagnoses"], list):
         raise ValueError("Explicit final_diagnoses or full diagnosis required")
     final = result["final_diagnoses"]

@@ -16,9 +16,11 @@ from .schemas import (
 )
 from .verifier import IndependentVerifier
 from .assessment import assessments_from_step1
+from .information_report import build_information_report
 
 
 from shared.disorder_catalog import DISORDER_COUNT, disorder_metadata
+from shared.candidate_ordering import candidate_sort_key
 from shared.diagnostic_knowledge import (
     DiagnosticKnowledgeNotConnected, DiagnosticKnowledgeProvider,
     get_default_knowledge_provider,
@@ -103,7 +105,7 @@ class CLINICR:
             if assessment_by_disorder[candidate.disorder].conclusion
             == "meets_criteria"
         ]
-        eligible.sort(key=lambda item: item.confidence, reverse=True)
+        eligible.sort(key=candidate_sort_key)
 
         under_observation = [
             self._observation_payload(candidate_by_disorder[item.disorder], item)
@@ -243,11 +245,7 @@ class CLINICR:
             )
         for record in generation.tree_trace:
             CLINICR._assert_known_refs(record.evidence_refs, known_refs, f"Step 1节点{record.node_id}")
-        return sorted(
-            generation.candidates,
-            key=lambda item: item.confidence,
-            reverse=True,
-        )
+        return sorted(generation.candidates, key=candidate_sort_key)
 
     @staticmethod
     def _validate_assessment(
@@ -537,7 +535,7 @@ class CLINICR:
                 "返回L2补充指定信息。"
             )
 
-        return {
+        result = {
             "diagnosis": {
                 "primary": primary,
                 "secondary": secondary,
@@ -572,3 +570,17 @@ class CLINICR:
             "flags": list(dict.fromkeys(flags)),
             "summary": summary,
         }
+        result.update(build_information_report(result, knowledge=self.knowledge))
+        if primary is None:
+            readiness = result["diagnostic_readiness"]
+            if readiness["status"] == "insufficient_information":
+                result["summary"] = (
+                    f"信息不足：{readiness['counts']['insufficient_information']}个候选仍缺必需信息，"
+                    f"另有{readiness['counts']['known_blocker']}个候选存在已知不满足条件。"
+                    "保留原诊断门槛，返回L2补充信息；pending不表示病症不存在。"
+                )
+            elif readiness["status"] == "known_blocker":
+                result["summary"] = "当前候选存在已知不满足条件，未形成最终诊断；按原路由复核，不将其等同于资料缺失。"
+            elif readiness["status"] == "supported":
+                result["summary"] = "候选必需判据已满足，但终验或置信度门未放行；不形成最终诊断，按原路由处理。"
+        return result

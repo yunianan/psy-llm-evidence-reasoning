@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from .diagnosis.clinicr import CLINICR
+from .diagnosis.information_report import input_information_report
 from .llm import CLINICRModelUnavailable
 from .therapy.therapy_selector import TherapySelector
 from .instructions.instruction_generator import InstructionGenerator
@@ -84,6 +85,8 @@ class DiagnoseResponse(BaseModel):
     tree_trace: list[dict[str, Any]] = Field(default_factory=list)
     candidate_coverage: dict[str, str] = Field(default_factory=dict)
     candidate_missing_dimensions: list[dict[str, str]] = Field(default_factory=list)
+    diagnostic_readiness: dict[str, Any] = Field(default_factory=dict, description="仅描述必需判据/鉴别路径的满足、已知阻塞或信息不足，不替代最终诊断门")
+    information_collection_plan: dict[str, Any] = Field(default_factory=dict, description="Top-1/Top-3补采优先队列；保留其余候选，不自动追问或改变判据")
     diagnosis: dict
     verifier_score: float
     verifier_decision: str
@@ -114,7 +117,9 @@ def _catalog_payload(result: dict[str, Any]) -> dict[str, Any]:
             "candidate_generation_method": result.get("candidate_generation_method", "external_reasoner"),
             "tree_trace": result.get("tree_trace", []),
             "candidate_coverage": result.get("candidate_coverage", {}),
-            "candidate_missing_dimensions": result.get("candidate_missing_dimensions", [])}
+            "candidate_missing_dimensions": result.get("candidate_missing_dimensions", []),
+            "diagnostic_readiness": result.get("diagnostic_readiness", {}),
+            "information_collection_plan": result.get("information_collection_plan", {})}
 
 
 @app.get("/diagnostic-catalog")
@@ -125,15 +130,26 @@ def diagnostic_catalog():
 def build_blocked_report(clinicr_result):
     missing = clinicr_result.get("missing_dimensions", [])
     routing = clinicr_result["verifier_routing"]
+    readiness_status = clinicr_result.get("diagnostic_readiness", {}).get("status")
     if routing == "return_to_l2":
         action = "collect_missing_dimensions"
-        instruction = "返回L2补充 Verifier 指定的缺失信息"
+        instruction = "返回L2补充诊断所需信息，按补采队列安排顺序；未知不等于不满足"
     elif routing == "manual_review":
         action = "manual_review"
         instruction = "转人工复核，不进入L4自动治疗"
     else:
         action = "stop_diagnostic_route"
         instruction = "终验不支持当前诊断，停止进入L4"
+    if routing == "manual_review":
+        wording = "诊断候选保留，治疗方案需人工复核，不进入自动治疗"
+    elif readiness_status == "known_blocker":
+        wording = "候选存在已知不满足条件，未形成最终诊断，不进入治疗对话"
+        if routing == "return_to_l2":
+            instruction = "返回L2复核已知不满足条件，并补充仍缺的信息"
+    elif readiness_status == "supported":
+        wording = "判据支持不等于终验通过，未放行的诊断不得进入治疗对话"
+    else:
+        wording = "信息不足，不得形成诊断结论或进入治疗对话"
     return {
         "layer_id": "L3",
         "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
@@ -166,8 +182,7 @@ def build_blocked_report(clinicr_result):
                 "strategy_adjustments": {},
                 "l4_substage_priority": [],
             },
-            "wording_constraint": ("诊断候选保留，治疗方案需人工复核，不进入自动治疗"
-                                   if routing == "manual_review" else "信息不足，不得形成诊断结论或进入治疗对话"),
+            "wording_constraint": wording,
             "risk_monitoring": [],
         },
         "evidence_refs": clinicr_result["evidence_refs"],
@@ -217,6 +232,7 @@ def build_input_contract_report(profile: dict[str, Any]) -> dict[str, Any] | Non
         "evidence_refs": [],
         "flags": ["insufficient_diagnostic_evidence"],
     }
+    result.update(input_information_report(missing))
     report = build_blocked_report(result)
     report["l3_validation"] = L3OutputValidator().validate(report)
     return report
