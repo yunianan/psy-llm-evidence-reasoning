@@ -14,6 +14,22 @@
 > 1. **不添加病例外事实**——患者说的每句话都必须能在病例里找到出处，越界由 PA4 守卫拦下。
 > 2. **测试能按条件停止**——危机、人工复核、目标事件覆盖、违规、轮数上限都能让本轮收尾。
 
+## CACTUS 病例扩充（2026-10-29）
+
+默认 `imported_scenarios/` 已合入 CACTUS 150 例，加上原有 DB 4 例共 **154 例**；内置 `scenarios/` 的 6 例保持原样。当前 MentalKG 诊断标签适配保留，CACTUS 工具复用当前 `tools/db_import.py` 与 Schema。
+
+- 导入入口：`tools/cactus_import.py`；中间记录与提取依据分别在 `tools/cactus_normalized_records.json`、`tools/cactus_import_details.json`。
+- 原始 450 条记录按相同 intake 合并为 150 例，三种态度仅保留为溯源信息。病例均带 `needs_review`：症状为启发式提取，量表、阴性鉴别、风险否认与治疗轨迹含模拟设定，不能当作原始数据明确提供的事实。
+- 本次使用当前代码验证：既有测试 **264 passed**，导入工具小样本重跑 **3/3 通过**，默认全库离线回放 **154/154 通过**。这是规则患者与 Mock 系统的流程验证，不代表真实模型、临床效果或 CBT 技术评分验证。
+- 本次回放报告：[runs/cactus-merge-20261029/report.md](runs/cactus-merge-20261029/report.md)。原包的导入说明及本次合入说明见 [CACTUS导入报告.md](CACTUS导入报告.md)。
+
+可在独立目录重跑少量导入，避免覆盖默认病例库或完整中间文件：
+
+```bash
+python tools/cactus_import.py --limit 3 --out runs/cactus-smoke/cases --records-out runs/cactus-smoke-records.json --report-out runs/cactus-smoke-details.json
+python -m patient_agent run-all --scenario-dir imported_scenarios --llm-mode offline --system-api mock --out runs/cactus-validation
+```
+
 ## 快速开始
 
 不需要任何 API key，不出网。在 `patient agent/` 目录下：

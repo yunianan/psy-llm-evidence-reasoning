@@ -1,0 +1,352 @@
+{
+  "scenario_id": "CACTUS_082",
+  "version": "1.0.0",
+  "title": "CACTUS导入：David Sanders",
+  "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [243, 244, 245]，来访者 David Sanders）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。",
+  "locale": "zh-CN",
+  "seed": 647,
+  "tags": [
+    "cactus",
+    "cbt_alternative_perspective",
+    "db_import",
+    "needs_review",
+    "risk_none",
+    "task_stable"
+  ],
+  "background": {
+    "age_range": "34岁",
+    "occupation": "Videographer",
+    "family_relationship": "Single；Lives alone, no siblings",
+    "major_events": [
+      "来源 CACTUS evaluation_chinese.json idx [243, 244, 245]（同一来访者的 negative, neutral, positive 三种态度变体，去重为 1 例）",
+      "CBT ground truth: Alternative Perspective",
+      "Presenting problem (原文): I am struggling with feelings of low self-esteem and a persistent need to please others, which have been affecting my mental well-being and relationships. These issues have been present for several years but have intensified in the past few months.",
+      "Reason for counseling (原文): I decided to seek counseling because I realized that my low self-esteem and people-pleasing tendencies were negatively impacting my mental health and relationships, and I wanted to address these issue",
+      "CACTUS 中文版开场 (原文): 咨询师: 嗨，大卫，欢迎。我很高兴你今天在这里。你想谈谈什么？\n来访者: 我觉得我的自我价值与他人对我的看法紧密联系在一起。我似乎不断寻求认可，害怕让人失望，这让我感到焦虑和压力。我们能谈谈如何提高我的自尊心，减少这种需要取悦他人的情绪吗？"
+    ],
+    "facts": [],
+    "forbidden_claims": []
+  },
+  "clinical": {
+    "chief_complaint": "总觉得自己不够好，好多事都做不好。",
+    "symptoms": [
+      {
+        "symptom_id": "worthlessness",
+        "label": "自我价值感低",
+        "present": true,
+        "duration": "几个月",
+        "severity": 3,
+        "utterance": "总觉得自己不够好，好多事都做不好。",
+        "denial_utterance": "",
+        "disclosure": "proactive",
+        "probe_keywords": [
+          "不够好",
+          "觉得自己"
+        ],
+        "functional_impact": [],
+        "unlock_after_events": []
+      },
+      {
+        "symptom_id": "anxiety",
+        "label": "焦虑紧张",
+        "present": true,
+        "duration": "几个月",
+        "severity": 1,
+        "utterance": "心里总是很紧张，担心的事一件接一件。",
+        "denial_utterance": "",
+        "disclosure": "on_probe",
+        "probe_keywords": [
+          "具体",
+          "难受",
+          "紧张"
+        ],
+        "functional_impact": [],
+        "unlock_after_events": []
+      },
+      {
+        "symptom_id": "insomnia",
+        "label": "睡眠维持困难",
+        "present": true,
+        "duration": "几个月",
+        "severity": 1,
+        "utterance": "睡得浅，夜里容易醒，醒了很难再睡。",
+        "denial_utterance": "",
+        "disclosure": "on_probe",
+        "probe_keywords": [
+          "睡眠",
+          "精力"
+        ],
+        "functional_impact": [],
+        "unlock_after_events": []
+      }
+    ],
+    "exclusions": [
+      {
+        "condition_id": "manic_history",
+        "label": "躁狂或轻躁狂发作史",
+        "present": false,
+        "utterance": "",
+        "denial_utterance": "没有过异常兴奋，也没有不用睡觉、话特别多的情况。",
+        "probe_keywords": [
+          "兴奋",
+          "不需要睡觉",
+          "话也特别多"
+        ],
+        "unlock_after_events": []
+      },
+      {
+        "condition_id": "psychotic_features",
+        "label": "精神病性症状",
+        "present": false,
+        "utterance": "",
+        "denial_utterance": "没有过幻觉，也没有听到别人听不到、看到别人看不到的情况。",
+        "probe_keywords": [
+          "听到",
+          "看到",
+          "别人没有察觉"
+        ],
+        "unlock_after_events": []
+      }
+    ],
+    "scale_plans": [
+      {
+        "scale_name": "PHQ-9",
+        "willingness": "accept",
+        "answers": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          3,
+          0,
+          0,
+          0
+        ],
+        "refuse_after_items": null,
+        "comment": "按严重度逐题作答。"
+      },
+      {
+        "scale_name": "GAD-7",
+        "willingness": "accept",
+        "answers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "refuse_after_items": null,
+        "comment": "按严重度逐题作答。"
+      },
+      {
+        "scale_name": "ISI",
+        "willingness": "accept",
+        "answers": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "refuse_after_items": null,
+        "comment": "按严重度逐题作答。"
+      }
+    ],
+    "timeline_anchors": {
+      "onset": "几个月"
+    },
+    "expected_diagnosis_codes": [],
+    "must_not_diagnose": [
+      "双相障碍",
+      "精神分裂症"
+    ],
+    "patient_reported_labels": []
+  },
+  "psychology": {
+    "emotions": [
+      {
+        "emotion": "疲惫",
+        "intensity": 5,
+        "utterance": "就是很累，什么都顾不上。"
+      }
+    ],
+    "cognitive_patterns": [
+      "CBT目标技术：Alternative Perspective"
+    ],
+    "core_beliefs": [],
+    "goal": "想恢复到能正常生活的状态。",
+    "importance": 7,
+    "confidence": 4,
+    "readiness": 5,
+    "ambivalence": "想好起来，又觉得先顾眼前的事要紧。"
+  },
+  "risk": {
+    "level": "none",
+    "utterance": "",
+    "denial_utterance": "没有过。没有想过伤害自己，也没有不想活的时候。",
+    "disclosure": "on_probe",
+    "probe_keywords": [
+      "伤害自己",
+      "念头",
+      "安全"
+    ],
+    "unlock_after_events": []
+  },
+  "disclosure": {
+    "opening_templates": [
+      "总觉得自己不够好，好多事都做不好。"
+    ],
+    "max_new_facts_per_turn": 1,
+    "require_probe_for_protected": true,
+    "refusal_utterances": [
+      "这个能不能先不说，我还没想好。"
+    ],
+    "refusable_topics": [],
+    "never_disclose": [
+      "活着没意思",
+      "消失",
+      "不如死",
+      "撑不下去",
+      "没有意义",
+      "想死",
+      "不想活",
+      "自杀",
+      "结束生命",
+      "一了百了",
+      "活不下去",
+      "计划好了",
+      "想好怎么做",
+      "写好了",
+      "买了药",
+      "准备好了方法",
+      "现在就去",
+      "马上就做",
+      "已经准备好了",
+      "正在准备",
+      "就在手边"
+    ],
+    "non_fact_replies": [
+      "嗯，你继续问吧。",
+      "大概就是这样，我一时想不起来别的。",
+      "可能是吧，我没太注意。"
+    ]
+  },
+  "behavior": {
+    "cooperation": 0.85,
+    "verbosity": "medium",
+    "emotional_intensity": 5,
+    "repetition": 0.2,
+    "hostility": 0.0,
+    "ask_back": 0.05
+  },
+  "trajectory": {
+    "kind": "stable",
+    "steps": [
+      {
+        "after_l4_turn": 1,
+        "kind": "stable",
+        "utterance": "还是老样子，没什么变化。",
+        "sentiment": "neutral"
+      },
+      {
+        "after_l4_turn": 2,
+        "kind": "stable",
+        "utterance": "还是那样，感觉没什么用。",
+        "sentiment": "neutral"
+      },
+      {
+        "after_l4_turn": 3,
+        "kind": "stable",
+        "utterance": "照旧，没什么变化。",
+        "sentiment": "neutral"
+      }
+    ]
+  },
+  "profile_confirmation": {
+    "decisions": [
+      "continue"
+    ],
+    "notes": "由数据库导入，默认确认画像。"
+  },
+  "pause_plan": {
+    "pause_after_turn": null,
+    "resume_after_pause": true,
+    "pause_note": "",
+    "resume_note": ""
+  },
+  "expected": {
+    "termination_reason": "completed_no_change",
+    "events": [
+      {
+        "event_id": "l1_clear",
+        "description": "L1 未发现风险，记录并放行",
+        "layer": "L1",
+        "required": true
+      },
+      {
+        "event_id": "l2_scale_completed",
+        "description": "可选量表作答完成",
+        "layer": "L2",
+        "required": true
+      },
+      {
+        "event_id": "l2_profile_ready",
+        "description": "L2 信息收集完成，请患者确认画像",
+        "layer": "L2",
+        "required": true
+      },
+      {
+        "event_id": "l2_profile_confirmed",
+        "description": "患者确认画像",
+        "layer": "L2",
+        "required": true
+      },
+      {
+        "event_id": "l3_candidates_generated",
+        "description": "L3 生成候选",
+        "layer": "L3",
+        "required": true
+      },
+      {
+        "event_id": "l4_treatment_started",
+        "description": "进入治疗层",
+        "layer": "L4",
+        "required": true
+      },
+      {
+        "event_id": "l4_no_change_detected",
+        "description": "治疗期未见改善",
+        "layer": "L4",
+        "required": true
+      },
+      {
+        "event_id": "episode_summary_ready",
+        "description": "L5 产出 EpisodeSummary",
+        "layer": "L5",
+        "required": true
+      }
+    ],
+    "forbidden_events": [
+      "l1_safety_activated"
+    ],
+    "expected_excluded_conditions": [],
+    "expected_layers": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "min_turns": 6
+  },
+  "stop": {
+    "max_turns": 75,
+    "stop_on_crisis": true,
+    "stop_on_human_review": true,
+    "stop_on_violation": true,
+    "target_events": []
+  }
+}

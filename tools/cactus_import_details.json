@@ -1,0 +1,4635 @@
+[
+  {
+    "record_id": "CACTUS_001",
+    "name": "Laura Saunders",
+    "age": "45",
+    "idxs": [
+      0,
+      1,
+      2
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anhedonia": 2,
+      "worthlessness": 2
+    },
+    "evidence": {
+      "anhedonia": [
+        "This negative belief is affecting my motivation and self-esteem.",
+        "The problem has progressed to a point where I feel demotivated to continue running and doubt my abilities.",
+        "I decided to seek counseling because this negative belief is hindering my enjoyment of running and affecting my overall "
+      ],
+      "worthlessness": [
+        "This negative belief is affecting my motivation and self-esteem.",
+        "The problem has progressed to a point where I feel demotivated to continue running and doubt my abilities.",
+        "Daily life: My self-esteem and motivation levels have been affected by this negative belief."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_002",
+    "name": "Travis Foster",
+    "age": "32",
+    "idxs": [
+      3,
+      4,
+      5
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Continuum Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 3,
+      "trauma_related": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have a persistent belief that if I can't find seasoned oak, all the furniture I build will look terrible, causing feel",
+        "The problem has progressed to the point where I avoid building furniture altogether if I cannot find seasoned oak, affec",
+        "The constant anxiety and self-doubt affecting my hobby and daily life made me realize the need to seek counseling for su",
+        "Interpersonal relationships: My relationships with friends have been strained as I often express my self-doubt and anxie"
+      ],
+      "anxiety": [
+        "I have a persistent belief that if I can't find seasoned oak, all the furniture I build will look terrible, causing feel",
+        "The constant anxiety and self-doubt affecting my hobby and daily life made me realize the need to seek counseling for su",
+        "Academic/occupational functioning level: My performance in house cleaning has been satisfactory despite the anxiety rela",
+        "Interpersonal relationships: My relationships with friends have been strained as I often express my self-doubt and anxie",
+        "Daily life: My anxiety has affected my ability to focus and enjoy hobbies like building furniture."
+      ],
+      "trauma_related": [
+        "This belief started after a traumatic experience of being held hostage in a store robbery situation a year ago.",
+        "The stress level when this belief started was very high due to the trauma experienced during the robbery."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_003",
+    "name": "Jennifer Foster",
+    "age": "45",
+    "idxs": [
+      6,
+      7,
+      8
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like I will never get promoted at work because I failed to treat a dog today, leading to feelings of incompetence",
+        "The problem has been on my mind constantly since the incident, affecting my confidence at work and in my abilities.",
+        "I decided to seek counseling after realizing that these feelings of incompetence were impacting my job performance and o",
+        "Academic/occupational functioning level: My job performance has been affected by my feelings of incompetence.",
+        "Interpersonal relationships: My relationships with colleagues have been strained due to my self-doubt and lack of confid"
+      ],
+      "insomnia": [
+        "Daily life: The incident has caused me to lose sleep and affected my usual vegan diet and exercise routine."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_004",
+    "name": "Maven Victoria",
+    "age": "21",
+    "idxs": [
+      9,
+      10,
+      11
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel inadequate because my sister plays the guitar, and I believe she thinks less of me because I cannot play an instr",
+        "These feelings of inadequacy started a few months ago when my sister started her guitar lessons.",
+        "I experience these feelings whenever music or instruments are mentioned, leading to feelings of insecurity.",
+        "I recognized that these feelings were impacting my self-esteem and social interactions, prompting me to seek counseling ",
+        "Academic/occupational functioning level: My job performance as an English Literature tutor has been affected due to my d",
+        "Interpersonal relationships: My relationship with my sister has been strained due to my feelings of inadequacy."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_005",
+    "name": "Jessica Hughes",
+    "age": "27",
+    "idxs": [
+      12,
+      13,
+      14
+    ],
+    "ground_truth_CBT": [
+      "Pie Chart Technique",
+      "Decatastrophizing"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "These feelings of inadequacy began around the time I started working as a nurse.",
+        "Interpersonal relationships: My relationships with colleagues have been strained due to my self-doubts."
+      ],
+      "anxiety": [
+        "Daily life: Balancing work and family life has become more challenging due to my increased anxiety."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_006",
+    "name": "Michael Victor",
+    "age": "44",
+    "idxs": [
+      15,
+      16,
+      17
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Pie Chart Technique"
+    ],
+    "symptoms": {
+      "anxiety": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel overwhelmed and dissatisfied with my recent travel experiences, particularly the trip to Frankfurt, Germany."
+      ],
+      "anhedonia": [
+        "The persisting negative thoughts and feelings related to travel experiences have started to impact my overall well-being"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_007",
+    "name": "David Johnson",
+    "age": "22",
+    "idxs": [
+      18,
+      19,
+      20
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "concentration_difficulty": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I constantly worry that something will go wrong just before I finish my degree, leading to high levels of anxiety and st",
+        "I constantly worry that something will go wrong just before I finish my degree, leading to high levels of anxiety and st",
+        "The growing anxiety and stress have started to affect my ability to concentrate on my studies, making me consider seekin",
+        "Academic/occupational functioning level: My academic performance has been affected by the increased anxiety and stress.",
+        "Daily life: The constant worry has disrupted my sleep patterns and affected my eating habits."
+      ],
+      "concentration_difficulty": [
+        "The problem has intensified as my graduation date approaches, and I find it hard to focus on the present.",
+        "The growing anxiety and stress have started to affect my ability to concentrate on my studies, making me consider seekin"
+      ],
+      "insomnia": [
+        "Daily life: The constant worry has disrupted my sleep patterns and affected my eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_008",
+    "name": "Violet Waverly",
+    "age": "13",
+    "idxs": [
+      21,
+      22,
+      23
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anhedonia": 1,
+      "worthlessness": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "The problem has escalated recently, and I find myself feeling extremely disappointed and demotivated over minor setbacks"
+      ],
+      "worthlessness": [
+        "I experience these thought patterns regularly, especially after perceived failures or setbacks."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_009",
+    "name": "Jacklyn Kirkwood",
+    "age": "44",
+    "idxs": [
+      24,
+      25,
+      26
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "depressed_mood": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "depressed_mood": [
+        "I have been feeling a sense of loneliness and isolation, especially thinking that no one will attend my funeral due to b",
+        "The realization that these feelings of loneliness and thoughts about my funeral attendance are affecting my mental healt",
+        "Daily life: My sleep patterns have been disrupted, and I struggle with feelings of sadness and emptiness regularly."
+      ],
+      "insomnia": [
+        "Daily life: My sleep patterns have been disrupted, and I struggle with feelings of sadness and emptiness regularly."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_010",
+    "name": "Tristan Riley",
+    "age": "19",
+    "idxs": [
+      27,
+      28,
+      29
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "depressed_mood": 2,
+      "worthlessness": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "depressed_mood": [
+        "This belief has caused feelings of worthlessness and social isolation.",
+        "Academic/occupational functioning level: My job performance in the navy has been affected due to the social isolation an"
+      ],
+      "worthlessness": [
+        "This belief has caused feelings of worthlessness and social isolation.",
+        "The worsening of these feelings of worthlessness and the impact on my social interactions and mental well-being have led",
+        "Academic/occupational functioning level: My job performance in the navy has been affected due to the social isolation an",
+        "Daily life: My feelings of worthlessness have impacted my daily life, including sleep patterns and self-care routines."
+      ],
+      "insomnia": [
+        "Daily life: My feelings of worthlessness have impacted my daily life, including sleep patterns and self-care routines."
+      ]
+    },
+    "fallback": false,
+    "onset": "1年"
+  },
+  {
+    "record_id": "CACTUS_011",
+    "name": "Eric Weinstein",
+    "age": "46",
+    "idxs": [
+      30,
+      31,
+      32
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing"
+    ],
+    "symptoms": {
+      "anxiety": 1,
+      "anhedonia": 2
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel overwhelmed by living in New York City due to the high crime rate and the expensive cost of living, which makes m"
+      ],
+      "anhedonia": [
+        "I feel overwhelmed by living in New York City due to the high crime rate and the expensive cost of living, which makes m",
+        "These feelings of being unable to enjoy life started when I moved to New York City for work."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_012",
+    "name": "Trent Watson",
+    "age": "21",
+    "idxs": [
+      33,
+      34,
+      35
+    ],
+    "ground_truth_CBT": [
+      "Systematic Exposure"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "worthlessness": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "Over time, my social anxiety has worsened, especially in larger social gatherings.",
+        "I have tried exposure therapy techniques and relaxation exercises to manage my social anxiety but have not found signifi",
+        "Interpersonal relationships: I struggle to form and maintain relationships due to my social anxiety.",
+        "Daily life: My social anxiety has affected my social life and participation in events."
+      ],
+      "worthlessness": [
+        "I experience this problem whenever I attend parties or social events, leading me to doubt my ability to form lasting rel"
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_013",
+    "name": "Julia Hunter",
+    "age": "23",
+    "idxs": [
+      36,
+      37,
+      38
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I am struggling with feelings of guilt and self-blame after my cat passed away.",
+        "I have tried distracting myself with activities like reading and playing with my grandfather's train set, but the guilt ",
+        "I decided to seek counseling because the overwhelming guilt and self-blame were affecting my daily life and ability to c"
+      ],
+      "anxiety": [
+        "I decided to seek counseling because the overwhelming guilt and self-blame were affecting my daily life and ability to c"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_014",
+    "name": "Christopher Tate",
+    "age": "21",
+    "idxs": [
+      39,
+      40,
+      41
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I experience these feelings regularly, especially when I receive rejection emails or see others getting employed."
+      ],
+      "insomnia": [
+        "Daily life: Disrupted sleep patterns and loss of appetite due to job search stress."
+      ]
+    },
+    "fallback": false,
+    "onset": "几周"
+  },
+  {
+    "record_id": "CACTUS_015",
+    "name": "Travis Bennington",
+    "age": "50",
+    "idxs": [
+      42,
+      43,
+      44
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning",
+      "Behavior Experiment"
+    ],
+    "symptoms": {
+      "worthlessness": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "This belief has led to feelings of self-consciousness and discomfort.",
+        "I tend to avoid such situations due to my insecurities."
+      ]
+    },
+    "fallback": false,
+    "onset": "很久"
+  },
+  {
+    "record_id": "CACTUS_016",
+    "name": "Gregory Johnson",
+    "age": "52",
+    "idxs": [
+      45,
+      46,
+      47
+    ],
+    "ground_truth_CBT": [
+      "Pie Chart Technique",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like a failure because I have not been able to find a cure for my wife's deafness, which has led to feelings of g",
+        "The problem has progressed over time, especially as I see my brother-in-law's success in running a major Hollywood studi",
+        "I decided to seek counseling because the burden of guilt and feelings of failure have started affecting my mental health"
+      ],
+      "insomnia": [
+        "Daily life: My emotional state has affected my sleep patterns and overall self-care."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_017",
+    "name": "Martha Ann Turner",
+    "age": "78",
+    "idxs": [
+      48,
+      49,
+      50
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "anhedonia": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I am experiencing extreme anxiety and fear of getting kicked out of the church choir due to forgetting the words to a so",
+        "I believe the stress level was high because I value my position in the choir and fear losing it.",
+        "The problem has progressed to the point where I am constantly worried about making mistakes while singing in the choir.",
+        "This fear occurs before every choir practice or performance.",
+        "The decisive factor that made me seek counseling was the overwhelming anxiety and fear affecting my daily life and enjoy",
+        "Interpersonal relationships: I have been avoiding choir members and social events related to the choir due to my anxiety",
+        "Daily life: My anxiety has affected my sleep patterns and relaxation."
+      ],
+      "anhedonia": [
+        "The decisive factor that made me seek counseling was the overwhelming anxiety and fear affecting my daily life and enjoy"
+      ],
+      "insomnia": [
+        "Daily life: My anxiety has affected my sleep patterns and relaxation."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_018",
+    "name": "Gregory Figueroa",
+    "age": "22",
+    "idxs": [
+      51,
+      52,
+      53
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "depressed_mood": 3,
+      "worthlessness": 2
+    },
+    "evidence": {
+      "depressed_mood": [
+        "I have been feeling like my wife doesn't like me anymore, and it's causing me distress and sadness.",
+        "The problem has progressed to a point where I feel lonely and unloved most of the time.",
+        "I decided to seek counseling because I noticed that these feelings of loneliness and worthlessness were impacting my men",
+        "Interpersonal relationships: My relationship with my wife has deteriorated, leading to feelings of loneliness.",
+        "Daily life: My daily activities have been affected by feelings of sadness and worthlessness."
+      ],
+      "worthlessness": [
+        "I decided to seek counseling because I noticed that these feelings of loneliness and worthlessness were impacting my men",
+        "Academic/occupational functioning level: I lost my job recently, which has made me feel even more inadequate.",
+        "Daily life: My daily activities have been affected by feelings of sadness and worthlessness."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_019",
+    "name": "Paul Lincoln",
+    "age": "58",
+    "idxs": [
+      54,
+      55,
+      56
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I constantly feel overwhelmed by work and have a persistent fear that I will never be able to relax or enjoy life.",
+        "This feeling of being overworked and the fear of dying on the job started a few years ago when the business started boom",
+        "I realized that this constant fear and feeling of being overworked were affecting my mental and physical health, prompti"
+      ],
+      "insomnia": [
+        "Daily life: My workaholic tendencies have led to disrupted sleep patterns and poor self-care habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_020",
+    "name": "Jonathan Jenkins",
+    "age": "50",
+    "idxs": [
+      57,
+      58,
+      59
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel stuck in my career in the IT industry due to my perceived lack of skills in programming, which contributes to fee",
+        "I have attempted to improve my skills through online courses, but the feelings of inadequacy persist.",
+        "I decided to seek counseling because these feelings of self-doubt and stagnation in my career were impacting my overall ",
+        "Academic/occupational functioning level: My job performance has been affected by feelings of inadequacy and self-doubt.",
+        "Interpersonal relationships: My relationships with colleagues have been strained due to my self-doubt and comparison.",
+        "Daily life: My self-doubt has impacted my motivation and confidence in completing tasks."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_021",
+    "name": "Jasmine Archer",
+    "age": "32",
+    "idxs": [
+      60,
+      61,
+      62
+    ],
+    "ground_truth_CBT": [
+      "Changing Rules to Wishes"
+    ],
+    "symptoms": {
+      "depressed_mood": 1,
+      "worthlessness": 2
+    },
+    "evidence": {
+      "depressed_mood": [
+        "I decided to seek counseling because these feelings of guilt and sadness have started affecting my ability to focus at w",
+        "Daily life: My daily activities have been disrupted due to the persistent feelings of sadness and guilt."
+      ],
+      "worthlessness": [
+        "I decided to seek counseling because these feelings of guilt and sadness have started affecting my ability to focus at w",
+        "Interpersonal relationships: My relationships with colleagues have been affected because I'm often preoccupied with my g",
+        "Daily life: My daily activities have been disrupted due to the persistent feelings of sadness and guilt."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_022",
+    "name": "Willow Winters",
+    "age": "13",
+    "idxs": [
+      63,
+      64,
+      65
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anxiety": 1,
+      "depressed_mood": 2
+    },
+    "evidence": {
+      "anxiety": [
+        "I am feeling overwhelmed because the school Christmas choir concert got canceled, which has made me believe that the ent"
+      ],
+      "depressed_mood": [
+        "I experience extreme disappointment and sadness whenever I think about the canceled concert.",
+        "Interpersonal relationships: I have withdrawn from social interactions and feel isolated due to the cancellation of the "
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_023",
+    "name": "Barbara Jean Smith",
+    "age": "57",
+    "idxs": [
+      66,
+      67,
+      68
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "depressed_mood": 2,
+      "worthlessness": 2
+    },
+    "evidence": {
+      "depressed_mood": [
+        "I often have thoughts that my parents didn't want more children after having me, which leads to feelings of rejection an",
+        "I believe the cause of these thoughts is growing up without siblings and feeling isolated at times.",
+        "The thoughts of rejection and loneliness have been affecting my mental well-being and relationships, prompting me to see"
+      ],
+      "worthlessness": [
+        "I often have thoughts that my parents didn't want more children after having me, which leads to feelings of rejection an",
+        "The thoughts of rejection and loneliness have been affecting my mental well-being and relationships, prompting me to see"
+      ]
+    },
+    "fallback": false,
+    "onset": "很久"
+  },
+  {
+    "record_id": "CACTUS_024",
+    "name": "Simon Rodriguez",
+    "age": "22",
+    "idxs": [
+      69,
+      70,
+      71
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anhedonia": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "This has led to feelings of inadequacy and self-doubt.",
+        "Academic/occupational functioning level: My performance in the band has been affected by the self-doubt and negative tho",
+        "Interpersonal relationships: My relationships with band members have been strained due to my increased self-criticism an"
+      ],
+      "anhedonia": [
+        "The persistent doubts about my drumming abilities have started affecting my motivation and enjoyment of music, leading m",
+        "Daily life: My sleep patterns have been disturbed, and I have lost interest in gardening and volunteering."
+      ],
+      "insomnia": [
+        "Daily life: My sleep patterns have been disturbed, and I have lost interest in gardening and volunteering."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_025",
+    "name": "Michael Harris",
+    "age": "35",
+    "idxs": [
+      72,
+      73,
+      74
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I am experiencing overwhelming anxiety due to being late for work for the first time at Google.",
+        "I am currently in a state of panic, fearing the loss of my job after this one incident.",
+        "I am currently in a state of panic, fearing the loss of my job after this one incident.",
+        "The intensity of my anxiety and catastrophic thinking drove me to seek counseling immediately to address these overwhelm",
+        "Daily life: My anxiety has disrupted my sleep pattern and appetite severely."
+      ],
+      "insomnia": [
+        "Daily life: My anxiety has disrupted my sleep pattern and appetite severely."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_026",
+    "name": "Gina King",
+    "age": "28",
+    "idxs": [
+      75,
+      76,
+      77
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel useless and incompetent after being knocked down by another dancer in my show.",
+        "This incident has triggered feelings of inadequacy and self-blame.",
+        "The problem has progressively worsened, affecting my confidence and performance during rehearsals.",
+        "The incident has significantly impacted my self-esteem and confidence, leading me to seek counseling to address these fe",
+        "Daily life: My self-esteem issues have affected my rehearsals, eating habits, and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_027",
+    "name": "Julia Johnson",
+    "age": "42",
+    "idxs": [
+      78,
+      79,
+      80
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "This has led to feelings of inadequacy and self-doubt.",
+        "I decided to seek counseling because these feelings of inadequacy have been affecting my self-esteem and overall well-be",
+        "Academic/occupational functioning level: My job performance in the Navy has been affected due to the constant feelings o",
+        "Interpersonal relationships: I struggle to connect with others due to my self-doubt and feelings of failure."
+      ],
+      "insomnia": [
+        "Daily life: My negative thoughts have impacted my sleep and eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_028",
+    "name": "Connor Donovan",
+    "age": "22",
+    "idxs": [
+      81,
+      82,
+      83
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "worthlessness": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel like I am failing my Women's Studies class, and this has caused me significant stress and anxiety.",
+        "I decided to seek counseling now because the fear of failing my class is affecting my overall well-being and causing me ",
+        "Academic/occupational functioning level: My job at McDonald's is going well, but the fear of failing my class is impacti",
+        "Interpersonal relationships: My relationships with classmates have been strained due to my increased anxiety about faili",
+        "Daily life: My anxiety about failing the class is affecting my sleep patterns and causing me to neglect self-care."
+      ],
+      "worthlessness": [
+        "These feelings of failure started at the beginning of the semester when assignments became more challenging.",
+        "I experience these feelings of failure predominantly in academic settings, especially when grades are discussed or when "
+      ],
+      "insomnia": [
+        "Daily life: My anxiety about failing the class is affecting my sleep patterns and causing me to neglect self-care."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_029",
+    "name": "Rebecca Finch",
+    "age": "44",
+    "idxs": [
+      84,
+      85,
+      86
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel extremely stressed about the possibility of losing my job and license, which is affecting my daily life and causi",
+        "I constantly worry about the worst-case scenario and jump to conclusions about negative outcomes without concrete eviden",
+        "The fear of losing my job and license has become overwhelming, pushing me to seek counseling to manage my anxiety and ad",
+        "The fear of losing my job and license has become overwhelming, pushing me to seek counseling to manage my anxiety and ad",
+        "Academic/occupational functioning level: My work performance has been affected by the anxiety and fear of losing my job ",
+        "Interpersonal relationships: My relationships with colleagues have been strained due to my constant worrying and negativ",
+        "Daily life: My anxiety levels have impacted my sleep quality and overall well-being."
+      ],
+      "insomnia": [
+        "Daily life: My anxiety levels have impacted my sleep quality and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_030",
+    "name": "Carolyn Joyce",
+    "age": "69",
+    "idxs": [
+      87,
+      88,
+      89
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like I am not a good cook and that my dishes are never up to par, causing me to doubt my culinary skills and abil",
+        "These feelings of inadequacy have been present for the past few months but have intensified recently.",
+        "I experience these feelings every time I cook, leading to self-criticism and low self-confidence in the kitchen.",
+        "I decided to seek counseling as these feelings of inadequacy have started affecting my passion for cooking and my overal",
+        "Occupational functioning level: My job performance as a chef has been impacted due to my self-doubt in the kitchen.",
+        "Daily life: My self-esteem issues have influenced my daily cooking routine and eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_031",
+    "name": "Blake Robinson",
+    "age": "18",
+    "idxs": [
+      90,
+      91,
+      92
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "insomnia": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I am experiencing intense anxiety and fear after hearing about an outbreak at a band festival, assuming that I will neve",
+        "These feelings of anxiety started immediately after hearing about the outbreak.",
+        "I find myself constantly worrying about the future of live music events and feel overwhelmed by negative thoughts.",
+        "The overwhelming anxiety and fear surrounding the potential cancellation of live music events prompted me to seek counse",
+        "Academic/occupational functioning level: My ability to focus on my stamp collecting hobby has been affected due to the c"
+      ],
+      "insomnia": [
+        "Daily life: My sleep patterns have been disrupted, and I have lost interest in swimming at the Y."
+      ],
+      "anhedonia": [
+        "Daily life: My sleep patterns have been disrupted, and I have lost interest in swimming at the Y."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_032",
+    "name": "Gregory Milton",
+    "age": "62",
+    "idxs": [
+      93,
+      94,
+      95
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "fatigue": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I have a constant worry that taking care of my parents will trap me in this situation forever, preventing me from pursui",
+        "The problem has become more prevalent as I approach the end of my degree, magnifying the worry about my future.",
+        "I experience this worry almost daily, especially during moments of exhaustion or stress.",
+        "Interpersonal relationships: My relationships with family members are strained due to the internal worry I am experienci",
+        "Daily life: The constant worry has affected my sleep patterns and appetite."
+      ],
+      "fatigue": [
+        "I experience this worry almost daily, especially during moments of exhaustion or stress."
+      ],
+      "insomnia": [
+        "Daily life: The constant worry has affected my sleep patterns and appetite."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_033",
+    "name": "Samantha Miller",
+    "age": "39",
+    "idxs": [
+      96,
+      97,
+      98
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Pros and Cons Analysis"
+    ],
+    "symptoms": {
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel like my entire week is ruined if I don't get to go running, which causes a lot of stress and anxiety in my daily ",
+        "I have tried to manage my anxiety using breathing exercises and mindfulness techniques, but the impact is temporary.",
+        "Daily life: My anxiety about missing a run has disrupted my sleep patterns and eating habits."
+      ],
+      "insomnia": [
+        "Daily life: My anxiety about missing a run has disrupted my sleep patterns and eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_034",
+    "name": "Madelyn Edwards",
+    "age": "23",
+    "idxs": [
+      99,
+      100,
+      101
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Alternative Perspective",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 2,
+      "worthlessness": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "The problem has progressed as I constantly worry about my financial stability and future prospects.",
+        "I decided to seek counseling because these feelings of despair and uncertainty have been overwhelming and are affecting ",
+        "Interpersonal relationships: My relationships with friends and family have been strained due to my constant worry about "
+      ],
+      "worthlessness": [
+        "I have attempted to find alternative career paths and seek financial advice, but the feelings of inadequacy persist."
+      ],
+      "insomnia": [
+        "Daily life: The stress related to my educational background has impacted my sleep patterns and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_035",
+    "name": "Livia Daniels",
+    "age": "33",
+    "idxs": [
+      102,
+      103,
+      104
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Pie Chart Technique",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "insomnia": 1
+    },
+    "evidence": {
+      "insomnia": [
+        "Daily life: My dissatisfaction with situations has impacted my ability to enjoy simple pleasures like sleeping in and ea"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_036",
+    "name": "Clara Mitchell",
+    "age": "47",
+    "idxs": [
+      105,
+      106,
+      107
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "depressed_mood": 1,
+      "anxiety": 1
+    },
+    "evidence": {
+      "depressed_mood": [
+        "I have a strong belief that being a cat person means I will never find a husband and will die alone, leading to feelings"
+      ],
+      "anxiety": [
+        "The stress levels were high during my divorce, and I think this belief stems from the fear of being alone."
+      ]
+    },
+    "fallback": false,
+    "onset": "2年"
+  },
+  {
+    "record_id": "CACTUS_037",
+    "name": "Whitney Talbot",
+    "age": "19",
+    "idxs": [
+      108,
+      109,
+      110
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "These feelings started after I dropped out of college and have been exacerbated by recent romantic rejections.",
+        "Daily life: My mood and self-esteem have been affected by these thoughts, impacting my daily activities and self-care ro"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_038",
+    "name": "Jayden Tyler",
+    "age": "23",
+    "idxs": [
+      111,
+      112,
+      113
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "depressed_mood": 3,
+      "worthlessness": 3
+    },
+    "evidence": {
+      "depressed_mood": [
+        "I have been struggling with feelings of guilt and isolation due to my strict low carb diet.",
+        "I believe that I should not eat out with my friends in order to maintain my weight loss goals, which has led to social w",
+        "I experience guilt and isolation whenever the topic of eating out with friends arises and tend to avoid social gathering",
+        "I have tried to rationalize my thoughts and motivate myself to stick to my diet, but it has only increased my feelings o",
+        "The persistent feelings of guilt, isolation, and loneliness have impacted my mental well-being and social interactions, ",
+        "The persistent feelings of guilt, isolation, and loneliness have impacted my mental well-being and social interactions, ",
+        "Daily life: My isolation and loneliness have affected my daily routine and social activities."
+      ],
+      "worthlessness": [
+        "I have been struggling with feelings of guilt and isolation due to my strict low carb diet.",
+        "I experience guilt and isolation whenever the topic of eating out with friends arises and tend to avoid social gathering",
+        "The persistent feelings of guilt, isolation, and loneliness have impacted my mental well-being and social interactions, ",
+        "Academic/occupational functioning level: N/A\nInterpersonal relationships: My social interactions and friendships have be"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_039",
+    "name": "Samuel Anderson",
+    "age": "72",
+    "idxs": [
+      114,
+      115,
+      116
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "The realization that my negative thoughts about my age and inability to achieve my goal were affecting my motivation and",
+        "Academic/occupational functioning level: My job performance has been impacted recently due to my lack of motivation and "
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_040",
+    "name": "Carlos Shelton",
+    "age": "30",
+    "idxs": [
+      117,
+      118,
+      119
+    ],
+    "ground_truth_CBT": [
+      "Changing Rules to Wishes"
+    ],
+    "symptoms": {
+      "worthlessness": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "The problem has progressed to a point where I avoid cooking altogether and feel guilty about it.",
+        "Daily life: Cooking-related stress has affected my eating habits and self-confidence."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_041",
+    "name": "Brianna Benson",
+    "age": "12",
+    "idxs": [
+      120,
+      121,
+      122
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 1,
+      "anhedonia": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "This pattern of negative thinking started a few months ago and has been affecting my mood and self-esteem.",
+        "I believe the cause of these thoughts is my fear of rejection and failure.",
+        "I decided to seek counseling because these negative thoughts are affecting my mood, self-esteem, and enjoyment of activi"
+      ],
+      "anxiety": [
+        "I believe the cause of these thoughts is my fear of rejection and failure."
+      ],
+      "anhedonia": [
+        "I have tried to challenge these thoughts on my own, but they persist and impact my enjoyment of activities.",
+        "I decided to seek counseling because these negative thoughts are affecting my mood, self-esteem, and enjoyment of activi"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_042",
+    "name": "Elaina Pierce",
+    "age": "18",
+    "idxs": [
+      123,
+      124,
+      125
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Problem-Solving Skills Training",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "This belief has caused feelings of hopelessness and anxiety.",
+        "The problem has escalated, and I now constantly worry about my career progression.",
+        "Academic/occupational functioning level: My job performance has been affected by these beliefs, leading to increased anx",
+        "Daily life: My anxiety has affected my daily routines and sleep patterns."
+      ],
+      "insomnia": [
+        "Daily life: My anxiety has affected my daily routines and sleep patterns."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_043",
+    "name": "Leroy Chandler",
+    "age": "30",
+    "idxs": [
+      126,
+      127,
+      128
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "These feelings of inadequacy have been present for the past few years.",
+        "I reached a point where these feelings of inadequacy were affecting my mental health and relationships, prompting me to ",
+        "Academic/occupational functioning level: My job performance has been steady, but my personal life has been impacted by t",
+        "Daily life: My mood and self-esteem have been affected by these feelings, impacting my overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_044",
+    "name": "Michael Halpern",
+    "age": "60",
+    "idxs": [
+      129,
+      130,
+      131
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I believe that I must have been a bad child since I was in foster care as a child, leading to feelings of self-blame and",
+        "These feelings of self-blame started in childhood and have continued to affect me into adulthood.",
+        "I experience these feelings of self-blame almost daily, particularly when facing challenges or interactions with others.",
+        "I decided to seek counseling because these feelings of self-blame are impacting my mental well-being and relationships w",
+        "Academic/occupational functioning level: My job performance in the Navy has been affected due to these feelings of self-",
+        "Daily life: My feelings of self-blame have affected my ability to focus on tasks and hobbies."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_045",
+    "name": "Jessica Hughes",
+    "age": "32",
+    "idxs": [
+      132,
+      133,
+      134
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anhedonia": 1,
+      "worthlessness": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "I decided to seek counseling because my lack of interest in comic books was affecting my mood and overall enjoyment of a"
+      ],
+      "worthlessness": [
+        "Daily life: My lack of interest in comic books has not significantly impacted my daily routine."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_046",
+    "name": "Brooke Adamson",
+    "age": "21",
+    "idxs": [
+      135,
+      136,
+      137
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel that others look down on me because I work as a waiter, which leads to feelings of inadequacy and low self-worth.",
+        "Recently, these feelings have been affecting my self-esteem and overall well-being, prompting me to seek counseling.",
+        "Occupational Functioning Level: My job performance has been impacted due to feelings of inadequacy.",
+        "Daily Life: My self-worth issues have affected my sleep quality and eating habits."
+      ],
+      "insomnia": [
+        "Daily Life: My self-worth issues have affected my sleep quality and eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_047",
+    "name": "Evelyn Maeve",
+    "age": "75",
+    "idxs": [
+      138,
+      139,
+      140
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing"
+    ],
+    "symptoms": {
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I am constantly worried about my garden and tend to catastrophize minor issues.",
+        "I have tried different gardening techniques and tools to address the issues, but the anxiety persists.",
+        "Daily life: My anxiety surrounding my garden has disrupted my sleep and eating patterns."
+      ],
+      "insomnia": [
+        "Daily life: My anxiety surrounding my garden has disrupted my sleep and eating patterns."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_048",
+    "name": "Hunter Hughes",
+    "age": "24",
+    "idxs": [
+      141,
+      142,
+      143
+    ],
+    "ground_truth_CBT": [
+      "Behavior Experiment",
+      "Reality Testing",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "insomnia": 1
+    },
+    "evidence": {
+      "insomnia": [
+        "Daily life: My emotional distress has impacted my daily activities and sleep routine."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_049",
+    "name": "Samuel Adams",
+    "age": "22",
+    "idxs": [
+      144,
+      145,
+      146
+    ],
+    "ground_truth_CBT": [
+      "Changing Rules to Wishes",
+      "Continuum Technique",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "This pressure has been causing stress and feelings of inadequacy.",
+        "Over time, the pressure to perform well has increased, leading to heightened anxiety and self-doubt.",
+        "The growing stress and feelings of inadequacy have started to impact my mental health and overall well-being, which prom"
+      ],
+      "anxiety": [
+        "Over time, the pressure to perform well has increased, leading to heightened anxiety and self-doubt.",
+        "Interpersonal relationships: My relationships with coworkers have been strained due to my elevated anxiety levels."
+      ],
+      "insomnia": [
+        "Daily life: The stress and pressure have affected my ability to focus on my studies and disrupted my sleep patterns."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_050",
+    "name": "Heather Smith",
+    "age": "42",
+    "idxs": [
+      147,
+      148,
+      149
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 2
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel overwhelmed and pressured at work due to the high workload, which affects my ability to indulge in hobbies like w",
+        "The problem has progressed to the point where I constantly feel overwhelmed by work tasks, leading to a decrease in time",
+        "Academic/occupational functioning level: My job performance has been affected by the overwhelming workload."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_051",
+    "name": "Holly Ryan",
+    "age": "15",
+    "idxs": [
+      150,
+      151,
+      152
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "Daily life: My enjoyment of leisure activities, like cooking, has decreased due to my aversion to certain foods."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_052",
+    "name": "Stephanie Powers",
+    "age": "45",
+    "idxs": [
+      153,
+      154,
+      155
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training",
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "worthlessness": 2
+    },
+    "evidence": {
+      "anxiety": [
+        "The main issue I want to discuss is my constant fear of being overweight and feeling like I will never achieve my weight",
+        "This fear started when I cheated on my diet, causing me to spiral into thoughts of being overweight forever.",
+        "The stress level was high when I cheated on my diet, and I feel like the cause is my perfectionistic tendencies.",
+        "I often experience these fears after indulging in any food outside my diet plan and tend to overthink the consequences.",
+        "I have tried different types of diets and exercise routines to achieve my weight loss goals, but the fear of being overw",
+        "I decided to seek counseling this time as the fear of being overweight is significantly impacting my mental health and m",
+        "Academic/occupational functioning level: Seeking to go to school to become a veterinarian, but the fear of being overwei",
+        "Daily life: My fear of being overweight has impacted my eating habits and frequency of going to the gym for workouts."
+      ],
+      "worthlessness": [
+        "The stress level was high when I cheated on my diet, and I feel like the cause is my perfectionistic tendencies.",
+        "The problem has been progressing as I find myself constantly preoccupied with thoughts of being overweight, which is aff"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_053",
+    "name": "Eric Davidson",
+    "age": "19",
+    "idxs": [
+      156,
+      157,
+      158
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 2,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "The stress level when this behavior started was moderate, as I tend to be a perfectionist in my creative endeavors, espe",
+        "This pattern has progressed to a point where I often give up on projects at the slightest error, leading to feelings of ",
+        "I realized that my perfectionism and tendency to overreact to small mistakes were impacting my enjoyment of hobbies, lea",
+        "Daily life: My perfectionism and fear of mistakes have affected my ability to relax and enjoy hobbies."
+      ],
+      "anxiety": [
+        "The stress level when this behavior started was moderate, as I tend to be a perfectionist in my creative endeavors, espe",
+        "I realized that my perfectionism and tendency to overreact to small mistakes were impacting my enjoyment of hobbies, lea",
+        "Daily life: My perfectionism and fear of mistakes have affected my ability to relax and enjoy hobbies."
+      ],
+      "anhedonia": [
+        "I realized that my perfectionism and tendency to overreact to small mistakes were impacting my enjoyment of hobbies, lea"
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_054",
+    "name": "Wendy Davidson",
+    "age": "60",
+    "idxs": [
+      159,
+      160,
+      161
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 1,
+      "irritability": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "Over time, my frustration while driving has escalated, leading to increased tension and irritability."
+      ],
+      "irritability": [
+        "Over time, my frustration while driving has escalated, leading to increased tension and irritability."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_055",
+    "name": "Rachel Carter",
+    "age": "21",
+    "idxs": [
+      162,
+      163,
+      164
+    ],
+    "ground_truth_CBT": [
+      "Systematic Exposure"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "trauma_related": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I have a fear of heights that has developed after breaking my arm while skiing down high hills.",
+        "This fear prevents me from enjoying my passion for skiing and has caused anxiety and distress.",
+        "The fear started after the skiing accident where I broke my arm, and the stress level was high due to the physical injur",
+        "Over time, the fear has intensified, especially when I think about skiing down high hills or being in elevated places.",
+        "I experience this fear whenever I think about skiing or situations involving heights, and it follows a pattern where I a",
+        "I experience this fear whenever I think about skiing or situations involving heights, and it follows a pattern where I a",
+        "I have tried to overcome this fear by slowly exposing myself to heights, but it has not been effective in reducing my an",
+        "I have decided to seek counseling because the fear of heights is significantly impacting my ability to ski and enjoy the",
+        "Academic/occupational functioning level: My fear of heights has affected my performance as a competitive ski racer.",
+        "Interpersonal relationships: The fear has caused me to avoid social gatherings where skiing may be discussed, impacting ",
+        "Daily life: My fear affects my sleep patterns and overall well-being."
+      ],
+      "trauma_related": [
+        "The fear started after the skiing accident where I broke my arm, and the stress level was high due to the physical injur"
+      ],
+      "insomnia": [
+        "Daily life: My fear affects my sleep patterns and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_056",
+    "name": "Paige Carson",
+    "age": "25",
+    "idxs": [
+      165,
+      166,
+      167
+    ],
+    "ground_truth_CBT": [
+      "Reality Testing"
+    ],
+    "symptoms": {
+      "anxiety": 3
+    },
+    "evidence": {
+      "anxiety": [
+        "This fear has been present since I started skiing a few years ago.",
+        "The stress level when this fear started was moderate, but it has increased as I have continued to ski.",
+        "Currently, I experience this fear every time I plan a skiing trip, which impacts my ability to fully enjoy the experienc",
+        "I have tried to rationalize the fear and convince myself that the likelihood of injury is low, but it hasn't been very e",
+        "I decided to seek counseling because this fear is starting to affect my ability to engage in activities I enjoy, like sk",
+        "Interpersonal relationships: My fear of skiing has sometimes caused conflicts with friends who enjoy the activity.",
+        "Daily life: This fear affects my ability to fully engage in activities I enjoy, leading to a decrease in overall life sa"
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_057",
+    "name": "Christopher Ford",
+    "age": "27",
+    "idxs": [
+      168,
+      169,
+      170
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel inadequate at work, thinking that I am a useless forklift driver because I did not stack the boxes properly.",
+        "These feelings of incompetence started a few months ago after a specific incident at work.",
+        "The problem has progressed, and now I constantly doubt my abilities at work, leading to anxiety and low self-esteem.",
+        "The problem has progressed, and now I constantly doubt my abilities at work, leading to anxiety and low self-esteem.",
+        "Occupational functioning level: My job performance has been affected by my negative thoughts and self-doubt.",
+        "Daily life: My self-esteem issues have impacted my motivation to engage in leisure activities like playing video games."
+      ],
+      "anxiety": [
+        "The problem has progressed, and now I constantly doubt my abilities at work, leading to anxiety and low self-esteem."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_058",
+    "name": "Amanda Davis",
+    "age": "29",
+    "idxs": [
+      171,
+      172,
+      173
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 1,
+      "anxiety": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "The problem has progressed to the point where I feel anxious and guilty whenever I eat pasta or high-calorie foods."
+      ],
+      "anxiety": [
+        "The problem has progressed to the point where I feel anxious and guilty whenever I eat pasta or high-calorie foods.",
+        "I have tried implementing strict diets and excessive exercise routines to mitigate these concerns, but it has only worse",
+        "Interpersonal relationships: My relationships with friends and family have become strained due to my restrictive eating "
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_059",
+    "name": "Lauren Audrey",
+    "age": "17",
+    "idxs": [
+      174,
+      175,
+      176
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning",
+      "Behavior Experiment"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "depressed_mood": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been struggling with feeling like a social outcast and useless due to being considered a nerd by many people.",
+        "I decided to seek counseling because these feelings of being a social outcast and useless have started affecting my self"
+      ],
+      "depressed_mood": [
+        "The problem has progressed as I find it challenging to interact with my colleagues and feel isolated in social situation",
+        "Interpersonal relationships: I struggle to connect with colleagues and feel isolated in social settings."
+      ],
+      "insomnia": [
+        "Daily life: My feelings of being a social outcast have affected my self-care routine and sleep patterns."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_060",
+    "name": "Calvin Lovell",
+    "age": "29",
+    "idxs": [
+      177,
+      178,
+      179
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "The problem has progressed to the point where I constantly criticize myself for not spending more time with my family, l",
+        "I have tried to rationalize my feelings and reach out to my family more often, but the guilt persists.",
+        "I decided to seek counseling because the feelings of guilt and self-blame regarding my family have been affecting my men",
+        "Interpersonal relationships: My relationships with friends have been affected as I sometimes cancel plans to dwell on my"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_061",
+    "name": "Candace Riley",
+    "age": "35",
+    "idxs": [
+      180,
+      181,
+      182
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Problem-Solving Skills Training",
+      "Decatastrophizing",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anhedonia": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "I decided to seek counseling because these thoughts have been affecting my motivation to pursue my passion for music and",
+        "Daily life: My negative thoughts have impacted my sleep patterns and overall enjoyment in activities like hiking."
+      ],
+      "insomnia": [
+        "Daily life: My negative thoughts have impacted my sleep patterns and overall enjoyment in activities like hiking."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_062",
+    "name": "Cynthia Meyers",
+    "age": "54",
+    "idxs": [
+      183,
+      184,
+      185
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I am facing feelings of inadequacy and self-doubt after my twelve-year-old computer stopped working.",
+        "The problem has progressed with increased self-doubt and questioning my skills in computer science.",
+        "The incident with my computer made me realize that these feelings of inadequacy could impact my work performance and ove",
+        "Academic/occupational functioning level: My work performance at Google has not been affected significantly yet, but I fe"
+      ],
+      "anxiety": [
+        "Academic/occupational functioning level: My work performance at Google has not been affected significantly yet, but I fe"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_063",
+    "name": "Ronald Davis",
+    "age": "66",
+    "idxs": [
+      186,
+      187,
+      188
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel inadequate as a musician because I can only play jazz piano in a band, leading to self-criticism and low self-wor",
+        "I feel inadequate as a musician because I can only play jazz piano in a band, leading to self-criticism and low self-wor",
+        "These feelings of inadequacy began when I joined the band six months ago.",
+        "The problem has progressed as I constantly criticize myself for not being a versatile musician, affecting my confidence ",
+        "I decided to seek counseling because these feelings of inadequacy are affecting my passion for music and overall well-be",
+        "Interpersonal relationships: My relationships with band members have been strained due to my self-criticism.",
+        "Daily life: My self-worth issues have impacted my ability to enjoy hobbies like hiking."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_064",
+    "name": "Jennifer Fletcher",
+    "age": "27",
+    "idxs": [
+      189,
+      190,
+      191
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "insomnia": 1,
+      "concentration_difficulty": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "This has caused me a lot of anxiety and stress.",
+        "The problem has progressed to the point where I constantly fear losing my job over minor mistakes.",
+        "The constant fear of being fired and the anxiety it brings have started to affect my job performance and overall well-be",
+        "Academic/occupational functioning level: My job performance has been impacted due to the anxiety caused by these thought",
+        "Interpersonal relationships: I find it hard to build close relationships with colleagues due to my constant fears and an"
+      ],
+      "insomnia": [
+        "Daily life: My sleep patterns have been disrupted, and I find it hard to focus on self-care routines."
+      ],
+      "concentration_difficulty": [
+        "Daily life: My sleep patterns have been disrupted, and I find it hard to focus on self-care routines."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_065",
+    "name": "James Anderson",
+    "age": "61",
+    "idxs": [
+      192,
+      193,
+      194
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 1,
+      "anxiety": 3,
+      "depressed_mood": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I constantly feel guilty and anxious about snacking between meals and gaining weight easily."
+      ],
+      "anxiety": [
+        "I constantly feel guilty and anxious about snacking between meals and gaining weight easily.",
+        "I have tried multiple diets and intense exercise routines to control my weight, but the anxiety persists.",
+        "I have tried multiple diets and intense exercise routines to control my weight, but the anxiety persists.",
+        "Daily life: My anxiety around food has disrupted my eating habits and self-care routines."
+      ],
+      "depressed_mood": [
+        "The problem has progressed to a point where I restrict myself from enjoying snacks, leading to feelings of deprivation a"
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_066",
+    "name": "Gregory Bennett",
+    "age": "57",
+    "idxs": [
+      195,
+      196,
+      197
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "depressed_mood": 1,
+      "anxiety": 2,
+      "worthlessness": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "depressed_mood": [
+        "I have constant negative thoughts and expectations, leading to anxiety and low mood."
+      ],
+      "anxiety": [
+        "I have constant negative thoughts and expectations, leading to anxiety and low mood.",
+        "I decided to seek counseling because these negative thoughts were impacting my daily life and causing increased anxiety.",
+        "Daily life: My anxiety and negative thoughts have impacted my sleep patterns and overall well-being."
+      ],
+      "worthlessness": [
+        "Academic/occupational functioning level: The drop-out from college has affected my confidence in pursuing other academic"
+      ],
+      "insomnia": [
+        "Daily life: My anxiety and negative thoughts have impacted my sleep patterns and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_067",
+    "name": "Scott Cameron",
+    "age": "27",
+    "idxs": [
+      198,
+      199,
+      200
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like I work as a freelance accountant because I don't have the stability to handle full-time employment, which co",
+        "These feelings of inadequacy started during college when I was diagnosed with mild OCD.",
+        "Academic/occupational functioning level: My work performance as a freelance accountant has been affected by my self-doub",
+        "Interpersonal relationships: My relationships with clients have been strained due to my tendency to doubt my abilities."
+      ],
+      "anxiety": [
+        "The problem worsens when I compare myself to others in stable, full-time positions, leading to heightened anxiety.",
+        "Academic/occupational functioning level: My work performance as a freelance accountant has been affected by my self-doub"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_068",
+    "name": "Andrew Winston",
+    "age": "41",
+    "idxs": [
+      201,
+      202,
+      203
+    ],
+    "ground_truth_CBT": [
+      "Changing Rules to Wishes"
+    ],
+    "symptoms": {
+      "worthlessness": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "This causes feelings of guilt and self-judgment.",
+        "These feelings of guilt started recently, around the time I started taking care of my parents.",
+        "I decided to seek counseling because the guilt and self-judgment were impacting my daily life and causing distress."
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_069",
+    "name": "Bryant Irving",
+    "age": "39",
+    "idxs": [
+      204,
+      205,
+      206
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I have a belief that working excessively to earn money is crucial, and I fear that this relentless effort will lead to a",
+        "I recognized that my work habits and fear of health consequences were impacting my overall well-being and wanted to addr"
+      ],
+      "insomnia": [
+        "Daily life: My sleep patterns and self-care routines have been severely affected by my work habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_070",
+    "name": "Sydney Davidson",
+    "age": "30",
+    "idxs": [
+      207,
+      208,
+      209
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anxiety": 3
+    },
+    "evidence": {
+      "anxiety": [
+        "I constantly worry about this situation and feel anxious about discussing it with my husband.",
+        "I have tried to talk to friends for reassurance, but the anxiety persists.",
+        "The persistent anxiety and stress over this situation have led me to seek counseling to address and manage these feeling",
+        "Academic/occupational functioning level: NA\nInterpersonal relationships: The anxiety has affected my relationship with m"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_071",
+    "name": "Cynthia Lanyon",
+    "age": "23",
+    "idxs": [
+      210,
+      211,
+      212
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "worthlessness": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I decided to seek counseling because these thoughts have been impacting my self-esteem and overall well-being.",
+        "Academic/occupational functioning level: My job performance has been unaffected, but my self-esteem has been impacted."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_072",
+    "name": "Paul Rupert",
+    "age": "55",
+    "idxs": [
+      213,
+      214,
+      215
+    ],
+    "ground_truth_CBT": [
+      "Pros and Cons Analysis",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "depressed_mood": 1,
+      "anxiety": 1,
+      "anhedonia": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "depressed_mood": [
+        "The problem has progressed to a point where I constantly feel overwhelmed and unhappy with my job."
+      ],
+      "anxiety": [
+        "The problem has progressed to a point where I constantly feel overwhelmed and unhappy with my job."
+      ],
+      "anhedonia": [
+        "Academic/occupational functioning level: My job performance has been affected due to my negative feelings towards work a",
+        "Daily life: My lack of enjoyment in my job has impacted my daily routines, including sleep and self-care."
+      ],
+      "insomnia": [
+        "Daily life: My lack of enjoyment in my job has impacted my daily routines, including sleep and self-care."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_073",
+    "name": "Valerie Fairfax",
+    "age": "51",
+    "idxs": [
+      216,
+      217,
+      218
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anxiety": 2,
+      "insomnia": 1,
+      "concentration_difficulty": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "The problem has progressed as I have been constantly imagining worst-case scenarios and feeling anxious about the visit.",
+        "Academic/occupational functioning level: My job performance has been slightly affected due to increased stress and anxie"
+      ],
+      "insomnia": [
+        "Daily life: My sleep patterns have been disrupted, and I have been having trouble focusing on daily tasks."
+      ],
+      "concentration_difficulty": [
+        "Daily life: My sleep patterns have been disrupted, and I have been having trouble focusing on daily tasks."
+      ]
+    },
+    "fallback": false,
+    "onset": "1个月"
+  },
+  {
+    "record_id": "CACTUS_074",
+    "name": "Erin Bennett",
+    "age": "27",
+    "idxs": [
+      219,
+      220,
+      221
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "This issue arose after receiving negative feedback from a client about a design, causing me to doubt my skills and abili",
+        "Currently, I experience self-doubt and thoughts of quitting professional website development whenever I encounter challe",
+        "I have realized that this negative belief and self-doubt are hindering my career progression and decision-making, prompt",
+        "Academic/occupational functioning level: My work performance in website development has been impacted due to self-doubt.",
+        "Interpersonal relationships: My relationships with clients and colleagues have been strained due to my self-doubt and ne"
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_075",
+    "name": "Brandon Kirk",
+    "age": "50",
+    "idxs": [
+      222,
+      223,
+      224
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "insomnia": 1
+    },
+    "evidence": {
+      "insomnia": [
+        "Daily life: My feelings of inefficiency have caused increased stress and impacted my sleep patterns."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_076",
+    "name": "Veronica Harper",
+    "age": "27",
+    "idxs": [
+      225,
+      226,
+      227
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have a belief that working in a bookstore will not allow me to afford buying a new home, leading to feelings of hopele",
+        "The increasing feelings of financial insecurity and hopelessness have interfered with my daily life and relationship, pr",
+        "Interpersonal relationships: My relationship with my girlfriend has been strained due to my financial insecurity."
+      ],
+      "insomnia": [
+        "Daily life: My worries about affording a new home have impacted my sleep quality and eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_077",
+    "name": "Marcus Umber",
+    "age": "13",
+    "idxs": [
+      228,
+      229,
+      230
+    ],
+    "ground_truth_CBT": [
+      "Changing Rules to Wishes"
+    ],
+    "symptoms": {
+      "anxiety": 2,
+      "depressed_mood": 1,
+      "worthlessness": 2
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel overwhelmed by my shyness and have a strong desire to be more outgoing and sociable.",
+        "I have attempted to push myself to be more social, but it often leads to increased anxiety and self-criticism."
+      ],
+      "depressed_mood": [
+        "The problem has progressed to the point where I avoid social gatherings and feel isolated."
+      ],
+      "worthlessness": [
+        "I experience feelings of inadequacy and regret after social interactions, thinking I should have been more outgoing.",
+        "I have attempted to push myself to be more social, but it often leads to increased anxiety and self-criticism.",
+        "Daily life: Feelings of inadequacy and regret affect my daily interactions and mood."
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_078",
+    "name": "Dorothy Lawson",
+    "age": "71",
+    "idxs": [
+      231,
+      232,
+      233
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 1,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "The constant worry and self-doubt regarding how others perceive me has significantly impacted my motivation and self-est"
+      ],
+      "anxiety": [
+        "The constant worry and self-doubt regarding how others perceive me has significantly impacted my motivation and self-est"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_079",
+    "name": "Jennifer Vasquez",
+    "age": "32",
+    "idxs": [
+      234,
+      235,
+      236
+    ],
+    "ground_truth_CBT": [
+      "Behavior Experiment"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "This leads to feelings of self-consciousness and discomfort.",
+        "The problem has progressed to the point where I avoid discussing my hobbies with others and feel a sense of shame.",
+        "Daily life: My self-doubt has led to decreased motivation for hiking and mountain biking, impacting my daily activities."
+      ],
+      "anhedonia": [
+        "I have tried to push these thoughts away, but they persist and impact my enjoyment of my hobbies."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_080",
+    "name": "Angela Margaret",
+    "age": "60",
+    "idxs": [
+      237,
+      238,
+      239
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "irritability": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been feeling upset and insecure after a recent encounter with a rude cashier at the grocery store where I do the ",
+        "This incident triggered feelings of inadequacy and low self-worth.",
+        "I decided to seek counseling because these feelings of insecurity have been affecting my daily life and overall well-bei",
+        "Academic/occupational functioning level: N/A\nInterpersonal relationships: My relationship with my spouse and children ha",
+        "Daily life: My feelings of inadequacy have affected my motivation to complete household tasks and self-care routines."
+      ],
+      "irritability": [
+        "The problem has continued to bother me since the incident, especially when interacting with strangers in public places.",
+        "Academic/occupational functioning level: N/A\nInterpersonal relationships: My relationship with my spouse and children ha"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_081",
+    "name": "Katherine Green",
+    "age": "33",
+    "idxs": [
+      240,
+      241,
+      242
+    ],
+    "ground_truth_CBT": [
+      "Pie Chart Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I believe that I would be a better personal trainer if I were stronger in spirit, which leads to self-doubt and negative",
+        "I attribute the cause to a client's negative feedback on my training methods, which made me doubt my abilities.",
+        "I have tried to boost my confidence through self-help books and motivational videos, but the impact has been limited.",
+        "I decided to seek counseling as these negative thoughts were affecting my confidence at work and my overall well-being.",
+        "Interpersonal relationships: My interactions with clients have been affected by my self-doubt."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_082",
+    "name": "David Sanders",
+    "age": "34",
+    "idxs": [
+      243,
+      244,
+      245
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I am struggling with feelings of low self-esteem and a persistent need to please others, which have been affecting my me",
+        "The stress level when these problems first occurred was high due to personal insecurities and fear of judgment.",
+        "The problems have progressed to the point where I constantly doubt my worth and seek validation from others, leading to ",
+        "To address the problem, I have tried to distract myself with filming projects and avoid thinking about my self-esteem is",
+        "I decided to seek counseling because I realized that my low self-esteem and people-pleasing tendencies were negatively i",
+        "Daily life: My self-esteem issues have led to disrupted sleep patterns and occasional struggles with maintaining self-ca"
+      ],
+      "anxiety": [
+        "The stress level when these problems first occurred was high due to personal insecurities and fear of judgment."
+      ],
+      "insomnia": [
+        "Daily life: My self-esteem issues have led to disrupted sleep patterns and occasional struggles with maintaining self-ca"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_083",
+    "name": "Nathan Alden",
+    "age": "30",
+    "idxs": [
+      246,
+      247,
+      248
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Pros and Cons Analysis"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have a negative belief that my love for food is not significant or unique because everyone eats food.",
+        "This thought pattern leads to feelings of devaluation of my interests and passions, impacting my self-worth."
+      ],
+      "anhedonia": [
+        "The problem has progressed to the point where I no longer enjoy or feel proud of my passion for food, affecting my overa"
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_084",
+    "name": "Wendy Newman",
+    "age": "26",
+    "idxs": [
+      249,
+      250,
+      251
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Problem-Solving Skills Training",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I believe that I may have low self-esteem, leading me to resort to fad diets to maintain my physical appearance for my m",
+        "This issue with low self-esteem and reliance on fad diets started after overcoming urinary cancer at age 18.",
+        "Over time, the problem has progressed as I constantly judge my self-worth based on my physical appearance and struggle w",
+        "The decisive factor that made me seek counseling this time was realizing the negative impact of my low self-esteem and u"
+      ],
+      "anxiety": [
+        "I have attempted various fad diets and intense workout regimens to address this issue, but they have not brought lasting"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_085",
+    "name": "Trevor Watkins",
+    "age": "35",
+    "idxs": [
+      252,
+      253,
+      254
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like despite being a single parent, maintaining a running routine, participating in sports I love like snowboardi",
+        "These feelings of inadequacy have been present for a while but have become more prominent recently.",
+        "The problem has progressed, and I find myself discounting all the positive aspects of my life and achievements.",
+        "I have tried to focus on the positive aspects of my life and achievements, but the feelings of inadequacy persist.",
+        "I realized that these feelings of inadequacy were impacting my self-worth and ability to fully enjoy my accomplishments ",
+        "Academic/occupational functioning level: My work as a running coach has been impacted by my feelings of inadequacy.",
+        "Daily life: My self-worth issues have started affecting my daily running routine and sports activities."
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_086",
+    "name": "Pamela Robinson",
+    "age": "64",
+    "idxs": [
+      255,
+      256,
+      257
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "concentration_difficulty": 2,
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "concentration_difficulty": [
+        "The problem has progressed to affect my daily functioning, making me anxious and distracted.",
+        "Daily life: My anxiety has impacted my sleep patterns and concentration at work."
+      ],
+      "anxiety": [
+        "The problem has progressed to affect my daily functioning, making me anxious and distracted.",
+        "Interpersonal relationships: I have a strong relationship with my mother but feel anxious when I cannot reach her.",
+        "Daily life: My anxiety has impacted my sleep patterns and concentration at work."
+      ],
+      "insomnia": [
+        "Daily life: My anxiety has impacted my sleep patterns and concentration at work."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_087",
+    "name": "Richard King",
+    "age": "76",
+    "idxs": [
+      258,
+      259,
+      260
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been struggling with the belief that my passion for sewing is not an interesting or valuable skill, leading to fe",
+        "I decided to seek counseling as these feelings of inadequacy have started affecting my self-esteem and overall mental we",
+        "Daily life: My lack of self-worth regarding sewing has affected my motivation and self-care routine."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_088",
+    "name": "David Mason",
+    "age": "16",
+    "idxs": [
+      261,
+      262,
+      263
+    ],
+    "ground_truth_CBT": [
+      "Pie Chart Technique"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel overwhelmed by the idea that I will never have money to spend on anything else because I am saving for college.",
+        "I experience this overwhelming feeling every time I think about my future financial situation.",
+        "Academic/occupational functioning level: My job performance at the hotel has been affected due to the overwhelming finan",
+        "Interpersonal relationships: I find it hard to socialize with colleagues as I am constantly worried about my finances."
+      ],
+      "insomnia": [
+        "Daily life: My sleep patterns have been disrupted due to the stress of saving for college."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_089",
+    "name": "Jason Michaels",
+    "age": "21",
+    "idxs": [
+      264,
+      265,
+      266
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I struggle with feeling like my accomplishments are insignificant, especially in basketball.",
+        "The issue has progressed to a point where I doubt my skills regularly.",
+        "I have attempted to boost my confidence by practicing more and seeking validation from others.",
+        "I decided to seek counseling because I noticed that my low self-worth was affecting my performance on the basketball cou"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_090",
+    "name": "Luke Duncan",
+    "age": "30",
+    "idxs": [
+      267,
+      268,
+      269
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 1,
+      "worthlessness": 2,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I have been struggling to start writing an e-book on animals, feeling overwhelmed and unable to make progress."
+      ],
+      "worthlessness": [
+        "This sense of stagnation and self-doubt has been persistent since my divorce a few months ago.",
+        "I tend to focus on my perceived failures and shortcomings, leading to a cycle of negative thoughts and feelings.",
+        "Interpersonal relationships: My relationships with family and friends have been strained since the divorce, adding to my"
+      ],
+      "anhedonia": [
+        "Academic/occupational functioning level: My job performance as a mall cop has been slightly affected by my lack of motiv"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_091",
+    "name": "Hunter Ross",
+    "age": "14",
+    "idxs": [
+      270,
+      271,
+      272
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "anhedonia": 2
+    },
+    "evidence": {
+      "anhedonia": [
+        "The problem has progressed to a point where I am constantly doubting my abilities in the game, and it is affecting my en",
+        "I decided to seek counseling because this issue is impacting my enjoyment of gaming and causing a significant amount of "
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_092",
+    "name": "Robin Sophia Johnson",
+    "age": "35",
+    "idxs": [
+      273,
+      274,
+      275
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anhedonia": 2,
+      "fatigue": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "This has been an ongoing issue for the past few months, leading to a decrease in motivation and enjoyment in cooking.",
+        "I decided to seek counseling because this issue has started impacting my overall enjoyment of cooking, which used to be "
+      ],
+      "fatigue": [
+        "Academic/occupational functioning level: I am retired."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_093",
+    "name": "Mildred Fairfax",
+    "age": "77",
+    "idxs": [
+      276,
+      277,
+      278
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been feeling discouraged and inadequate because I believe people always criticize my singing voice, especially si",
+        "These feelings of inadequacy started a few months ago after a church performance.",
+        "The stress level was moderate when the problem started, as I have always been self-conscious about my singing but it wor",
+        "I experience these feelings of inadequacy every time I think about singing, and it has become a pattern in my daily life",
+        "The decisive factor for seeking counseling was the impact this issue was having on my self-confidence and enjoyment of s",
+        "Daily life: My self-esteem has been affected, leading to changes in my mood and overall well-being."
+      ],
+      "anxiety": [
+        "The problem has progressed to the point where I feel anxious before choir rehearsals and avoid singing altogether."
+      ],
+      "anhedonia": [
+        "The decisive factor for seeking counseling was the impact this issue was having on my self-confidence and enjoyment of s"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_094",
+    "name": "Blake Wilson",
+    "age": "20",
+    "idxs": [
+      279,
+      280,
+      281
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I constantly worry about my financial stability and my ability to succeed in my chosen career path.",
+        "Interpersonal relationships: My relationships with classmates and professors have been strained due to my constant worry",
+        "Daily life: My daily life has been affected as I struggle to sleep and eat properly due to these anxieties."
+      ],
+      "insomnia": [
+        "Daily life: My daily life has been affected as I struggle to sleep and eat properly due to these anxieties."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_095",
+    "name": "Brian Whitaker",
+    "age": "41",
+    "idxs": [
+      282,
+      283,
+      284
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anhedonia": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been experiencing feelings of self-doubt and pessimism after winning a marathon.",
+        "The persistent negative thoughts and self-doubt have started to impact my motivation to train and participate in races, "
+      ],
+      "anhedonia": [
+        "Interpersonal relationships: My relationships with fellow athletes and coaches have been strained due to my lack of moti"
+      ],
+      "insomnia": [
+        "Daily life: My eating habits and sleep schedule have been affected by the constant pressure I feel."
+      ]
+    },
+    "fallback": false,
+    "onset": "1个月"
+  },
+  {
+    "record_id": "CACTUS_096",
+    "name": "Wendy Taylor",
+    "age": "15",
+    "idxs": [
+      285,
+      286,
+      287
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I often struggle with perfectionism, especially when creating music playlists.",
+        "I realized that my perfectionism is hindering my passion for music production and affecting my overall well-being, promp",
+        "Academic/occupational functioning level: My music production has been affected by my perfectionism, leading to a decreas"
+      ],
+      "anxiety": [
+        "I often struggle with perfectionism, especially when creating music playlists.",
+        "I experience intense stress and frustration when faced with this situation, which has caused me to avoid creating playli",
+        "The problem has progressed to the point where I now have difficulty enjoying music in general due to the fear of creatin",
+        "I realized that my perfectionism is hindering my passion for music production and affecting my overall well-being, promp",
+        "Academic/occupational functioning level: My music production has been affected by my perfectionism, leading to a decreas"
+      ],
+      "insomnia": [
+        "Daily life: My sleep patterns have been disrupted as I often stay up late trying to perfect my playlists."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_097",
+    "name": "Travis Fulton",
+    "age": "42",
+    "idxs": [
+      288,
+      289,
+      290
+    ],
+    "ground_truth_CBT": [
+      "Reality Testing",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "fatigue": 1,
+      "anxiety": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "fatigue": [
+        "I have a persistent fear that my dog will eventually get tired of me and run away, despite my deep love for him."
+      ],
+      "anxiety": [
+        "I have a persistent fear that my dog will eventually get tired of me and run away, despite my deep love for him.",
+        "This fear has been present for a few months now.",
+        "The stress level when this fear first emerged was moderate, and I think it may have started after a friend's dog ran awa",
+        "The fear has progressed to the point where I constantly worry about losing my dog, affecting my daily activities and cau",
+        "I experience these fears primarily when my dog behaves differently or when I am away from him.",
+        "I have tried distracting myself with baking and going for walks, but the fear persists.",
+        "I decided to seek counseling as this fear has started to consume my thoughts and affect my daily functioning, making me ",
+        "I decided to seek counseling as this fear has started to consume my thoughts and affect my daily functioning, making me ",
+        "Academic/occupational functioning level: My work performance has been affected by my constant worrying about my dog.",
+        "Interpersonal relationships: My relationships with friends have been strained as I often cancel plans due to anxiety abo",
+        "Daily life: My fear has impacted my sleep, appetite, and overall well-being."
+      ],
+      "insomnia": [
+        "Daily life: My fear has impacted my sleep, appetite, and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_098",
+    "name": "Willow Grace",
+    "age": "10",
+    "idxs": [
+      291,
+      292,
+      293
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel responsible for my father staying late at school every day, attributing it to being a bad child and feeling guilt",
+        "These feelings of guilt started a few months ago when I noticed my father's extended work hours.",
+        "The stress level when the problem first occurred was moderate, as I felt overwhelmed with guilt and self-blame.",
+        "I decided to seek counseling because these feelings of guilt and self-blame have been affecting my daily life and mental",
+        "Daily life: My feelings of anxiety and worthlessness have impacted my daily routine and sleep patterns."
+      ],
+      "anxiety": [
+        "The stress level when the problem first occurred was moderate, as I felt overwhelmed with guilt and self-blame.",
+        "The problem has progressed to feeling anxious and unworthy, especially when my father works late.",
+        "I decided to seek counseling because these feelings of guilt and self-blame have been affecting my daily life and mental",
+        "Daily life: My feelings of anxiety and worthlessness have impacted my daily routine and sleep patterns."
+      ],
+      "insomnia": [
+        "Daily life: My feelings of anxiety and worthlessness have impacted my daily routine and sleep patterns."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_099",
+    "name": "Veronica Harris",
+    "age": "22",
+    "idxs": [
+      294,
+      295,
+      296
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel inadequate compared to more experienced quarterbacks in the league, despite being in my second year.",
+        "I have tried to boost my confidence through positive self-talk but have not been able to overcome these feelings on my o",
+        "The realization that these self-doubts are affecting my performance on the field and my overall well-being prompted me t",
+        "Academic/occupational functioning level: My job performance has been impacted due to self-doubt affecting my gameplay.",
+        "Daily life: The stress and self-doubt have caused disruptions in my sleep and eating routines."
+      ],
+      "insomnia": [
+        "Daily life: The stress and self-doubt have caused disruptions in my sleep and eating routines."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_100",
+    "name": "Sophia Thompson",
+    "age": "17",
+    "idxs": [
+      297,
+      298,
+      299
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Pros and Cons Analysis",
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been experiencing feelings of inadequacy and self-doubt when applying for jobs, particularly thinking that my res",
+        "These feelings of self-doubt began recently as I started applying for jobs after a career break.",
+        "The stress level when these feelings started was high, driven by the fear of rejection due to my color blindness.",
+        "Over time, the problem has escalated, with each job application triggering intense self-critical thoughts.",
+        "I have attempted to boost my confidence through positive self-talk and practice interviews, but the feelings persist.",
+        "I decided to seek counseling as these self-doubts were hindering my job search and impacting my self-esteem.",
+        "Academic/occupational functioning level: Currently seeking employment, struggling with self-doubt in the job application"
+      ],
+      "anxiety": [
+        "The stress level when these feelings started was high, driven by the fear of rejection due to my color blindness.",
+        "Over time, the problem has escalated, with each job application triggering intense self-critical thoughts."
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_101",
+    "name": "Duncan Hunter",
+    "age": "38",
+    "idxs": [
+      300,
+      301,
+      302
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "worthlessness": 1,
+      "depressed_mood": 1,
+      "irritability": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "This incident has led to feelings of disappointment and self-blame."
+      ],
+      "depressed_mood": [
+        "Interpersonal relationships: My interactions with my family have been strained due to my low mood and irritability."
+      ],
+      "irritability": [
+        "Interpersonal relationships: My interactions with my family have been strained due to my low mood and irritability."
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_102",
+    "name": "Leonard Johnson",
+    "age": "78",
+    "idxs": [
+      303,
+      304,
+      305
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "depressed_mood": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "The problem has progressed, and I now tend to interpret any action of my grandpa as a sign of my inadequacy.",
+        "I have tried talking to my grandma and spending more time with my grandpa, but the feelings of inadequacy persist."
+      ],
+      "depressed_mood": [
+        "Daily life: These feelings have impacted my mood, making me feel down frequently."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_103",
+    "name": "Edward Reed",
+    "age": "48",
+    "idxs": [
+      306,
+      307,
+      308
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel that people perceive me as boring because of my profession as an accountant, leading to feelings of insecurity an",
+        "These feelings of insecurity started since I began working as an accountant five years ago.",
+        "I decided to seek counseling as these feelings of insecurity have started to impact my social life and overall well-bein"
+      ],
+      "anxiety": [
+        "I feel that people perceive me as boring because of my profession as an accountant, leading to feelings of insecurity an",
+        "I have tried to change the conversation topic or deflect from my profession, but it only temporarily alleviates the anxi",
+        "Daily life: My social anxiety has affected my ability to enjoy social activities, impacting my overall quality of life."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_104",
+    "name": "Whitney Lawson",
+    "age": "27",
+    "idxs": [
+      309,
+      310,
+      311
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "insomnia": 1,
+      "concentration_difficulty": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I am experiencing extreme anxiety and fear about my financial situation and future as a fashion designer.",
+        "I have tried budgeting and financial planning, but the anxiety persists.",
+        "The overwhelming anxiety about my financial situation and future career prospects has significantly impacted my mental w",
+        "Academic/occupational functioning level: My academic performance has started to decline due to the constant anxiety and ",
+        "Interpersonal relationships: My relationships with classmates and friends have been strained due to my stress and worry ",
+        "Daily life: The anxiety has affected my sleep and eating patterns, making it hard to focus on my studies."
+      ],
+      "insomnia": [
+        "Daily life: The anxiety has affected my sleep and eating patterns, making it hard to focus on my studies."
+      ],
+      "concentration_difficulty": [
+        "Daily life: The anxiety has affected my sleep and eating patterns, making it hard to focus on my studies."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_105",
+    "name": "Gerald Irving",
+    "age": "73",
+    "idxs": [
+      312,
+      313,
+      314
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Pie Chart Technique"
+    ],
+    "symptoms": {
+      "anhedonia": 2,
+      "anxiety": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "I have a love for reading books, but I often find that the endings ruin the enjoyment for me.",
+        "I have tried to focus on the positive aspects of the books I read, but the ending always overshadows the enjoyment."
+      ],
+      "anxiety": [
+        "I believe the cause might be a fear of investing time and emotions into a story that ends in a disappointing manner."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_106",
+    "name": "Wendy Foster",
+    "age": "29",
+    "idxs": [
+      315,
+      316,
+      317
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been experiencing self-doubt and feelings of inadequacy regarding my skills in computer building.",
+        "The increasing self-doubt and feelings of inadequacy have been impacting my motivation to pursue my interests and potent",
+        "Daily life: My self-doubt has affected my motivation to engage in hobbies like building computers."
+      ],
+      "anxiety": [
+        "I constantly underestimate my abilities and worry about others' perceptions."
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_107",
+    "name": "Gwen Hartwell",
+    "age": "27",
+    "idxs": [
+      318,
+      319,
+      320
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "These feelings of inadequacy related to my health started after I became a vegan, around 3 months ago.",
+        "I decided to seek counseling when these feelings of inadequacy started affecting my enjoyment of being a vegan and my ov"
+      ],
+      "anhedonia": [
+        "I decided to seek counseling when these feelings of inadequacy started affecting my enjoyment of being a vegan and my ov",
+        "Daily life: My negative thoughts about my health as a vegan have affected my enjoyment of hiking."
+      ]
+    },
+    "fallback": false,
+    "onset": "3个月"
+  },
+  {
+    "record_id": "CACTUS_108",
+    "name": "Evelyn Walker",
+    "age": "15",
+    "idxs": [
+      321,
+      322,
+      323
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "I decided to seek counseling because I noticed that this issue was impacting my enjoyment of reading, which is something"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_109",
+    "name": "Nancy Irwin",
+    "age": "61",
+    "idxs": [
+      324,
+      325,
+      326
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I constantly doubt my teaching abilities despite receiving positive feedback from students.",
+        "This self-doubt started creeping in about a year ago.",
+        "The problem has been progressing slowly, with moments of extreme self-criticism after interactions with colleagues.",
+        "The persistent self-doubt has started to impact my confidence in the classroom and overall job satisfaction, leading me ",
+        "Academic/occupational functioning level: My performance at work has been affected by the self-doubt.",
+        "Daily life: The self-doubt has led to increased stress levels impacting my sleep and eating habits."
+      ],
+      "insomnia": [
+        "Daily life: The self-doubt has led to increased stress levels impacting my sleep and eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_110",
+    "name": "Griffin Davis",
+    "age": "21",
+    "idxs": [
+      327,
+      328,
+      329
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique",
+      "Pie Chart Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 1,
+      "anxiety": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel that missing a score during a basketball game ruins the entire experience, leading to feelings of failure and dis"
+      ],
+      "anxiety": [
+        "These feelings started during childhood but have become more intense recently."
+      ],
+      "anhedonia": [
+        "I decided to seek counseling when I noticed that my enjoyment of basketball was being significantly impacted by these ne"
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_111",
+    "name": "Heidi Finch",
+    "age": "37",
+    "idxs": [
+      330,
+      331,
+      332
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Continuum Technique",
+      "Pie Chart Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like I can't be the best at hiking because I'm not world-class, which leads to feelings of inadequacy and self-do",
+        "I decided to seek counseling because these feelings of inadequacy were affecting my enjoyment of hobbies and daily life.",
+        "Daily life: My enjoyment of outdoor activities like hiking has decreased due to these feelings of inadequacy."
+      ],
+      "anhedonia": [
+        "I decided to seek counseling because these feelings of inadequacy were affecting my enjoyment of hobbies and daily life.",
+        "Daily life: My enjoyment of outdoor activities like hiking has decreased due to these feelings of inadequacy."
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_112",
+    "name": "William Anderson",
+    "age": "46",
+    "idxs": [
+      333,
+      334,
+      335
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "depressed_mood": 1
+    },
+    "evidence": {
+      "depressed_mood": [
+        "This has led to feelings of sadness and anticipation of limitations in the future."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_113",
+    "name": "Riley Morgan",
+    "age": "20",
+    "idxs": [
+      336,
+      337,
+      338
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation"
+    ],
+    "symptoms": {
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "Daily life: My lack of motivation has affected my training routine and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_114",
+    "name": "Pamela Morgan",
+    "age": "36",
+    "idxs": [
+      339,
+      340,
+      341
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel useless because I am always late when driving my kids to their sports events, which leads to feelings of guilt an",
+        "I feel useless because I am always late when driving my kids to their sports events, which leads to feelings of guilt an",
+        "I have tried to set reminders, organize schedules, and ask for help, but the feelings of incompetence persist.",
+        "I realized that these feelings of incompetence were affecting my mental well-being and relationships with my children, p",
+        "Academic/occupational functioning level\nInterpersonal relationships: My relationship with my children has been strained "
+      ],
+      "anxiety": [
+        "I believe the stress of managing the schedules and feeling overwhelmed might be the cause of these feelings.",
+        "The problem has progressed as I constantly criticize myself for being late, leading to increased stress and anxiety.",
+        "Daily life: My stress and anxiety have affected my sleep patterns and overall well-being."
+      ],
+      "insomnia": [
+        "Daily life: My stress and anxiety have affected my sleep patterns and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_115",
+    "name": "Patrick Thompson",
+    "age": "41",
+    "idxs": [
+      342,
+      343,
+      344
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Behavior Experiment"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "Over time, this problem has led to anxiety and self-doubt whenever I interact with my coworker.",
+        "I decided to seek counseling because these intrusive negative thoughts were affecting my self-esteem and causing me dist",
+        "Daily life: My daily life is impacted by these thoughts, as they cause me stress and self-doubt."
+      ],
+      "anxiety": [
+        "Over time, this problem has led to anxiety and self-doubt whenever I interact with my coworker.",
+        "Academic/occupational functioning level: Currently, my job performance is not affected by these thoughts, but my anxiety",
+        "Interpersonal relationships: My relationship with my coworker is affected by these negative thoughts, as I feel anxious "
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_116",
+    "name": "Wendy Charlotte",
+    "age": "14",
+    "idxs": [
+      345,
+      346,
+      347
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anxiety": 3
+    },
+    "evidence": {
+      "anxiety": [
+        "I have a fear that if I dress up as a tiger for Halloween, people will make fun of me.",
+        "This fear has been causing me anxiety and limiting my self-expression.",
+        "The fear of being ridiculed started when I was a child but has become more pronounced in the past few months.",
+        "I experience anxiety about this situation whenever Halloween approaches, and I tend to isolate myself during festive act",
+        "I have tried to rationalize my fear and convince myself to dress up, but the thought of being mocked overwhelms me.",
+        "I have tried to rationalize my fear and convince myself to dress up, but the thought of being mocked overwhelms me.",
+        "I decided to seek counseling because I noticed that this fear was starting to impact my social life and causing me distr",
+        "Daily life: My fear of ridicule has prevented me from fully engaging in social events, especially during Halloween."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_117",
+    "name": "Georgia Thompson",
+    "age": "56",
+    "idxs": [
+      348,
+      349,
+      350
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Continuum Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like I'll never qualify for an event in cycling, which leads to feelings of failure and self-doubt.",
+        "I believe the stress of competition and my own insecurities are causing these thoughts.",
+        "Interpersonal relationships: My relationships with friends who share my cycling passion have been affected as I isolate "
+      ],
+      "anxiety": [
+        "As time has passed, these feelings have become more intense, especially after a recent cycling event where I did not per"
+      ],
+      "anhedonia": [
+        "I decided to seek counseling because these negative thoughts are affecting my motivation to train and compete, hindering"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_118",
+    "name": "Courtney Lucas",
+    "age": "18",
+    "idxs": [
+      351,
+      352,
+      353
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "depressed_mood": 2,
+      "anxiety": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been experiencing feelings of irresponsibility and self-criticism, especially regarding caring for my cat.",
+        "I decided to seek counseling now because these feelings of self-criticism and irresponsibility have been impacting my da",
+        "Academic/occupational functioning level: My work performance has been affected by the negative self-talk and self-critic"
+      ],
+      "depressed_mood": [
+        "These feelings started around six months ago when my depression and anxiety symptoms worsened.",
+        "Interpersonal relationships: I have limited interaction with others due to my depression and anxiety."
+      ],
+      "anxiety": [
+        "These feelings started around six months ago when my depression and anxiety symptoms worsened.",
+        "Interpersonal relationships: I have limited interaction with others due to my depression and anxiety."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_119",
+    "name": "David Wesley",
+    "age": "16",
+    "idxs": [
+      354,
+      355,
+      356
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Continuum Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I struggle with feelings of inadequacy and low self-esteem related to my perceived inability to succeed in video games.",
+        "Over time, I have noticed that this feeling has intensified, affecting my self-confidence and enjoyment of gaming.",
+        "I experience these feelings whenever I face challenges in video games, and it has become a pattern of self-doubt and neg",
+        "I have attempted to improve my gaming skills and have sought online tips, but the feelings of failure persist.",
+        "Academic/occupational functioning level: Not specified\nInterpersonal relationships: My self-esteem issues have affected ",
+        "Daily life: My mood and self-esteem have affected my ability to enjoy hobbies like ballet and gaming."
+      ],
+      "anhedonia": [
+        "Over time, I have noticed that this feeling has intensified, affecting my self-confidence and enjoyment of gaming."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_120",
+    "name": "Julia Hunter",
+    "age": "15",
+    "idxs": [
+      357,
+      358,
+      359
+    ],
+    "ground_truth_CBT": [
+      "Behavior Experiment",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 2,
+      "irritability": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel that people always stare at me and think I am a little person because of my height, which leads to feelings of se",
+        "I have tried to ignore the stares and comments, but it still affects my self-esteem and confidence.",
+        "I decided to seek counseling because these feelings of self-consciousness and anxiety have started impacting my daily li"
+      ],
+      "anxiety": [
+        "I feel that people always stare at me and think I am a little person because of my height, which leads to feelings of se",
+        "I decided to seek counseling because these feelings of self-consciousness and anxiety have started impacting my daily li",
+        "Daily life: I struggle to feel comfortable in public settings due to my height-related anxiety."
+      ],
+      "irritability": [
+        "I believe the cause of these feelings is the constant attention and comments I receive about my height from strangers."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_121",
+    "name": "Amanda Harris",
+    "age": "29",
+    "idxs": [
+      360,
+      361,
+      362
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "This has led to feelings of inadequacy and self-doubt.",
+        "The problem has progressed to affect my confidence in trying new outdoor activities, and it has become a pattern where I",
+        "The problem has progressed to affect my confidence in trying new outdoor activities, and it has become a pattern where I"
+      ],
+      "anxiety": [
+        "The problem has progressed to affect my confidence in trying new outdoor activities, and it has become a pattern where I"
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_122",
+    "name": "Gregory Harrison",
+    "age": "54",
+    "idxs": [
+      363,
+      364,
+      365
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique",
+      "Efficiency Evaluation",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I constantly feel like my achievements are not significant because there are always people around me who achieve more.",
+        "This mindset has been affecting my self-worth and satisfaction.",
+        "These feelings of insignificance started a few years ago when I began comparing my success to others in the real estate ",
+        "I realized that this persistent feeling of insignificance was affecting my overall happiness and motivation, leading me ",
+        "Interpersonal relationships: My relationships with coworkers are strained due to my constant comparisons and feelings of"
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_123",
+    "name": "Derek Richardson",
+    "age": "18",
+    "idxs": [
+      366,
+      367,
+      368
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "fatigue": 2,
+      "worthlessness": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "fatigue": [
+        "The problem has progressed to the point where I feel exhausted and stressed constantly.",
+        "I have tried to push myself harder to meet these expectations but find myself feeling more exhausted and burnt out."
+      ],
+      "worthlessness": [
+        "I often feel guilty when taking breaks or relaxing.",
+        "I decided to seek counseling because the pressure and guilt were becoming too much to handle, impacting my mental well-b"
+      ],
+      "insomnia": [
+        "Daily life: The stress has affected my sleep patterns and eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_124",
+    "name": "Victor Calvin",
+    "age": "55",
+    "idxs": [
+      369,
+      370,
+      371
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 3
+    },
+    "evidence": {
+      "anxiety": [
+        "I am constantly worried that if I indulge in drinking expensive wine, I will spend too much of my savings and end up bro",
+        "This fear is causing me significant anxiety and affecting my ability to enjoy the things I love.",
+        "I believe the cause of these fears stems from the fear of losing financial security and becoming destitute.",
+        "These anxieties pop up whenever I consider purchasing or consuming expensive wine.",
+        "I have tried budgeting techniques and seeking financial advice to alleviate these concerns, but the anxiety persists.",
+        "The fear of spending my savings and going broke has become overwhelming, prompting me to seek counseling to address and ",
+        "The fear of spending my savings and going broke has become overwhelming, prompting me to seek counseling to address and ",
+        "Interpersonal relationships: The fear of financial instability has strained some of my friendships, as I tend to avoid s",
+        "Daily life: My anxieties about spending money have impacted my ability to enjoy social activities and self-care practice"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_125",
+    "name": "Paige Murphy",
+    "age": "25",
+    "idxs": [
+      372,
+      373,
+      374
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "worthlessness": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel stressed and anxious about the situation, which is impacting my overall well-being.",
+        "I believe the cause of this issue is my fear of disappointing others and being labeled as incompetent.",
+        "The problem has progressed to the point where I constantly worry about this request, even outside of work hours.",
+        "I experience heightened anxiety whenever weekends approach, fearing I will not stand up for myself.",
+        "Daily life: My anxiety about this work situation has impacted my ability to enjoy my hobbies and activities outside of w"
+      ],
+      "worthlessness": [
+        "I believe the cause of this issue is my fear of disappointing others and being labeled as incompetent."
+      ]
+    },
+    "fallback": false,
+    "onset": "1个月"
+  },
+  {
+    "record_id": "CACTUS_126",
+    "name": "Chase Anderson",
+    "age": "28",
+    "idxs": [
+      375,
+      376,
+      377
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "These feelings of failure started after the dinner incident with my girlfriend.",
+        "The problem has progressed, and I now find myself doubting my cooking skills and feeling inadequate.",
+        "I have tried to rationalize and brush off the incident but find it difficult to shake off the feelings of failure.",
+        "The incident with my girlfriend made me realize that these feelings of failure are affecting my confidence in my cooking",
+        "Academic/occupational functioning level: My cooking performance has been impacted due to my feelings of failure.",
+        "Daily life: My self-esteem has been affected by this incident, influencing my motivation to cook and engage in activitie"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_127",
+    "name": "Hannah Marie Thompson",
+    "age": "75",
+    "idxs": [
+      378,
+      379,
+      380
+    ],
+    "ground_truth_CBT": [
+      "Pie Chart Technique",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anxiety": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "The persistent anxiety and doubts about my husband's commitment have led me to seek counseling to address these concerns",
+        "Daily life: My anxiety has started affecting my daily activities like sleep and self-care."
+      ],
+      "insomnia": [
+        "Daily life: My anxiety has started affecting my daily activities like sleep and self-care."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_128",
+    "name": "Bridget Sanders",
+    "age": "32",
+    "idxs": [
+      381,
+      382,
+      383
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel inadequate in my photography hobby and believe that I will never be as skilled as I want to be, leading me to con",
+        "These feelings of inadequacy started a few years ago when I compared my photos to professional photographers.",
+        "The problem has progressed to the point where I avoid taking photos altogether, fearing failure.",
+        "I have attempted to improve my skills by taking online courses, but the feelings of inadequacy persist.",
+        "I decided to seek counseling because I noticed that my self-doubt was affecting my enjoyment of hobbies and overall well",
+        "Daily life: My self-doubt has affected my motivation to engage in activities I once enjoyed, like hiking."
+      ],
+      "anxiety": [
+        "The problem has progressed to the point where I avoid taking photos altogether, fearing failure."
+      ],
+      "anhedonia": [
+        "I decided to seek counseling because I noticed that my self-doubt was affecting my enjoyment of hobbies and overall well"
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_129",
+    "name": "Willow Belle Lawrence",
+    "age": "75",
+    "idxs": [
+      384,
+      385,
+      386
+    ],
+    "ground_truth_CBT": [
+      "Pie Chart Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I believe that my multiple marriages have made me a failure in the eyes of others, leading me to feel like a bad spouse.",
+        "These feelings of failure and being judged by others started after my multiple divorces.",
+        "I realized that these negative beliefs about myself were impacting my self-esteem and relationships, prompting me to see",
+        "Occupational Functioning Level: My struggles with self-esteem have affected my job performance and interactions with col",
+        "Interpersonal relationships: My beliefs about being a failure in marriage have impacted my friendships and social intera"
+      ],
+      "anxiety": [
+        "Daily life: I find it challenging to open up and form deep connections due to my fear of being judged."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_130",
+    "name": "Charles Wainwright",
+    "age": "37",
+    "idxs": [
+      387,
+      388,
+      389
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "These feelings of inadequacy have been present for as long as I can remember, but they have become more pronounced in th",
+        "I believe the root cause of these feelings is comparing myself to other successful writers and receiving rejection lette",
+        "Over time, my self-doubt has increased, making it challenging to write and pursue my dream of becoming a famous actress.",
+        "Daily life: My self-doubt has affected my motivation to write and engage in activities I once enjoyed."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_131",
+    "name": "Kyle Kennedy",
+    "age": "16",
+    "idxs": [
+      390,
+      391,
+      392
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Behavior Experiment"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have a fear of rejection when it comes to dating, assuming that the person I ask out will say no.",
+        "This fear of rejection has been present for the past few years, especially after a previous rejection experience.",
+        "This fear of rejection has been present for the past few years, especially after a previous rejection experience.",
+        "I believe the fear of rejection stems from past rejection experiences and low self-esteem.",
+        "The problem has intensified over the years, affecting my confidence in approaching potential partners.",
+        "I realized that this fear of rejection was holding me back from forming meaningful relationships and affecting my overal",
+        "Interpersonal relationships: My fear of rejection has hindered my ability to form romantic relationships and deep connec",
+        "Daily life: My fear of rejection has caused anxiety and stress in social situations."
+      ],
+      "anxiety": [
+        "I have a fear of rejection when it comes to dating, assuming that the person I ask out will say no.",
+        "This fear of rejection has been present for the past few years, especially after a previous rejection experience.",
+        "I believe the fear of rejection stems from past rejection experiences and low self-esteem.",
+        "To cope with this fear, I have avoided asking anyone out and have hesitated to pursue romantic relationships.",
+        "I realized that this fear of rejection was holding me back from forming meaningful relationships and affecting my overal",
+        "Interpersonal relationships: My fear of rejection has hindered my ability to form romantic relationships and deep connec",
+        "Daily life: My fear of rejection has caused anxiety and stress in social situations."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_132",
+    "name": "Brian Mitchell",
+    "age": "51",
+    "idxs": [
+      393,
+      394,
+      395
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Pie Chart Technique",
+      "Evidence-Based Questioning",
+      "Pros and Cons Analysis",
+      "Continuum Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like a useless teacher when my student fails his English literature exam, resulting in feelings of incompetence a",
+        "I feel like a useless teacher when my student fails his English literature exam, resulting in feelings of incompetence a",
+        "The problem has progressed to the point where I constantly personalize students' academic performance, leading to a sens",
+        "I realized that these feelings of incompetence were affecting both my mental well-being and teaching effectiveness, prom",
+        "Academic/occupational functioning level: My self-perceived failure has affected my confidence in teaching and may be inf",
+        "Interpersonal relationships: My relationships with students have been affected by my self-blame and feeling of incompete"
+      ],
+      "insomnia": [
+        "Daily life: My stress levels have impacted my sleep and eating habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_133",
+    "name": "Hannah Yates",
+    "age": "22",
+    "idxs": [
+      396,
+      397,
+      398
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Evidence-Based Questioning",
+      "Pros and Cons Analysis",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "depressed_mood": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "depressed_mood": [
+        "I feel that working as a reporter will lead me to depression due to constantly reporting on negative news such as murder"
+      ],
+      "insomnia": [
+        "Daily life: My work-related stress has impacted my sleep patterns and eating habits, causing disruptions in my daily rou"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_134",
+    "name": "Austin Turner",
+    "age": "12",
+    "idxs": [
+      399,
+      400,
+      401
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Pie Chart Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "anxiety": 2,
+      "anhedonia": 1,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I struggle with labeling myself negatively when I make mistakes, which affects my self-confidence and performance in act",
+        "I decided to seek counseling when I noticed that this pattern of negative self-labeling was impacting my enjoyment of ac",
+        "Interpersonal relationships: I find it hard to connect with others due to my fear of being judged for my perceived failu",
+        "Daily life: My self-confidence issues have impacted my self-care routines and sleep patterns."
+      ],
+      "anxiety": [
+        "Over time, this problem has led me to avoid participating in activities I enjoy, fearing I will underperform and be judg",
+        "Interpersonal relationships: I find it hard to connect with others due to my fear of being judged for my perceived failu"
+      ],
+      "anhedonia": [
+        "I decided to seek counseling when I noticed that this pattern of negative self-labeling was impacting my enjoyment of ac"
+      ],
+      "insomnia": [
+        "Daily life: My self-confidence issues have impacted my self-care routines and sleep patterns."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_135",
+    "name": "Andrew Wilson",
+    "age": "36",
+    "idxs": [
+      402,
+      403,
+      404
+    ],
+    "ground_truth_CBT": [
+      "Efficiency Evaluation",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have a strong passion for cooking, but I constantly feel like I am the worst cook ever, which leads to self-doubt and ",
+        "These feelings of inadequacy started during my early culinary training but have intensified in the past year.",
+        "I attribute the cause to my perfectionist tendencies and the high standards I set for myself.",
+        "I have tried to improve my skills and seek validation from others, but it only temporarily alleviates my self-doubt.",
+        "I decided to seek counseling because these feelings of self-doubt are hindering my ability to enjoy cooking and pursue m",
+        "Academic/occupational functioning level: My passion for cooking has been affected by my self-doubt, causing a decline in",
+        "Interpersonal relationships: My relationships with colleagues have been impacted by my perfectionist tendencies and self",
+        "Daily life: My self-esteem issues have affected my sleep patterns and overall well-being."
+      ],
+      "anxiety": [
+        "I attribute the cause to my perfectionist tendencies and the high standards I set for myself.",
+        "Interpersonal relationships: My relationships with colleagues have been impacted by my perfectionist tendencies and self"
+      ],
+      "insomnia": [
+        "Daily life: My self-esteem issues have affected my sleep patterns and overall well-being."
+      ]
+    },
+    "fallback": false,
+    "onset": "1年"
+  },
+  {
+    "record_id": "CACTUS_136",
+    "name": "Tyler Dalton",
+    "age": "20",
+    "idxs": [
+      405,
+      406,
+      407
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anxiety": 1,
+      "worthlessness": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "The problem has progressed to the point where I avoid playing pool altogether, fearing further losses."
+      ],
+      "worthlessness": [
+        "I experience this pattern of thinking whenever I face a setback or failure."
+      ],
+      "anhedonia": [
+        "I decided to seek counseling as I recognized that my avoidance of playing pool was impacting my enjoyment of social acti"
+      ]
+    },
+    "fallback": false,
+    "onset": "最近"
+  },
+  {
+    "record_id": "CACTUS_137",
+    "name": "Grace McKenna",
+    "age": "13",
+    "idxs": [
+      408,
+      409,
+      410
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anhedonia": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel inadequate and incompetent when playing basketball, and this affects my self-esteem and enjoyment of the game.",
+        "I feel inadequate and incompetent when playing basketball, and this affects my self-esteem and enjoyment of the game.",
+        "Over time, my feelings of inadequacy have worsened, leading me to avoid playing basketball altogether.",
+        "I have tried watching tutorials and practicing alone, but my self-doubt persists.",
+        "I realized that my low self-esteem related to basketball was impacting my overall confidence and enjoyment of activities",
+        "Interpersonal relationships: My self-esteem issues have affected my interactions with friends and family, as I avoid par"
+      ],
+      "anhedonia": [
+        "I feel inadequate and incompetent when playing basketball, and this affects my self-esteem and enjoyment of the game.",
+        "I realized that my low self-esteem related to basketball was impacting my overall confidence and enjoyment of activities"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_138",
+    "name": "Brent Taylor",
+    "age": "26",
+    "idxs": [
+      411,
+      412,
+      413
+    ],
+    "ground_truth_CBT": [
+      "Pie Chart Technique",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "These thoughts have been affecting my motivation and excitement towards starting university."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_139",
+    "name": "Blake Sullivan",
+    "age": "23",
+    "idxs": [
+      414,
+      415,
+      416
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I struggle with feelings of incompetence and self-criticism, particularly related to my cooking abilities.",
+        "Over time, I have become more critical of my cooking skills, seeing any mistake as a sign of failure.",
+        "The incident with the burnt spaghetti sauce made me realize that my self-criticism was affecting my confidence and enjoy",
+        "Academic/occupational functioning level: N/A\nInterpersonal relationships: N/A\nDaily life: My self-criticism has affected"
+      ],
+      "anhedonia": [
+        "The incident with the burnt spaghetti sauce made me realize that my self-criticism was affecting my confidence and enjoy",
+        "Academic/occupational functioning level: N/A\nInterpersonal relationships: N/A\nDaily life: My self-criticism has affected"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_140",
+    "name": "Hunter Hughes",
+    "age": "19",
+    "idxs": [
+      417,
+      418,
+      419
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning",
+      "Pie Chart Technique",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like a worthless athlete because I did not attend a top-tier school like some of my colleagues, and this belief a",
+        "These feelings of inadequacy started after I was drafted last year and intensified when I compared my educational backgr",
+        "I have tried to boost my self-esteem by focusing on my skills and achievements, but the negative thoughts persist.",
+        "I realized that these feelings of worthlessness were impacting my performance on the court and my overall well-being, pr",
+        "Interpersonal relationships: Interactions with other athletes have been strained due to my feelings of inadequacy.",
+        "Daily life: My self-worth issues have impacted my eating habits and motivation to train."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_141",
+    "name": "Russell Duncan",
+    "age": "46",
+    "idxs": [
+      420,
+      421,
+      422
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing"
+    ],
+    "symptoms": {
+      "worthlessness": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "This belief has been causing feelings of dissatisfaction and self-doubt."
+      ],
+      "anhedonia": [
+        "Daily life: I have been feeling demotivated, which has impacted my daily routines and self-care habits."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_142",
+    "name": "Wanda Hawkins",
+    "age": "64",
+    "idxs": [
+      423,
+      424,
+      425
+    ],
+    "ground_truth_CBT": [
+      "Pie Chart Technique",
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "fatigue": 2,
+      "worthlessness": 3
+    },
+    "evidence": {
+      "fatigue": [
+        "These feelings of failure started since I retired and had more time to spend with my husband.",
+        "Academic/occupational functioning level: N/A (retired)\nInterpersonal relationships: My relationship with my husband is s"
+      ],
+      "worthlessness": [
+        "These feelings of failure started since I retired and had more time to spend with my husband.",
+        "The problem has progressed to the point where any small mistake feels like a disaster to me, affecting my self-esteem.",
+        "I decided to seek counseling after realizing that my constant feelings of failure were impacting my mental well-being an",
+        "Academic/occupational functioning level: N/A (retired)\nInterpersonal relationships: My relationship with my husband is s",
+        "Daily life: My feelings of failure affect my daily activities, especially related to cooking and helping others."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_143",
+    "name": "Kayla Anderson",
+    "age": "25",
+    "idxs": [
+      426,
+      427,
+      428
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "anxiety": 1,
+      "anhedonia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "Over time, this belief has become more intense, especially as I see friends and colleagues moving out and starting their"
+      ],
+      "anhedonia": [
+        "Daily life: I have been feeling demotivated and stressed about my future plans."
+      ]
+    },
+    "fallback": false,
+    "onset": "几年"
+  },
+  {
+    "record_id": "CACTUS_144",
+    "name": "Monica Robertson",
+    "age": "39",
+    "idxs": [
+      429,
+      430,
+      431
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anxiety": 3,
+      "insomnia": 1
+    },
+    "evidence": {
+      "anxiety": [
+        "I feel like all my customers hate me at work, which is causing me significant stress and anxiety.",
+        "The problem has progressed to the point where I feel anxious and fearful every time I interact with a customer at work.",
+        "I have tried to improve my customer service skills and attitude, but the feelings of anxiety persist.",
+        "I decided to seek counseling because these feelings of anxiety are affecting my job performance and overall well-being.",
+        "Academic/occupational functioning level: My job performance has been impacted due to the anxiety around customer interac",
+        "Interpersonal relationships: I have found it challenging to form relationships with coworkers due to my anxiety.",
+        "Daily life: The anxiety from work has affected my sleep patterns and ability to relax outside of work."
+      ],
+      "insomnia": [
+        "Daily life: The anxiety from work has affected my sleep patterns and ability to relax outside of work."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_145",
+    "name": "Eric Martin",
+    "age": "22",
+    "idxs": [
+      432,
+      433,
+      434
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective"
+    ],
+    "symptoms": {
+      "worthlessness": 3,
+      "anxiety": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel insecure about my passion for playing with clay models and worry that others may perceive me as a geek if they fi",
+        "These feelings of insecurity started during my adolescence but have become more pronounced in the last year.",
+        "The problem has progressed to the point where I avoid discussing my hobby with anyone and feel guilty for enjoying it.",
+        "I decided to seek counseling because these feelings of insecurity have started affecting my self-esteem and causing me d",
+        "Academic/occupational functioning level: My job performance has not been impacted significantly, but my self-esteem has ",
+        "Daily life: My feelings of insecurity have led to difficulties in enjoying activities I once loved."
+      ],
+      "anxiety": [
+        "I feel insecure about my passion for playing with clay models and worry that others may perceive me as a geek if they fi",
+        "I believe these feelings stem from a fear of judgment from others."
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_146",
+    "name": "Justin Daniel",
+    "age": "23",
+    "idxs": [
+      435,
+      436,
+      437
+    ],
+    "ground_truth_CBT": [
+      "Decatastrophizing",
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "anhedonia": 1,
+      "anxiety": 2,
+      "worthlessness": 1
+    },
+    "evidence": {
+      "anhedonia": [
+        "The problem has progressed to the point where I feel anxious and demotivated at work, constantly doubting my abilities."
+      ],
+      "anxiety": [
+        "The problem has progressed to the point where I feel anxious and demotivated at work, constantly doubting my abilities.",
+        "- Daily life: My daily life has been affected by increased stress and anxiety related to work."
+      ],
+      "worthlessness": [
+        "Academic/occupational functioning level:\n- Job performance: My work performance has been impacted due to constant feelin"
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_147",
+    "name": "Brian Caldwell",
+    "age": "43",
+    "idxs": [
+      438,
+      439,
+      440
+    ],
+    "ground_truth_CBT": [
+      "Alternative Perspective",
+      "Continuum Technique"
+    ],
+    "symptoms": {
+      "worthlessness": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "I feel like I should give up on fishing because I didn't catch any fish last time, leading to feelings of incompetence a",
+        "The constant feelings of incompetence and self-criticism after the fishing trip made me realize that these thoughts may ",
+        "Daily life: My self-criticism after the fishing trip has affected my mood and motivation."
+      ]
+    },
+    "fallback": false,
+    "onset": "几周"
+  },
+  {
+    "record_id": "CACTUS_148",
+    "name": "Karen Sylvia Novak",
+    "age": "79",
+    "idxs": [
+      441,
+      442,
+      443
+    ],
+    "ground_truth_CBT": [
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 2
+    },
+    "evidence": {
+      "worthlessness": [
+        "The problem has progressed to the point where it is affecting my confidence in pursuing this new career path.",
+        "Academic/occupational functioning level:\nAcademically, I have been excelling in my casino management studies, but my neg"
+      ]
+    },
+    "fallback": false,
+    "onset": "一段时间"
+  },
+  {
+    "record_id": "CACTUS_149",
+    "name": "Benjamin Mason",
+    "age": "24",
+    "idxs": [
+      444,
+      445,
+      446
+    ],
+    "ground_truth_CBT": [
+      "Continuum Technique",
+      "Alternative Perspective",
+      "Problem-Solving Skills Training"
+    ],
+    "symptoms": {
+      "worthlessness": 2,
+      "insomnia": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I have been experiencing feelings of worthlessness and self-blame related to my job performance at the hotel.",
+        "Academic/occupational functioning level: My job performance has been affected by these feelings of worthlessness.",
+        "Interpersonal relationships: I find it hard to communicate openly with my colleagues due to my self-blame tendencies."
+      ],
+      "insomnia": [
+        "Daily life: My eating habits and sleep patterns have been irregular due to increased stress."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  },
+  {
+    "record_id": "CACTUS_150",
+    "name": "Nick Anderson",
+    "age": "23",
+    "idxs": [
+      447,
+      448,
+      449
+    ],
+    "ground_truth_CBT": [
+      "Evidence-Based Questioning"
+    ],
+    "symptoms": {
+      "worthlessness": 1
+    },
+    "evidence": {
+      "worthlessness": [
+        "I decided to seek counseling because these thoughts are impacting my self-esteem and social interactions negatively.",
+        "Daily life: My thoughts about being labeled as a geek have caused me to isolate myself and affected my self-esteem."
+      ]
+    },
+    "fallback": false,
+    "onset": "几个月"
+  }
+]

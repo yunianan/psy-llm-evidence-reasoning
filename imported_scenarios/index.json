@@ -56,6 +56,2650 @@
         "risk_none"
       ],
       "description": "由 tools/db_import.py 从标准库记录 P0004 生成；临床字段来自数据库，话术与期望路径由模板与观测推导，需人工复写。"
+    },
+    {
+      "scenario_id": "CACTUS_001",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Laura Saunders",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [0, 1, 2]，来访者 Laura Saunders）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_002",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Travis Foster",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [3, 4, 5]，来访者 Travis Foster）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, trauma_related），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_003",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jennifer Foster",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [6, 7, 8]，来访者 Jennifer Foster）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_004",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Maven Victoria",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [9, 10, 11]，来访者 Maven Victoria）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_005",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jessica Hughes",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [12, 13, 14]，来访者 Jessica Hughes）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_006",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Michael Victor",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [15, 16, 17]，来访者 Michael Victor）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_007",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：David Johnson",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [18, 19, 20]，来访者 David Johnson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, concentration_difficulty, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_008",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Violet Waverly",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [21, 22, 23]，来访者 Violet Waverly）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_009",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jacklyn Kirkwood",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [24, 25, 26]，来访者 Jacklyn Kirkwood）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_010",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Tristan Riley",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_decatastrophizing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [27, 28, 29]，来访者 Tristan Riley）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_011",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Eric Weinstein",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [30, 31, 32]，来访者 Eric Weinstein）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_012",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Trent Watson",
+      "tags": [
+        "cactus",
+        "cbt_systematic_exposure",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [33, 34, 35]，来访者 Trent Watson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_013",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Julia Hunter",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [36, 37, 38]，来访者 Julia Hunter）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_014",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Christopher Tate",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [39, 40, 41]，来访者 Christopher Tate）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_015",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Travis Bennington",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_behavior_experiment",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [42, 43, 44]，来访者 Travis Bennington）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_016",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Gregory Johnson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [45, 46, 47]，来访者 Gregory Johnson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_017",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Martha Ann Turner",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [48, 49, 50]，来访者 Martha Ann Turner）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, anhedonia, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_018",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Gregory Figueroa",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [51, 52, 53]，来访者 Gregory Figueroa）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_019",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Paul Lincoln",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [54, 55, 56]，来访者 Paul Lincoln）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_020",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jonathan Jenkins",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [57, 58, 59]，来访者 Jonathan Jenkins）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_021",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jasmine Archer",
+      "tags": [
+        "cactus",
+        "cbt_changing_rules_to_wishes",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [60, 61, 62]，来访者 Jasmine Archer）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_022",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Willow Winters",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [63, 64, 65]，来访者 Willow Winters）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, depressed_mood），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_023",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Barbara Jean Smith",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [66, 67, 68]，来访者 Barbara Jean Smith）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_024",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Simon Rodriguez",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [69, 70, 71]，来访者 Simon Rodriguez）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_025",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Michael Harris",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [72, 73, 74]，来访者 Michael Harris）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_026",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Gina King",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [75, 76, 77]，来访者 Gina King）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_027",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Julia Johnson",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [78, 79, 80]，来访者 Julia Johnson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_028",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Connor Donovan",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [81, 82, 83]，来访者 Connor Donovan）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_029",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Rebecca Finch",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [84, 85, 86]，来访者 Rebecca Finch）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_030",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Carolyn Joyce",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [87, 88, 89]，来访者 Carolyn Joyce）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_031",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Blake Robinson",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [90, 91, 92]，来访者 Blake Robinson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_032",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Gregory Milton",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [93, 94, 95]，来访者 Gregory Milton）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, fatigue, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_033",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Samantha Miller",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_pros_and_cons_analysis",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [96, 97, 98]，来访者 Samantha Miller）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_034",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Madelyn Edwards",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_decatastrophizing",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [99, 100, 101]，来访者 Madelyn Edwards）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_035",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Livia Daniels",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [102, 103, 104]，来访者 Livia Daniels）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_036",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Clara Mitchell",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [105, 106, 107]，来访者 Clara Mitchell）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_037",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Whitney Talbot",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [108, 109, 110]，来访者 Whitney Talbot）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_038",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jayden Tyler",
+      "tags": [
+        "cactus",
+        "cbt_continuum_technique",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [111, 112, 113]，来访者 Jayden Tyler）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_039",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Samuel Anderson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [114, 115, 116]，来访者 Samuel Anderson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_040",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Carlos Shelton",
+      "tags": [
+        "cactus",
+        "cbt_changing_rules_to_wishes",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [117, 118, 119]，来访者 Carlos Shelton）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_041",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Brianna Benson",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [120, 121, 122]，来访者 Brianna Benson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_042",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Elaina Pierce",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_evidence_based_questioning",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [123, 124, 125]，来访者 Elaina Pierce）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_043",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Leroy Chandler",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [126, 127, 128]，来访者 Leroy Chandler）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_044",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Michael Halpern",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [129, 130, 131]，来访者 Michael Halpern）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_045",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jessica Hughes",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [132, 133, 134]，来访者 Jessica Hughes）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_046",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Brooke Adamson",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [135, 136, 137]，来访者 Brooke Adamson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_047",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Evelyn Maeve",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [138, 139, 140]，来访者 Evelyn Maeve）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_048",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Hunter Hughes",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_behavior_experiment",
+        "cbt_reality_testing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [141, 142, 143]，来访者 Hunter Hughes）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_049",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Samuel Adams",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_changing_rules_to_wishes",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [144, 145, 146]，来访者 Samuel Adams）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_050",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Heather Smith",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [147, 148, 149]，来访者 Heather Smith）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_051",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Holly Ryan",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [150, 151, 152]，来访者 Holly Ryan）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_052",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Stephanie Powers",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [153, 154, 155]，来访者 Stephanie Powers）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_053",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Eric Davidson",
+      "tags": [
+        "cactus",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [156, 157, 158]，来访者 Eric Davidson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_054",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Wendy Davidson",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [159, 160, 161]，来访者 Wendy Davidson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, irritability），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_055",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Rachel Carter",
+      "tags": [
+        "cactus",
+        "cbt_systematic_exposure",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [162, 163, 164]，来访者 Rachel Carter）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, trauma_related, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_056",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Paige Carson",
+      "tags": [
+        "cactus",
+        "cbt_reality_testing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [165, 166, 167]，来访者 Paige Carson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_057",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Christopher Ford",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [168, 169, 170]，来访者 Christopher Ford）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_058",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Amanda Davis",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [171, 172, 173]，来访者 Amanda Davis）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_059",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Lauren Audrey",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_behavior_experiment",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [174, 175, 176]，来访者 Lauren Audrey）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, depressed_mood, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_060",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Calvin Lovell",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [177, 178, 179]，来访者 Calvin Lovell）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_061",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Candace Riley",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_decatastrophizing",
+        "cbt_evidence_based_questioning",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [180, 181, 182]，来访者 Candace Riley）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_062",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Cynthia Meyers",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [183, 184, 185]，来访者 Cynthia Meyers）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_063",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Ronald Davis",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [186, 187, 188]，来访者 Ronald Davis）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_064",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jennifer Fletcher",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [189, 190, 191]，来访者 Jennifer Fletcher）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia, concentration_difficulty），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_065",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：James Anderson",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [192, 193, 194]，来访者 James Anderson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, depressed_mood），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_066",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Gregory Bennett",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [195, 196, 197]，来访者 Gregory Bennett）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, anxiety, worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_067",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Scott Cameron",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [198, 199, 200]，来访者 Scott Cameron）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_068",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Andrew Winston",
+      "tags": [
+        "cactus",
+        "cbt_changing_rules_to_wishes",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [201, 202, 203]，来访者 Andrew Winston）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_069",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Bryant Irving",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [204, 205, 206]，来访者 Bryant Irving）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_070",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Sydney Davidson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [207, 208, 209]，来访者 Sydney Davidson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_071",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Cynthia Lanyon",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [210, 211, 212]，来访者 Cynthia Lanyon）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_072",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Paul Rupert",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "cbt_pros_and_cons_analysis",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [213, 214, 215]，来访者 Paul Rupert）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, anxiety, anhedonia, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_073",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Valerie Fairfax",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [216, 217, 218]，来访者 Valerie Fairfax）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia, concentration_difficulty），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_074",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Erin Bennett",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [219, 220, 221]，来访者 Erin Bennett）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_075",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Brandon Kirk",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [222, 223, 224]，来访者 Brandon Kirk）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_076",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Veronica Harper",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [225, 226, 227]，来访者 Veronica Harper）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_077",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Marcus Umber",
+      "tags": [
+        "cactus",
+        "cbt_changing_rules_to_wishes",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [228, 229, 230]，来访者 Marcus Umber）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, depressed_mood, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_078",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Dorothy Lawson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [231, 232, 233]，来访者 Dorothy Lawson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_079",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jennifer Vasquez",
+      "tags": [
+        "cactus",
+        "cbt_behavior_experiment",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [234, 235, 236]，来访者 Jennifer Vasquez）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_080",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Angela Margaret",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [237, 238, 239]，来访者 Angela Margaret）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, irritability），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_081",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Katherine Green",
+      "tags": [
+        "cactus",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [240, 241, 242]，来访者 Katherine Green）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_082",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：David Sanders",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [243, 244, 245]，来访者 David Sanders）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_083",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Nathan Alden",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_pros_and_cons_analysis",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [246, 247, 248]，来访者 Nathan Alden）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_084",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Wendy Newman",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [249, 250, 251]，来访者 Wendy Newman）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_085",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Trevor Watkins",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [252, 253, 254]，来访者 Trevor Watkins）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_086",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Pamela Robinson",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [255, 256, 257]，来访者 Pamela Robinson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（concentration_difficulty, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_087",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Richard King",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [258, 259, 260]，来访者 Richard King）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_088",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：David Mason",
+      "tags": [
+        "cactus",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [261, 262, 263]，来访者 David Mason）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_089",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Jason Michaels",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [264, 265, 266]，来访者 Jason Michaels）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_090",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Luke Duncan",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [267, 268, 269]，来访者 Luke Duncan）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_091",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Hunter Ross",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [270, 271, 272]，来访者 Hunter Ross）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_092",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Robin Sophia Johnson",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [273, 274, 275]，来访者 Robin Sophia Johnson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia, fatigue），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_093",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Mildred Fairfax",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [276, 277, 278]，来访者 Mildred Fairfax）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_094",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Blake Wilson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [279, 280, 281]，来访者 Blake Wilson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_095",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Brian Whitaker",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [282, 283, 284]，来访者 Brian Whitaker）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_096",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Wendy Taylor",
+      "tags": [
+        "cactus",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [285, 286, 287]，来访者 Wendy Taylor）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_097",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Travis Fulton",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "cbt_reality_testing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [288, 289, 290]，来访者 Travis Fulton）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（fatigue, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_098",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Willow Grace",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [291, 292, 293]，来访者 Willow Grace）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_099",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Veronica Harris",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [294, 295, 296]，来访者 Veronica Harris）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_100",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Sophia Thompson",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "cbt_evidence_based_questioning",
+        "cbt_pros_and_cons_analysis",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [297, 298, 299]，来访者 Sophia Thompson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_101",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Duncan Hunter",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [300, 301, 302]，来访者 Duncan Hunter）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, depressed_mood, irritability），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_102",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Leonard Johnson",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [303, 304, 305]，来访者 Leonard Johnson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, depressed_mood），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_103",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Edward Reed",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [306, 307, 308]，来访者 Edward Reed）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_104",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Whitney Lawson",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [309, 310, 311]，来访者 Whitney Lawson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia, concentration_difficulty），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_105",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Gerald Irving",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [312, 313, 314]，来访者 Gerald Irving）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_106",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Wendy Foster",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [315, 316, 317]，来访者 Wendy Foster）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_107",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Gwen Hartwell",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [318, 319, 320]，来访者 Gwen Hartwell）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_108",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Evelyn Walker",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [321, 322, 323]，来访者 Evelyn Walker）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_109",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Nancy Irwin",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [324, 325, 326]，来访者 Nancy Irwin）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_110",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Griffin Davis",
+      "tags": [
+        "cactus",
+        "cbt_continuum_technique",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [327, 328, 329]，来访者 Griffin Davis）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_111",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Heidi Finch",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [330, 331, 332]，来访者 Heidi Finch）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_112",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：William Anderson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [333, 334, 335]，来访者 William Anderson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_113",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Riley Morgan",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [336, 337, 338]，来访者 Riley Morgan）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_114",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Pamela Morgan",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [339, 340, 341]，来访者 Pamela Morgan）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_115",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Patrick Thompson",
+      "tags": [
+        "cactus",
+        "cbt_behavior_experiment",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [342, 343, 344]，来访者 Patrick Thompson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_116",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Wendy Charlotte",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [345, 346, 347]，来访者 Wendy Charlotte）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_117",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Georgia Thompson",
+      "tags": [
+        "cactus",
+        "cbt_continuum_technique",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [348, 349, 350]，来访者 Georgia Thompson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_118",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Courtney Lucas",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [351, 352, 353]，来访者 Courtney Lucas）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, depressed_mood, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_119",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：David Wesley",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [354, 355, 356]，来访者 David Wesley）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_120",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Julia Hunter",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_behavior_experiment",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [357, 358, 359]，来访者 Julia Hunter）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, irritability），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_121",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Amanda Harris",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [360, 361, 362]，来访者 Amanda Harris）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_122",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Gregory Harrison",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "cbt_efficiency_evaluation",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [363, 364, 365]，来访者 Gregory Harrison）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_123",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Derek Richardson",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [366, 367, 368]，来访者 Derek Richardson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（fatigue, worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_124",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Victor Calvin",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [369, 370, 371]，来访者 Victor Calvin）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_125",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Paige Murphy",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [372, 373, 374]，来访者 Paige Murphy）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_126",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Chase Anderson",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [375, 376, 377]，来访者 Chase Anderson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_127",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Hannah Marie Thompson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [378, 379, 380]，来访者 Hannah Marie Thompson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_128",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Bridget Sanders",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [381, 382, 383]，来访者 Bridget Sanders）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_129",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Willow Belle Lawrence",
+      "tags": [
+        "cactus",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [384, 385, 386]，来访者 Willow Belle Lawrence）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_130",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Charles Wainwright",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [387, 388, 389]，来访者 Charles Wainwright）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_131",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Kyle Kennedy",
+      "tags": [
+        "cactus",
+        "cbt_behavior_experiment",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [390, 391, 392]，来访者 Kyle Kennedy）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_132",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Brian Mitchell",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "cbt_evidence_based_questioning",
+        "cbt_pie_chart_technique",
+        "cbt_pros_and_cons_analysis",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [393, 394, 395]，来访者 Brian Mitchell）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_133",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Hannah Yates",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "cbt_problem_solving_skills_training",
+        "cbt_pros_and_cons_analysis",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [396, 397, 398]，来访者 Hannah Yates）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（depressed_mood, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_134",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Austin Turner",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [399, 400, 401]，来访者 Austin Turner）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, anhedonia, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_135",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Andrew Wilson",
+      "tags": [
+        "cactus",
+        "cbt_efficiency_evaluation",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [402, 403, 404]，来访者 Andrew Wilson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_136",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Tyler Dalton",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [405, 406, 407]，来访者 Tyler Dalton）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_137",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Grace McKenna",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [408, 409, 410]，来访者 Grace McKenna）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_138",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Brent Taylor",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [411, 412, 413]，来访者 Brent Taylor）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_139",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Blake Sullivan",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [414, 415, 416]，来访者 Blake Sullivan）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_140",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Hunter Hughes",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_evidence_based_questioning",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [417, 418, 419]，来访者 Hunter Hughes）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_141",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Russell Duncan",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [420, 421, 422]，来访者 Russell Duncan）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_142",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Wanda Hawkins",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_pie_chart_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [423, 424, 425]，来访者 Wanda Hawkins）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（fatigue, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_143",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Kayla Anderson",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [426, 427, 428]，来访者 Kayla Anderson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, anhedonia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_144",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Monica Robertson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [429, 430, 431]，来访者 Monica Robertson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anxiety, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_145",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Eric Martin",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [432, 433, 434]，来访者 Eric Martin）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, anxiety），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_146",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Justin Daniel",
+      "tags": [
+        "cactus",
+        "cbt_decatastrophizing",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [435, 436, 437]，来访者 Justin Daniel）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（anhedonia, anxiety, worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_147",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Brian Caldwell",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [438, 439, 440]，来访者 Brian Caldwell）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_148",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Karen Sylvia Novak",
+      "tags": [
+        "cactus",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [441, 442, 443]，来访者 Karen Sylvia Novak）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_149",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Benjamin Mason",
+      "tags": [
+        "cactus",
+        "cbt_alternative_perspective",
+        "cbt_continuum_technique",
+        "cbt_problem_solving_skills_training",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [444, 445, 446]，来访者 Benjamin Mason）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness, insomnia），话术为模板句、期望路径为推导值，均需人工复核。"
+    },
+    {
+      "scenario_id": "CACTUS_150",
+      "versions": [
+        "1.0.0"
+      ],
+      "latest": "1.0.0",
+      "title": "CACTUS导入：Nick Anderson",
+      "tags": [
+        "cactus",
+        "cbt_evidence_based_questioning",
+        "db_import",
+        "needs_review",
+        "risk_none",
+        "task_stable"
+      ],
+      "description": "由 tools/cactus_import.py 从 CACTUS 数据集（evaluation_chinese.json idx [447, 448, 449]，来访者 Nick Anderson）适配后经 tools/db_import.py 生成；症状由 intake 英文主诉启发式映射（worthlessness），话术为模板句、期望路径为推导值，均需人工复核。"
     }
   ]
 }
