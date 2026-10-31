@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from typing import Any
+from copy import deepcopy
+from shared.clinical_contract import CONTRACT_VERSION
+from shared.temporal_gate import apply_temporal_contract
 
 from ..llm import (
     ALLOWED_EVIDENCE_REFS_KEY,
@@ -75,6 +78,10 @@ class CLINICR:
         profile: dict[str, Any],
         safety_context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
+        # v1冻结研究输入仅用于历史重放；L2适配器与HTTP入口均发送v2。
+        # 回写进入本次报告，不原地修改调用者输入或缓存指纹。
+        profile = deepcopy(profile)
+        self._temporal_profile = profile
         known_refs = self._known_evidence_refs(profile)
         # 允许列表由规则从画像生成，覆盖任何同名输入，不能由患者或模型自行指定。
         model_profile = {
@@ -84,6 +91,8 @@ class CLINICR:
 
         # Step 1: 完整考虑 MentalKG 23 个节点及失眠障碍，按患者证据保留候选。
         generation = self.reasoner.generate_candidates(model_profile)
+        if profile.get("contract_version") == CONTRACT_VERSION:
+            generation = apply_temporal_contract(generation, profile, knowledge=self.knowledge)
         candidates = self._validate_generation(generation, known_refs)
 
         # Reuse the completed Step 1 records; no per-candidate ELIMINATIVE call.
@@ -571,6 +580,8 @@ class CLINICR:
             "summary": summary,
         }
         result.update(build_information_report(result, knowledge=self.knowledge))
+        result["duration_evidence"] = list(getattr(self, "_temporal_profile", {}).get("duration_evidence", []))
+        result["temporal_audit"] = list(getattr(self, "_temporal_profile", {}).get("temporal_audit", []))
         if primary is None:
             readiness = result["diagnostic_readiness"]
             if readiness["status"] == "insufficient_information":

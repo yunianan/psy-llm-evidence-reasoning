@@ -3,6 +3,7 @@ from typing import Any, List, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+from shared.clinical_profile import ClinicalProfile
 
 from .diagnosis.clinicr import CLINICR
 from .diagnosis.information_report import input_information_report
@@ -26,50 +27,14 @@ class MotivationInput(BaseModel):
     importance: int | None = Field(default=None, ge=0, le=10)
     confidence: int | None = Field(default=None, ge=0, le=10)
     readiness: int | None = Field(default=None, ge=0, le=10)
+    sources: list[str] = Field(default_factory=list)
 
 
-class DiagnoseRequest(BaseModel):
-    PHQ9: float | None = Field(default=None, ge=0, le=27)
-    GAD7: float | None = Field(default=None, ge=0, le=21)
-    MDQ: float | None = Field(default=None, ge=0, le=13)
-    PCL5: float | None = Field(default=None, ge=0, le=80)
-    ISI: float | None = Field(default=None, ge=0, le=28)
-    Y_BOCS: float | None = Field(default=None, ge=0, le=40)
-    ADNM: float | None = Field(default=None, ge=0)
-    RRS: float | None = Field(default=None, ge=0)
-    AAQ_II: float | None = Field(default=None, ge=0)
-    PHQ15: float | None = Field(default=None, ge=0, le=30)
-    relapse_count: int | None = Field(default=None, ge=0)
-    rhythm_disturbance: bool | None = None
-    exposure_avoidant: bool | None = None
-    ritual_behaviors: bool | None = None
-    insomnia_chief_complaint: bool | None = None
-    chronic_months: int | None = Field(default=None, ge=0)
-    interpersonal_conflicts: int | None = Field(default=None, ge=0)
-    interpersonal_impairment: bool | None = None
-    single_focus: bool | None = None
-    psychotic_symptoms: bool | None = None
-    substance_active: bool | None = None
-    severe_dissociation: bool | None = None
+class DiagnoseRequest(ClinicalProfile):
     risk_level: int = 0
     sensitive_topics: List[str] = []
     l1_flags: List[str] = []
-    PHQ9_items: dict[str, float] = Field(default_factory=dict)
-    key_symptoms_extracted: list[dict[str, Any]] = Field(default_factory=list)
-    symptom_duration_days: int | None = None
-    functional_impairment: bool | None = None
-    mania_or_hypomania_history: bool | None = None
-    substance_or_medical_cause: bool | None = None
-    differential_diagnoses_assessed: list[str] | None = None
-    evidence_conflicts: list[dict[str, Any]] | None = None
-    diagnostic_details: dict[str, Any] = Field(default_factory=dict)
-    emotions: list[dict[str, Any]] = Field(default_factory=list)
-    cognitive_patterns: list[dict[str, Any]] = Field(default_factory=list)
-    key_narratives: list[dict[str, Any]] = Field(default_factory=list)
-    functional_impairments: list[dict[str, Any]] = Field(default_factory=list)
-    patient_goals: list[str] = Field(default_factory=list)
     motivation: MotivationInput = Field(default_factory=MotivationInput)
-    evidence_nodes: list[dict[str, Any]] = Field(default_factory=list)
 
 
 class DiagnoseResponse(BaseModel):
@@ -87,6 +52,8 @@ class DiagnoseResponse(BaseModel):
     candidate_missing_dimensions: list[dict[str, str]] = Field(default_factory=list)
     diagnostic_readiness: dict[str, Any] = Field(default_factory=dict, description="仅描述必需判据/鉴别路径的满足、已知阻塞或信息不足，不替代最终诊断门")
     information_collection_plan: dict[str, Any] = Field(default_factory=dict, description="Top-1/Top-3补采优先队列；保留其余候选，不自动追问或改变判据")
+    duration_evidence: list[dict[str, Any]] = Field(default_factory=list)
+    temporal_audit: list[dict[str, Any]] = Field(default_factory=list)
     diagnosis: dict
     verifier_score: float
     verifier_decision: str
@@ -119,6 +86,8 @@ def _catalog_payload(result: dict[str, Any]) -> dict[str, Any]:
             "candidate_coverage": result.get("candidate_coverage", {}),
             "candidate_missing_dimensions": result.get("candidate_missing_dimensions", []),
             "diagnostic_readiness": result.get("diagnostic_readiness", {}),
+            "duration_evidence": result.get("duration_evidence", []),
+            "temporal_audit": result.get("temporal_audit", []),
             "information_collection_plan": result.get("information_collection_plan", {})}
 
 
@@ -383,6 +352,7 @@ def build_report(profile, clinicr_result, therapy, safety_context=None):
 
 
 def diagnose(profile, safety_context=None, clinicr: CLINICR | None = None):
+    ClinicalProfile.model_validate(profile)
     contract_report = build_input_contract_report(profile)
     if contract_report is not None:
         return contract_report
@@ -440,51 +410,13 @@ def diagnose(profile, safety_context=None, clinicr: CLINICR | None = None):
 
 @app.post("/diagnose", response_model=DiagnoseResponse)
 def diagnose_endpoint(request: DiagnoseRequest):
-    profile = {
-        "PHQ9": request.PHQ9,
-        "GAD7": request.GAD7,
-        "MDQ": request.MDQ,
-        "PCL5": request.PCL5,
-        "ISI": request.ISI,
-        "Y_BOCS": request.Y_BOCS,
-        "ADNM": request.ADNM,
-        "RRS": request.RRS,
-        "AAQ_II": request.AAQ_II,
-        "PHQ15": request.PHQ15,
-        "relapse_count": request.relapse_count,
-        "rhythm_disturbance": request.rhythm_disturbance,
-        "exposure_avoidant": request.exposure_avoidant,
-        "ritual_behaviors": request.ritual_behaviors,
-        "insomnia_chief_complaint": request.insomnia_chief_complaint,
-        "chronic_months": request.chronic_months,
-        "interpersonal_conflicts": request.interpersonal_conflicts,
-        "interpersonal_impairment": request.interpersonal_impairment,
-        "single_focus": request.single_focus,
-        "psychotic_symptoms": request.psychotic_symptoms,
-        "substance_active": request.substance_active,
-        "severe_dissociation": request.severe_dissociation,
-        "PHQ9_items": request.PHQ9_items,
-        "key_symptoms_extracted": request.key_symptoms_extracted,
-        "symptom_duration_days": request.symptom_duration_days,
-        "functional_impairment": request.functional_impairment,
-        "mania_or_hypomania_history": request.mania_or_hypomania_history,
-        "substance_or_medical_cause": request.substance_or_medical_cause,
-        "differential_diagnoses_assessed": request.differential_diagnoses_assessed,
-        "evidence_conflicts": request.evidence_conflicts,
-        "diagnostic_details": request.diagnostic_details,
-        "emotions": request.emotions,
-        "cognitive_patterns": request.cognitive_patterns,
-        "key_narratives": request.key_narratives,
-        "functional_impairments": request.functional_impairments,
-        "patient_goals": request.patient_goals,
-        "motivation": request.motivation.model_dump(mode="json"),
-        "evidence_nodes": request.evidence_nodes,
-    }
     safety_context = {
         "risk_level": request.risk_level,
         "sensitive_topics": request.sensitive_topics,
         "l1_flags": request.l1_flags,
     }
+    # 使用共享模型字段整体投影，避免新字段在手写映射中遗漏。
+    profile = request.model_dump(mode="json", exclude={"risk_level", "sensitive_topics", "l1_flags"})
     try:
         return DiagnoseResponse(**diagnose(profile, safety_context))
     except CLINICRModelUnavailable as exc:

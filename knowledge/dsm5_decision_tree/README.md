@@ -1,12 +1,14 @@
 # DSM-5 第三层候选生成决策子图
 
-更新：2026-10-18。项目：基于大语言模型的心理诊疗循证推理研究。
+更新：2026-10-20。项目：基于大语言模型的心理诊疗循证推理研究。
 
-## 已接入的调用链
+## 保留的执行器（需显式知识提供者）
 
 `CLINICR.run → APICLINICRReasoner.generate_candidates → DecisionTreeCandidateGenerator`
 
-输入仍是 L2 结构化患者画像。生产 Step 1 已采用本执行器；旧的一次性自由生成仅保留为显式调用的 `generate_candidates_baseline`，供后续消融比较，生产没有自动回退到它的逻辑。
+输入是 L2 结构化患者画像。执行器代码保留；当前默认诊断知识已断开，等待后续 GraphRAG 接入。旧的一次性自由生成仅保留为显式调用的 `generate_candidates_baseline`，没有自动回退到它的逻辑。
+
+诊断内容通过可注入的 `DiagnosticKnowledgeProvider` 提供。默认提供者处于未连接状态，不读取 MentalKG 或失眠补充的诊断内容；原 JSON 适配器仅供离线工具和测试显式使用。候选生成、标准汇总、终验及报告来源共享注入接口。见 [知识访问说明](../../docs/l3-knowledge-access.md)。
 
 ```text
 患者画像及合法证据引用
@@ -27,7 +29,7 @@
 |---|---|
 | 症状入口与鉴别方向 | Michael B. First，DSM-5 Handbook of Differential Diagnosis，2014，第二章及相关第三章表；配置记录树号、印刷页码 |
 | 原始 23 个标签、症状、标准及鉴别说明 | 原作者 MentalBench/MentalKG 仓库 `resources/knowledge_graph/EN`，只读 |
-| 失眠 A–H | 项目既有 `knowledge/dsm5_supplement/EN`；标准来源见其 README；不是原 MentalKG 节点 |
+| 失眠 A–H | 工作区 `external/MentalBench/resources/dsm5_supplement/EN`；标准来源见其 README；不是原 MentalKG 节点 |
 | 程序组织方法 | Sarma 等论文的入口筛选、迭代问题、收集候选及复杂条件分解，Methods 2.2.3、2.3 |
 | 未知值处理、批量请求、最低召回条件 | 项目工程适配，需要独立评测；不构成新的 DSM 医学标准 |
 
@@ -50,7 +52,7 @@
 - `candidate_coverage`：24 个标签分别为 not_triggered、entry_pending、anchor_pending、excluded:<node>、provisional_candidate 或 candidate。
 - `candidate_missing_dimensions`：未知节点对应的信息缺口；没有可用诊断时参与 L2 补问。
 
-`MentalKG:diagnostic_criteria.json#/Dxxx/...` 定位原图谱；`knowledge/dsm5_supplement/...#/Insomnia/...` 定位补充条目；`First2014:...#print-pages=...` 按下列 manifest 中的版本和页码解释。本手册副本的 PDF 页面序号＝印刷页码＋17。
+`MentalKG:diagnostic_criteria.json#/Dxxx/...` 定位原图谱；`../external/MentalBench/resources/dsm5_supplement/EN/...#/Insomnia/...` 从 L1-L5 项目根目录定位补充条目；`First2014:...#print-pages=...` 按下列 manifest 中的版本和页码解释。本手册副本的 PDF 页面序号＝印刷页码＋17。
 
 逐候选 ELIMINATIVE 模型调用及其并发配置已删除。`diagnosis/assessment.py` 只汇总 Step 1 的原始记录：必需标准与鉴别路径齐备且满足时进入后续终验，未满足/未知保持 watch，已被 Step 1 剪枝的候选记录为 ruled_out。`checked` 为兼容报告字段，每项以 `source=step1_tree_records` 标记来源；不代表又做了一次独立验证。现有 Verifier 的打分与路由策略保留。为继续满足独立验证接口的“不读候选置信度”要求，新增路径中嵌套的节点置信度也不传给验证器。没有引入论文的候选成对比较。API 与 L4 报告可保存新增记录。
 

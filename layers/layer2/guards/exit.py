@@ -4,7 +4,7 @@ from typing import Any
 
 from layers.layer2.scales.catalog import SCALE_CATALOG
 from layers.layer2.schemas import ClinicalIntake
-from shared.l2_l3_contract import L2_L3_REQUIRED_DIAGNOSTIC_FIELDS
+from shared.l2_l3_contract import L2_L3_REQUIRED_DIAGNOSTIC_FIELDS, requirement_value
 
 
 class L2ExitGuardError(ValueError):
@@ -29,15 +29,24 @@ class L2ExitGuard:
             violations.append("仍有未完成的信息维度")
 
         for requirement in L2_L3_REQUIRED_DIAGNOSTIC_FIELDS:
-            value = getattr(intake.diagnostic_context, requirement.field)
+            value = requirement_value(intake.diagnostic_context, requirement.field)
             if value is None:
                 violations.append(f"缺少L3必需字段：{requirement.missing_label}")
                 continue
             sources = intake.diagnostic_context.sources.get(requirement.field, [])
-            if not sources:
+            if not sources and not (requirement.field == "symptom_duration_days" and intake.diagnostic_context.duration_evidence):
                 violations.append(
                     f"L3必需字段 {requirement.field} 缺少证据"
                 )
+
+        for duration in intake.diagnostic_context.duration_evidence:
+            if not duration.evidence_refs or any(ref not in evidence_by_id or duration.raw_span not in evidence_by_id[ref].quote
+                                                 for ref in duration.evidence_refs):
+                violations.append("病程区间缺少匹配的患者原文证据")
+        for fact in intake.clinical_facts:
+            if not fact.evidence_refs or any(ref not in evidence_by_id or fact.raw_span not in evidence_by_id[ref].quote
+                                             for ref in fact.evidence_refs):
+                violations.append("症状属性缺少匹配的患者原文证据")
 
         for symptom in intake.key_symptoms_extracted:
             if not set(symptom.sources).issubset(evidence_ids):

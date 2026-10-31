@@ -47,7 +47,7 @@ class ScaleEngine:
         context = state.diagnostic_context
         if (
             not state.focus_topics
-            or context.symptom_duration_days is None
+            or (context.symptom_duration_days is None and not context.duration_evidence)
             or context.functional_impairment is None
         ):
             return False

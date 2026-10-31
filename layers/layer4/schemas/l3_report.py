@@ -136,6 +136,10 @@ class DiagnosticReport(BaseModel):
     tree_trace: list[dict[str, Any]] = Field(default_factory=list)
     candidate_coverage: dict[str, str] = Field(default_factory=dict)
     candidate_missing_dimensions: list[dict[str, str]] = Field(default_factory=list)
+    diagnostic_readiness: dict[str, Any] = Field(default_factory=dict)
+    information_collection_plan: dict[str, Any] = Field(default_factory=dict)
+    duration_evidence: list[dict[str, Any]] = Field(default_factory=list)
+    temporal_audit: list[dict[str, Any]] = Field(default_factory=list)
     layer_id: str = "L3"
     timestamp: str = ""
     diagnosis: Diagnosis = Diagnosis()

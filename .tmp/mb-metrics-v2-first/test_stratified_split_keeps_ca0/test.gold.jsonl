@@ -1,6 +1,0 @@
-{"case_id": "a2", "source_ref": "engineering-fixture", "source_edition": "DSM-5", "author_primary_diagnosis": "fixture", "primary_dsm_category": "anxiety", "primary_label": "D011", "gold_labels": ["D011"]}
-{"case_id": "a1", "source_ref": "engineering-fixture", "source_edition": "DSM-5", "author_primary_diagnosis": "fixture", "primary_dsm_category": "anxiety", "primary_label": "D011", "gold_labels": ["D011"]}
-{"case_id": "a4", "source_ref": "engineering-fixture", "source_edition": "DSM-5", "author_primary_diagnosis": "fixture", "primary_dsm_category": "anxiety", "primary_label": "D011", "gold_labels": ["D011"]}
-{"case_id": "m4", "source_ref": "engineering-fixture", "source_edition": "DSM-5", "author_primary_diagnosis": "fixture", "primary_dsm_category": "depressive", "primary_label": "D013", "gold_labels": ["D013"]}
-{"case_id": "m2", "source_ref": "engineering-fixture", "source_edition": "DSM-5", "author_primary_diagnosis": "fixture", "primary_dsm_category": "depressive", "primary_label": "D013", "gold_labels": ["D013"]}
-{"case_id": "m3", "source_ref": "engineering-fixture", "source_edition": "DSM-5", "author_primary_diagnosis": "fixture", "primary_dsm_category": "depressive", "primary_label": "D013", "gold_labels": ["D013"]}

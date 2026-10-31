@@ -14,6 +14,8 @@ from layers.layer2.schemas import (
 
 
 from shared.disorder_catalog import SYMPTOMS
+from shared.clinical_contract import ClinicalFact, STRUCTURED_FIELD_NAMES
+from shared.temporal import parse_duration_records
 
 ALLOWED_SYMPTOMS = {
     "depressed_mood",
@@ -32,30 +34,7 @@ ALLOWED_SYMPTOMS = {
 }
 ALLOWED_SYMPTOMS.update(SYMPTOMS)
 
-ALLOWED_STRUCTURED_FIELDS = {
-    "symptom_duration_days",
-    "functional_impairment",
-    "mania_or_hypomania_history",
-    "substance_or_medical_cause",
-    "differential_diagnoses_assessed",
-    "evidence_conflicts",
-    "diagnostic_details",
-    "relapse_count",
-    "rhythm_disturbance",
-    "exposure_avoidant",
-    "ritual_behaviors",
-    "insomnia_chief_complaint",
-    "chronic_months",
-    "interpersonal_conflicts",
-    "interpersonal_impairment",
-    "single_focus",
-    "psychotic_symptoms",
-    "substance_active",
-    "severe_dissociation",
-    "motivation_importance",
-    "motivation_confidence",
-    "motivation_readiness",
-}
+ALLOWED_STRUCTURED_FIELDS = set(STRUCTURED_FIELD_NAMES) - {"scale_consent", "scale_answer_score", "confirmation_decision"}
 
 
 class ProfileIngestor:
@@ -118,6 +97,11 @@ class ProfileIngestor:
                     existing.sources.append(node.evidence_id)
                 if candidate.evidence_quote not in existing.patient_quotes:
                     existing.patient_quotes.append(candidate.evidence_quote)
+                for attribute, value in candidate.attributes.items():
+                    previous = existing.attributes.get(attribute)
+                    if previous is not None and previous != value:
+                        self._conflict(state, f"symptoms.{candidate.value}.{attribute}", previous, value,
+                                       list(existing.sources), node.evidence_id)
                 existing.attributes.update(candidate.attributes)
             else:
                 state.symptoms[candidate.value] = SymptomEvidence(
@@ -126,6 +110,25 @@ class ProfileIngestor:
                     patient_quotes=[candidate.evidence_quote],
                     attributes=candidate.attributes,
                 )
+            symptom = state.symptoms[candidate.value]
+            for attribute, value in candidate.attributes.items():
+                slot = {"duration_days": "duration", "functional_impact": "impact", "present": "existence"}.get(attribute, attribute)
+                if slot not in {"existence", "onset", "duration", "frequency", "severity", "impact", "trigger", "denial"}:
+                    continue
+                fact = ClinicalFact(fact_id=f"{candidate.value}:{slot}:{node.evidence_id}", symptom_id=candidate.value,
+                    attribute=slot, state="absent" if value is False else "present", value=value,
+                    raw_span=candidate.evidence_quote, evidence_refs=[node.evidence_id])
+                if slot == "duration":
+                    fact.duration = self._capture_duration(state, candidate.evidence_quote, node.evidence_id,
+                                                           symptom_id=candidate.value, scope=f"symptom:{candidate.value}")
+                    fact.state = "present" if fact.duration.parse_status == "ok" else "unknown"
+                    fact.value = fact.duration.model_dump(mode="json")
+                if any(node.evidence_id in c.get("new_evidence_refs", []) and
+                       (c["target_path"].endswith(f".{attribute}") or (slot == "duration" and c["target_path"].startswith("duration_evidence.")))
+                       for c in state.diagnostic_context.evidence_conflicts or []):
+                    fact.state = "conflict"
+                symptom.attribute_facts.append(fact)
+                state.clinical_facts.append(fact)
 
         collections = (
             ("emotions", analysis.emotions),
@@ -173,6 +176,18 @@ class ProfileIngestor:
                 continue
             if candidate.evidence_quote not in patient_text:
                 continue
+            if candidate.field == "symptom_duration_days":
+                node = EvidenceRegistry.add_patient_evidence(state, message_id=message_id,
+                    quote=candidate.evidence_quote, target_path="diagnostic_context.symptom_duration_days" if type(candidate.value) is int else "diagnostic_context.duration_evidence")
+                evidence_ids.append(node.evidence_id)
+                task = next((t for t in state.follow_up_tasks if t.status == "pending" and t.attribute == "duration"), None)
+                sid = task.symptom_id if task else analysis.symptoms[0].value if len(analysis.symptoms) == 1 else ""
+                record = self._capture_duration(state, candidate.evidence_quote, node.evidence_id, symptom_id=sid,
+                    scope=task.node_id if task else f"symptom:{sid}" if sid else "unspecified")
+                # 老整数只作兼容视图；区间始终保留，L3按作用域读取。
+                if type(candidate.value) is int and record.parse_status == "ok" and record.min_days == record.max_days == candidate.value:
+                    self._write_structured(state, candidate.field, candidate.value, node.evidence_id)
+                continue
             if not self._valid_structured_value(candidate.field, candidate.value):
                 continue
             node = EvidenceRegistry.add_patient_evidence(
@@ -183,7 +198,49 @@ class ProfileIngestor:
             )
             evidence_ids.append(node.evidence_id)
             self._write_structured(state, candidate.field, candidate.value, node.evidence_id)
+        # 省略回答也须按补采任务定向绑定；不要求LLM重新输出症状名。
+        task = next((t for t in state.follow_up_tasks if t.status == "pending" and t.attribute == "duration"), None)
+        if task:
+            node = EvidenceRegistry.add_patient_evidence(state, message_id=message_id, quote=patient_text,
+                                                        target_path=f"follow_up_tasks.{task.task_id}")
+            evidence_ids.append(node.evidence_id)
+            self._capture_duration(state, patient_text, node.evidence_id, symptom_id=task.symptom_id, scope=task.node_id)
         return evidence_ids
+
+    @staticmethod
+    def _conflict(state, target, old, new, old_refs, new_ref):
+        state.diagnostic_context.evidence_conflicts = state.diagnostic_context.evidence_conflicts or []
+        state.diagnostic_context.evidence_conflicts.append({"target_path": target, "previous": old, "new": new,
+            "previous_evidence_refs": old_refs, "new_evidence_refs": [new_ref], "status": "unresolved"})
+        for fact in state.clinical_facts:
+            relevant = True
+            if target.startswith("symptoms."):
+                _, sid, attribute = target.split(".", 2)
+                attribute = {"duration_days": "duration", "functional_impact": "impact", "present": "existence"}.get(attribute, attribute)
+                relevant = fact.symptom_id == sid and fact.attribute == attribute
+            elif target.startswith("duration_evidence."):
+                relevant = fact.attribute == "duration"
+            else:
+                relevant = False
+            if relevant and fact.evidence_refs and set(fact.evidence_refs).intersection(old_refs):
+                fact.state = "conflict"
+
+    def _capture_duration(self, state, quote, ref, *, symptom_id="", scope="unspecified"):
+        records = parse_duration_records(quote, symptom_id=symptom_id, scope=scope, evidence_refs=[ref], interview_date=state.interview_date)
+        for record in records:
+            previous = [d for d in state.diagnostic_context.duration_evidence
+                        if d.scope == scope and d.symptom_id == symptom_id and d.duration_kind == record.duration_kind]
+            for old in previous:
+                if old.parse_status == record.parse_status == "ok" and old.min_days is not None and record.min_days is not None:
+                    if (old.max_days is not None and old.max_days < record.min_days) or (record.max_days is not None and record.max_days < old.min_days):
+                        self._conflict(state, f"duration_evidence.{scope}", old.model_dump(mode="json"),
+                                       record.model_dump(mode="json"), old.evidence_refs, ref)
+            state.diagnostic_context.duration_evidence.append(record)
+        for task in state.follow_up_tasks:
+            if task.attribute == "duration" and task.status == "pending" and (not symptom_id or task.symptom_id in ("", symptom_id)):
+                task.status = "answered" if all(r.parse_status == "ok" for r in records) else "unresolved"
+                task.answer_evidence_refs.append(ref)
+        return records[0]
 
     @staticmethod
     def _evidence(
@@ -255,6 +312,10 @@ class ProfileIngestor:
         if field == "diagnostic_details":
             state.diagnostic_context.diagnostic_details.update(value)
         else:
+            old = getattr(state.diagnostic_context, field)
+            if old is not None and old != value and field != "evidence_conflicts":
+                ProfileIngestor._conflict(state, f"diagnostic_context.{field}", old, value,
+                    list(state.diagnostic_context.sources.get(field, [])), evidence_id)
             setattr(state.diagnostic_context, field, value)
         state.diagnostic_context.sources.setdefault(field, []).append(evidence_id)
 

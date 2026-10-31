@@ -243,11 +243,157 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 ## L2：评估、量表与患者画像
 
+### `shared.clinical_contract`
+
+#### `DurationEvidence` · 内部结构
+
+源码：[`shared/clinical_contract.py:23`](../shared/clinical_contract.py#L23)
+
+!!! abstract "Usage Documentation"
+
+| 字段 | 类型 | 必填 | 默认值 | 约束 |
+|---|---|:---:|---|---|
+| `symptom_id` | `str` | 否 | `''` | — |
+| `scope` | `str` | 否 | `'unknown'` | — |
+| `raw_span` | `str` | 是 | — | 最短长度=1 |
+| `min_days` | `float | NoneType` | 否 | `None` | — |
+| `max_days` | `float | NoneType` | 否 | `None` | — |
+| `unit` | `Literal['day', 'week', 'month', 'year', 'relative', 'unknown']` | 否 | `'unknown'` | 枚举='day', 'week', 'month', 'year', 'relative', 'unknown' |
+| `quantity` | `float | NoneType` | 否 | `None` | — |
+| `approx` | `bool` | 否 | `False` | — |
+| `approximation` | `Literal['none', 'around', 'more', 'under', 'near', 'colloquial']` | 否 | `'none'` | 枚举='none', 'around', 'more', 'under', 'near', 'colloquial' |
+| `anchor` | `str` | 否 | `'relative_to_interview'` | — |
+| `interview_date` | `date | NoneType` | 否 | `None` | — |
+| `pattern` | `Literal['continuous', 'episodic', 'unknown']` | 否 | `'unknown'` | 枚举='continuous', 'episodic', 'unknown' |
+| `duration_kind` | `Literal['overall', 'episode', 'unknown']` | 否 | `'overall'` | 枚举='overall', 'episode', 'unknown' |
+| `parse_status` | `Literal['ok', 'vague', 'failed', 'unresolved']` | 否 | `'failed'` | 枚举='ok', 'vague', 'failed', 'unresolved' |
+| `source` | `Literal['L2', 'L3_writeback', 'legacy_adapter']` | 否 | `'L2'` | 枚举='L2', 'L3_writeback', 'legacy_adapter' |
+| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
+| `policy_version` | `str` | 否 | `'duration-interval-v1'` | — |
+
+#### `TemporalDecision` · 内部结构
+
+源码：[`shared/clinical_contract.py:53`](../shared/clinical_contract.py#L53)
+
+!!! abstract "Usage Documentation"
+
+| 字段 | 类型 | 必填 | 默认值 | 约束 |
+|---|---|:---:|---|---|
+| `status` | `Literal['met', 'not_met', 'unknown', 'met_approx']` | 是 | — | 枚举='met', 'not_met', 'unknown', 'met_approx' |
+| `threshold_days` | `float | NoneType` | 否 | `None` | — |
+| `reason` | `str` | 是 | — | — |
+| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
+| `suggested_question` | `str` | 否 | `'大概从几月份开始的？期间一直如此，还是反复发作？'` | — |
+| `policy_version` | `str` | 否 | `'duration-interval-v1'` | — |
+
+#### `ClinicalFact` · 内部结构
+
+源码：[`shared/clinical_contract.py:63`](../shared/clinical_contract.py#L63)
+
+!!! abstract "Usage Documentation"
+
+| 字段 | 类型 | 必填 | 默认值 | 约束 |
+|---|---|:---:|---|---|
+| `fact_id` | `str` | 是 | — | — |
+| `symptom_id` | `str` | 否 | `''` | — |
+| `attribute` | `Literal['existence', 'onset', 'duration', 'frequency', 'severity', 'impact', 'trigger', 'denial', 'clarification']` | 是 | — | 枚举='existence', 'onset', 'duration', 'frequency', 'severity', 'impact', 'trigger', 'denial', 'clarification' |
+| `state` | `Literal['present', 'absent', 'unknown', 'conflict']` | 否 | `'unknown'` | 枚举='present', 'absent', 'unknown', 'conflict' |
+| `value` | `Any` | 否 | `None` | — |
+| `raw_span` | `str` | 是 | — | — |
+| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
+| `duration` | `DurationEvidence | NoneType` | 否 | `None` | — |
+
+#### `FollowUpTask` · 内部结构
+
+源码：[`shared/clinical_contract.py:75`](../shared/clinical_contract.py#L75)
+
+!!! abstract "Usage Documentation"
+
+| 字段 | 类型 | 必填 | 默认值 | 约束 |
+|---|---|:---:|---|---|
+| `task_id` | `str` | 是 | — | — |
+| `field` | `str` | 是 | — | — |
+| `node_id` | `str` | 否 | `''` | — |
+| `symptom_id` | `str` | 否 | `''` | — |
+| `attribute` | `Literal['existence', 'onset', 'duration', 'frequency', 'severity', 'impact', 'trigger', 'denial', 'clarification']` | 否 | `'clarification'` | 枚举='existence', 'onset', 'duration', 'frequency', 'severity', 'impact', 'trigger', 'denial', 'clarification' |
+| `purpose` | `str` | 否 | `''` | — |
+| `suggested_question` | `str` | 是 | — | — |
+| `priority` | `str` | 否 | `'remaining'` | — |
+| `required_by` | `list[str]` | 否 | 工厂生成 | — |
+| `source_refs` | `list[str]` | 否 | 工厂生成 | — |
+| `expected_by_candidate` | `dict[str, str]` | 否 | 工厂生成 | — |
+| `status` | `Literal['pending', 'answered', 'unresolved', 'conflict']` | 否 | `'pending'` | 枚举='pending', 'answered', 'unresolved', 'conflict' |
+| `answer_evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
+
+### `shared.clinical_profile`
+
+#### `ClinicalProfile` · 内部结构
+
+源码：[`shared/clinical_profile.py:8`](../shared/clinical_profile.py#L8)
+
+!!! abstract "Usage Documentation"
+
+| 字段 | 类型 | 必填 | 默认值 | 约束 |
+|---|---|:---:|---|---|
+| `contract_version` | `Literal['l2-l3-clinical-v2']` | 否 | `'l2-l3-clinical-v2'` | — |
+| `interview_date` | `date | NoneType` | 否 | `None` | — |
+| `clinical_facts` | `list[ClinicalFact]` | 否 | 工厂生成 | — |
+| `duration_evidence` | `list[DurationEvidence]` | 否 | 工厂生成 | — |
+| `follow_up_tasks` | `list[FollowUpTask]` | 否 | 工厂生成 | — |
+| `temporal_audit` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `PHQ9` | `float | NoneType` | 否 | `None` | — |
+| `GAD7` | `float | NoneType` | 否 | `None` | — |
+| `MDQ` | `float | NoneType` | 否 | `None` | — |
+| `PCL5` | `float | NoneType` | 否 | `None` | — |
+| `ISI` | `float | NoneType` | 否 | `None` | — |
+| `Y_BOCS` | `float | NoneType` | 否 | `None` | — |
+| `ADNM` | `float | NoneType` | 否 | `None` | — |
+| `RRS` | `float | NoneType` | 否 | `None` | — |
+| `AAQ_II` | `float | NoneType` | 否 | `None` | — |
+| `PHQ15` | `float | NoneType` | 否 | `None` | — |
+| `PHQ9_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `GAD7_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `MDQ_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `PCL5_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `ISI_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `Y_BOCS_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `ADNM_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `RRS_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `AAQ_II_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `PHQ15_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `relapse_count` | `Annotated | NoneType` | 否 | `None` | — |
+| `chronic_months` | `Annotated | NoneType` | 否 | `None` | — |
+| `interpersonal_conflicts` | `Annotated | NoneType` | 否 | `None` | — |
+| `symptom_duration_days` | `Annotated | NoneType` | 否 | `None` | — |
+| `functional_impairment` | `Annotated | NoneType` | 否 | `None` | — |
+| `mania_or_hypomania_history` | `Annotated | NoneType` | 否 | `None` | — |
+| `substance_or_medical_cause` | `Annotated | NoneType` | 否 | `None` | — |
+| `rhythm_disturbance` | `Annotated | NoneType` | 否 | `None` | — |
+| `exposure_avoidant` | `Annotated | NoneType` | 否 | `None` | — |
+| `ritual_behaviors` | `Annotated | NoneType` | 否 | `None` | — |
+| `insomnia_chief_complaint` | `Annotated | NoneType` | 否 | `None` | — |
+| `interpersonal_impairment` | `Annotated | NoneType` | 否 | `None` | — |
+| `single_focus` | `Annotated | NoneType` | 否 | `None` | — |
+| `psychotic_symptoms` | `Annotated | NoneType` | 否 | `None` | — |
+| `substance_active` | `Annotated | NoneType` | 否 | `None` | — |
+| `severe_dissociation` | `Annotated | NoneType` | 否 | `None` | — |
+| `differential_diagnoses_assessed` | `list[str] | NoneType` | 否 | `None` | — |
+| `evidence_conflicts` | `list[dict[str, Any]] | NoneType` | 否 | `None` | — |
+| `diagnostic_details` | `dict[str, Any]` | 否 | 工厂生成 | — |
+| `key_symptoms_extracted` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `emotions` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `cognitive_patterns` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `key_narratives` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `functional_impairments` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `patient_goals` | `list[str]` | 否 | 工厂生成 | — |
+| `motivation` | `dict[str, Any]` | 否 | 工厂生成 | — |
+| `evidence_nodes` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+
 ### `layers.layer2.schemas.models`
 
 #### `SemanticCandidate` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:48`](../layers/layer2/schemas/models.py#L48)
+源码：[`layers/layer2/schemas/models.py:50`](../layers/layer2/schemas/models.py#L50)
 
 !!! abstract "Usage Documentation"
 
@@ -259,19 +405,19 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `StructuredFieldCandidate` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:64`](../layers/layer2/schemas/models.py#L64)
+源码：[`layers/layer2/schemas/models.py:66`](../layers/layer2/schemas/models.py#L66)
 
 !!! abstract "Usage Documentation"
 
 | 字段 | 类型 | 必填 | 默认值 | 约束 |
 |---|---|:---:|---|---|
-| `field` | `str` | 是 | — | — |
+| `field` | `Literal['symptom_duration_days', 'functional_impairment', 'mania_or_hypomania_history', 'substance_or_medical_cause', 'differential_diagnoses_assessed', 'evidence_conflicts', 'diagnostic_details', 'relapse_count', 'rhythm_disturbance', 'exposure_avoidant', 'ritual_behaviors', 'insomnia_chief_complaint', 'chronic_months', 'interpersonal_conflicts', 'interpersonal_impairment', 'single_focus', 'psychotic_symptoms', 'substance_active', 'severe_dissociation', 'motivation_importance', 'motivation_confidence', 'motivation_readiness', 'scale_consent', 'scale_answer_score', 'confirmation_decision']` | 是 | — | 枚举='symptom_duration_days', 'functional_impairment', 'mania_or_hypomania_history', 'substance_or_medical_cause', 'differential_diagnoses_assessed', 'evidence_conflicts', 'diagnostic_details', 'relapse_count', 'rhythm_disturbance', 'exposure_avoidant', 'ritual_behaviors', 'insomnia_chief_complaint', 'chronic_months', 'interpersonal_conflicts', 'interpersonal_impairment', 'single_focus', 'psychotic_symptoms', 'substance_active', 'severe_dissociation', 'motivation_importance', 'motivation_confidence', 'motivation_readiness', 'scale_consent', 'scale_answer_score', 'confirmation_decision' |
 | `value` | `Any` | 是 | — | — |
 | `evidence_quote` | `str` | 是 | — | — |
 
 #### `CorrectionCandidate` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:80`](../layers/layer2/schemas/models.py#L80)
+源码：[`layers/layer2/schemas/models.py:101`](../layers/layer2/schemas/models.py#L101)
 
 !!! abstract "Usage Documentation"
 
@@ -284,7 +430,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `SemanticAnalysis` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:97`](../layers/layer2/schemas/models.py#L97)
+源码：[`layers/layer2/schemas/models.py:118`](../layers/layer2/schemas/models.py#L118)
 
 语义分析 API 的严格输出；这里的内容尚未成为患者事实。
 
@@ -307,7 +453,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `EvidenceNode` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:118`](../layers/layer2/schemas/models.py#L118)
+源码：[`layers/layer2/schemas/models.py:139`](../layers/layer2/schemas/models.py#L139)
 
 !!! abstract "Usage Documentation"
 
@@ -324,7 +470,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `SymptomEvidence` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:131`](../layers/layer2/schemas/models.py#L131)
+源码：[`layers/layer2/schemas/models.py:152`](../layers/layer2/schemas/models.py#L152)
 
 !!! abstract "Usage Documentation"
 
@@ -334,10 +480,11 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 | `sources` | `list[str]` | 是 | — | 最少项=1 |
 | `patient_quotes` | `list[str]` | 是 | — | 最少项=1 |
 | `attributes` | `dict[str, Any]` | 否 | 工厂生成 | — |
+| `attribute_facts` | `list[ClinicalFact]` | 否 | 工厂生成 | — |
 
 #### `ProfileFact` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:140`](../layers/layer2/schemas/models.py#L140)
+源码：[`layers/layer2/schemas/models.py:162`](../layers/layer2/schemas/models.py#L162)
 
 !!! abstract "Usage Documentation"
 
@@ -349,7 +496,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `MotivationScores` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:148`](../layers/layer2/schemas/models.py#L148)
+源码：[`layers/layer2/schemas/models.py:170`](../layers/layer2/schemas/models.py#L170)
 
 !!! abstract "Usage Documentation"
 
@@ -362,7 +509,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `ScaleResult` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:157`](../layers/layer2/schemas/models.py#L157)
+源码：[`layers/layer2/schemas/models.py:179`](../layers/layer2/schemas/models.py#L179)
 
 !!! abstract "Usage Documentation"
 
@@ -378,7 +525,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `PendingScaleItem` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:169`](../layers/layer2/schemas/models.py#L169)
+源码：[`layers/layer2/schemas/models.py:191`](../layers/layer2/schemas/models.py#L191)
 
 !!! abstract "Usage Documentation"
 
@@ -393,13 +540,14 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `DiagnosticContext` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:180`](../layers/layer2/schemas/models.py#L180)
+源码：[`layers/layer2/schemas/models.py:202`](../layers/layer2/schemas/models.py#L202)
 
 !!! abstract "Usage Documentation"
 
 | 字段 | 类型 | 必填 | 默认值 | 约束 |
 |---|---|:---:|---|---|
 | `symptom_duration_days` | `int | NoneType` | 否 | `None` | — |
+| `duration_evidence` | `list[DurationEvidence]` | 否 | 工厂生成 | — |
 | `functional_impairment` | `bool | NoneType` | 否 | `None` | — |
 | `mania_or_hypomania_history` | `bool | NoneType` | 否 | `None` | — |
 | `substance_or_medical_cause` | `bool | NoneType` | 否 | `None` | — |
@@ -422,13 +570,17 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `L2SessionState` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:205`](../layers/layer2/schemas/models.py#L205)
+源码：[`layers/layer2/schemas/models.py:228`](../layers/layer2/schemas/models.py#L228)
 
 !!! abstract "Usage Documentation"
 
 | 字段 | 类型 | 必填 | 默认值 | 约束 |
 |---|---|:---:|---|---|
 | `session_id` | `str` | 是 | — | — |
+| `contract_version` | `str` | 否 | `'l2-l3-clinical-v2'` | — |
+| `interview_date` | `str | NoneType` | 否 | `None` | — |
+| `clinical_facts` | `list[ClinicalFact]` | 否 | 工厂生成 | — |
+| `follow_up_tasks` | `list[FollowUpTask]` | 否 | 工厂生成 | — |
 | `current_stage` | `Literal['engaging', 'focusing', 'evoking', 'planning']` | 否 | `'engaging'` | 枚举='engaging', 'focusing', 'evoking', 'planning' |
 | `turn_index` | `int` | 否 | `0` | — |
 | `safety_passport` | `dict[str, Any]` | 是 | — | — |
@@ -455,7 +607,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `StageDecision` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:234`](../layers/layer2/schemas/models.py#L234)
+源码：[`layers/layer2/schemas/models.py:261`](../layers/layer2/schemas/models.py#L261)
 
 !!! abstract "Usage Documentation"
 
@@ -471,7 +623,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `L2Turn` · 内部结构
 
-源码：[`layers/layer2/schemas/models.py:246`](../layers/layer2/schemas/models.py#L246)
+源码：[`layers/layer2/schemas/models.py:273`](../layers/layer2/schemas/models.py#L273)
 
 !!! abstract "Usage Documentation"
 
@@ -488,7 +640,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `DialogueResult` · 层间接口
 
-源码：[`layers/layer2/schemas/models.py:259`](../layers/layer2/schemas/models.py#L259)
+源码：[`layers/layer2/schemas/models.py:286`](../layers/layer2/schemas/models.py#L286)
 
 !!! abstract "Usage Documentation"
 
@@ -503,7 +655,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `ClinicalIntake` · 层间接口
 
-源码：[`layers/layer2/schemas/models.py:270`](../layers/layer2/schemas/models.py#L270)
+源码：[`layers/layer2/schemas/models.py:297`](../layers/layer2/schemas/models.py#L297)
 
 !!! abstract "Usage Documentation"
 
@@ -512,6 +664,10 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 | `layer_id` | `Literal['L2']` | 否 | `'L2'` | — |
 | `timestamp` | `str` | 否 | 工厂生成 | — |
 | `session_id` | `str` | 是 | — | — |
+| `contract_version` | `str` | 否 | `'l2-l3-clinical-v2'` | — |
+| `interview_date` | `str | NoneType` | 否 | `None` | — |
+| `clinical_facts` | `list[ClinicalFact]` | 否 | 工厂生成 | — |
+| `follow_up_tasks` | `list[FollowUpTask]` | 否 | 工厂生成 | — |
 | `current_stage` | `Literal['engaging', 'focusing', 'evoking', 'planning']` | 是 | — | 枚举='engaging', 'focusing', 'evoking', 'planning' |
 | `key_symptoms_extracted` | `list[SymptomEvidence]` | 否 | 工厂生成 | — |
 | `emotions` | `list[ProfileFact]` | 否 | 工厂生成 | — |
@@ -541,7 +697,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `MissingDimension` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:13`](../layers/layer3/diagnosis/schemas.py#L13)
+源码：[`layers/layer3/diagnosis/schemas.py:14`](../layers/layer3/diagnosis/schemas.py#L14)
 
 !!! abstract "Usage Documentation"
 
@@ -553,7 +709,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `TreeNodeJudgment` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:21`](../layers/layer3/diagnosis/schemas.py#L21)
+源码：[`layers/layer3/diagnosis/schemas.py:22`](../layers/layer3/diagnosis/schemas.py#L22)
 
 !!! abstract "Usage Documentation"
 
@@ -563,12 +719,14 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 | `status` | `Literal['met', 'not_met', 'pending']` | 是 | — | 枚举='met', 'not_met', 'pending' |
 | `rationale` | `str` | 是 | — | 最短长度=1 |
 | `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
+| `temporal_decision` | `TemporalDecision | NoneType` | 否 | `None` | — |
 | `symptom_ids` | `list[str]` | 否 | 工厂生成 | — |
 | `confidence` | `float` | 否 | `0.5` | 最小=0；最大=1 |
+| `denial_scope` | `Literal['full', 'partial', 'none', 'unknown']` | 否 | `'unknown'` | 枚举='full', 'partial', 'none', 'unknown' |
 
 #### `TreeDecisionRecord` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:32`](../layers/layer3/diagnosis/schemas.py#L32)
+源码：[`layers/layer3/diagnosis/schemas.py:47`](../layers/layer3/diagnosis/schemas.py#L47)
 
 !!! abstract "Usage Documentation"
 
@@ -578,15 +736,17 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 | `status` | `Literal['met', 'not_met', 'pending']` | 是 | — | 枚举='met', 'not_met', 'pending' |
 | `rationale` | `str` | 是 | — | 最短长度=1 |
 | `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
+| `temporal_decision` | `TemporalDecision | NoneType` | 否 | `None` | — |
 | `symptom_ids` | `list[str]` | 否 | 工厂生成 | — |
 | `confidence` | `float` | 否 | `0.5` | 最小=0；最大=1 |
+| `denial_scope` | `Literal['full', 'partial', 'none', 'unknown']` | 否 | `'unknown'` | 枚举='full', 'partial', 'none', 'unknown' |
 | `question` | `str` | 是 | — | — |
 | `source_refs` | `list[str]` | 是 | — | — |
 | `stage` | `Literal['screening', 'anchor', 'exclusion', 'criterion']` | 是 | — | 枚举='screening', 'anchor', 'exclusion', 'criterion' |
 
 #### `CandidateDecisionPath` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:38`](../layers/layer3/diagnosis/schemas.py#L38)
+源码：[`layers/layer3/diagnosis/schemas.py:53`](../layers/layer3/diagnosis/schemas.py#L53)
 
 !!! abstract "Usage Documentation"
 
@@ -599,7 +759,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `SymptomMatch` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:47`](../layers/layer3/diagnosis/schemas.py#L47)
+源码：[`layers/layer3/diagnosis/schemas.py:62`](../layers/layer3/diagnosis/schemas.py#L62)
 
 !!! abstract "Usage Documentation"
 
@@ -610,7 +770,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `DiagnosticCandidate` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:60`](../layers/layer3/diagnosis/schemas.py#L60)
+源码：[`layers/layer3/diagnosis/schemas.py:75`](../layers/layer3/diagnosis/schemas.py#L75)
 
 !!! abstract "Usage Documentation"
 
@@ -626,7 +786,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `CandidateGeneration` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:72`](../layers/layer3/diagnosis/schemas.py#L72)
+源码：[`layers/layer3/diagnosis/schemas.py:87`](../layers/layer3/diagnosis/schemas.py#L87)
 
 !!! abstract "Usage Documentation"
 
@@ -640,7 +800,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `CriterionAssessment` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:82`](../layers/layer3/diagnosis/schemas.py#L82)
+源码：[`layers/layer3/diagnosis/schemas.py:97`](../layers/layer3/diagnosis/schemas.py#L97)
 
 !!! abstract "Usage Documentation"
 
@@ -654,7 +814,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `EliminativeAssessment` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:92`](../layers/layer3/diagnosis/schemas.py#L92)
+源码：[`layers/layer3/diagnosis/schemas.py:107`](../layers/layer3/diagnosis/schemas.py#L107)
 
 !!! abstract "Usage Documentation"
 
@@ -668,7 +828,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `VerifierDimension` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:102`](../layers/layer3/diagnosis/schemas.py#L102)
+源码：[`layers/layer3/diagnosis/schemas.py:117`](../layers/layer3/diagnosis/schemas.py#L117)
 
 !!! abstract "Usage Documentation"
 
@@ -681,7 +841,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `RewardModelAssessment` · 内部结构
 
-源码：[`layers/layer3/diagnosis/schemas.py:116`](../layers/layer3/diagnosis/schemas.py#L116)
+源码：[`layers/layer3/diagnosis/schemas.py:131`](../layers/layer3/diagnosis/schemas.py#L131)
 
 !!! abstract "Usage Documentation"
 
@@ -696,7 +856,7 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 #### `MotivationInput` · 内部结构
 
-源码：[`layers/layer3/api.py:24`](../layers/layer3/api.py#L24)
+源码：[`layers/layer3/api.py:26`](../layers/layer3/api.py#L26)
 
 !!! abstract "Usage Documentation"
 
@@ -705,15 +865,22 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 | `importance` | `int | NoneType` | 否 | `None` | — |
 | `confidence` | `int | NoneType` | 否 | `None` | — |
 | `readiness` | `int | NoneType` | 否 | `None` | — |
+| `sources` | `list[str]` | 否 | 工厂生成 | — |
 
 #### `DiagnoseRequest` · 层间接口
 
-源码：[`layers/layer3/api.py:30`](../layers/layer3/api.py#L30)
+源码：[`layers/layer3/api.py:33`](../layers/layer3/api.py#L33)
 
 !!! abstract "Usage Documentation"
 
 | 字段 | 类型 | 必填 | 默认值 | 约束 |
 |---|---|:---:|---|---|
+| `contract_version` | `Literal['l2-l3-clinical-v2']` | 否 | `'l2-l3-clinical-v2'` | — |
+| `interview_date` | `date | NoneType` | 否 | `None` | — |
+| `clinical_facts` | `list[ClinicalFact]` | 否 | 工厂生成 | — |
+| `duration_evidence` | `list[DurationEvidence]` | 否 | 工厂生成 | — |
+| `follow_up_tasks` | `list[FollowUpTask]` | 否 | 工厂生成 | — |
+| `temporal_audit` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `PHQ9` | `float | NoneType` | 否 | `None` | — |
 | `GAD7` | `float | NoneType` | 否 | `None` | — |
 | `MDQ` | `float | NoneType` | 否 | `None` | — |
@@ -724,30 +891,36 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 | `RRS` | `float | NoneType` | 否 | `None` | — |
 | `AAQ_II` | `float | NoneType` | 否 | `None` | — |
 | `PHQ15` | `float | NoneType` | 否 | `None` | — |
-| `relapse_count` | `int | NoneType` | 否 | `None` | — |
-| `rhythm_disturbance` | `bool | NoneType` | 否 | `None` | — |
-| `exposure_avoidant` | `bool | NoneType` | 否 | `None` | — |
-| `ritual_behaviors` | `bool | NoneType` | 否 | `None` | — |
-| `insomnia_chief_complaint` | `bool | NoneType` | 否 | `None` | — |
-| `chronic_months` | `int | NoneType` | 否 | `None` | — |
-| `interpersonal_conflicts` | `int | NoneType` | 否 | `None` | — |
-| `interpersonal_impairment` | `bool | NoneType` | 否 | `None` | — |
-| `single_focus` | `bool | NoneType` | 否 | `None` | — |
-| `psychotic_symptoms` | `bool | NoneType` | 否 | `None` | — |
-| `substance_active` | `bool | NoneType` | 否 | `None` | — |
-| `severe_dissociation` | `bool | NoneType` | 否 | `None` | — |
-| `risk_level` | `int` | 否 | `0` | — |
-| `sensitive_topics` | `list[str]` | 否 | 有默认值 | — |
-| `l1_flags` | `list[str]` | 否 | 有默认值 | — |
 | `PHQ9_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `key_symptoms_extracted` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `symptom_duration_days` | `int | NoneType` | 否 | `None` | — |
-| `functional_impairment` | `bool | NoneType` | 否 | `None` | — |
-| `mania_or_hypomania_history` | `bool | NoneType` | 否 | `None` | — |
-| `substance_or_medical_cause` | `bool | NoneType` | 否 | `None` | — |
+| `GAD7_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `MDQ_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `PCL5_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `ISI_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `Y_BOCS_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `ADNM_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `RRS_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `AAQ_II_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `PHQ15_items` | `dict[str, float]` | 否 | 工厂生成 | — |
+| `relapse_count` | `Annotated | NoneType` | 否 | `None` | — |
+| `chronic_months` | `Annotated | NoneType` | 否 | `None` | — |
+| `interpersonal_conflicts` | `Annotated | NoneType` | 否 | `None` | — |
+| `symptom_duration_days` | `Annotated | NoneType` | 否 | `None` | — |
+| `functional_impairment` | `Annotated | NoneType` | 否 | `None` | — |
+| `mania_or_hypomania_history` | `Annotated | NoneType` | 否 | `None` | — |
+| `substance_or_medical_cause` | `Annotated | NoneType` | 否 | `None` | — |
+| `rhythm_disturbance` | `Annotated | NoneType` | 否 | `None` | — |
+| `exposure_avoidant` | `Annotated | NoneType` | 否 | `None` | — |
+| `ritual_behaviors` | `Annotated | NoneType` | 否 | `None` | — |
+| `insomnia_chief_complaint` | `Annotated | NoneType` | 否 | `None` | — |
+| `interpersonal_impairment` | `Annotated | NoneType` | 否 | `None` | — |
+| `single_focus` | `Annotated | NoneType` | 否 | `None` | — |
+| `psychotic_symptoms` | `Annotated | NoneType` | 否 | `None` | — |
+| `substance_active` | `Annotated | NoneType` | 否 | `None` | — |
+| `severe_dissociation` | `Annotated | NoneType` | 否 | `None` | — |
 | `differential_diagnoses_assessed` | `list[str] | NoneType` | 否 | `None` | — |
 | `evidence_conflicts` | `list[dict[str, Any]] | NoneType` | 否 | `None` | — |
 | `diagnostic_details` | `dict[str, Any]` | 否 | 工厂生成 | — |
+| `key_symptoms_extracted` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `emotions` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `cognitive_patterns` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `key_narratives` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
@@ -755,10 +928,13 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 | `patient_goals` | `list[str]` | 否 | 工厂生成 | — |
 | `motivation` | `MotivationInput` | 否 | 工厂生成 | — |
 | `evidence_nodes` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `risk_level` | `int` | 否 | `0` | — |
+| `sensitive_topics` | `list[str]` | 否 | 有默认值 | — |
+| `l1_flags` | `list[str]` | 否 | 有默认值 | — |
 
 #### `DiagnoseResponse` · 层间接口
 
-源码：[`layers/layer3/api.py:74`](../layers/layer3/api.py#L74)
+源码：[`layers/layer3/api.py:40`](../layers/layer3/api.py#L40)
 
 !!! abstract "Usage Documentation"
 
@@ -776,6 +952,10 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 | `tree_trace` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `candidate_coverage` | `dict[str, str]` | 否 | 工厂生成 | — |
 | `candidate_missing_dimensions` | `list[dict[str, str]]` | 否 | 工厂生成 | — |
+| `diagnostic_readiness` | `dict[str, Any]` | 否 | 工厂生成 | — |
+| `information_collection_plan` | `dict[str, Any]` | 否 | 工厂生成 | — |
+| `duration_evidence` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `temporal_audit` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `diagnosis` | `dict` | 是 | — | — |
 | `verifier_score` | `float` | 是 | — | — |
 | `verifier_decision` | `str` | 是 | — | — |
@@ -1222,6 +1402,10 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 | `tree_trace` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `candidate_coverage` | `dict[str, str]` | 否 | 工厂生成 | — |
 | `candidate_missing_dimensions` | `list[dict[str, str]]` | 否 | 工厂生成 | — |
+| `diagnostic_readiness` | `dict[str, Any]` | 否 | 工厂生成 | — |
+| `information_collection_plan` | `dict[str, Any]` | 否 | 工厂生成 | — |
+| `duration_evidence` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `temporal_audit` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `layer_id` | `str` | 否 | `'L3'` | — |
 | `timestamp` | `str` | 否 | `''` | — |
 | `diagnosis` | `Diagnosis` | 否 | 有默认值 | — |

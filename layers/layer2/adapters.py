@@ -4,6 +4,7 @@ from typing import Any
 
 from layers.layer2.guards import L2ExitGuard
 from layers.layer2.schemas import ClinicalIntake
+from shared.clinical_profile import ClinicalProfile
 
 
 SCALE_TO_L3 = {
@@ -35,6 +36,11 @@ class L2ToL3Adapter:
         intake. Production callers must continue using guarded ``to_profile``.
         """
         profile: dict[str, Any] = {
+            "contract_version": intake.contract_version,
+            "interview_date": intake.interview_date,
+            "clinical_facts": [f.model_dump(mode="json") for f in intake.clinical_facts],
+            "duration_evidence": [d.model_dump(mode="json") for d in intake.diagnostic_context.duration_evidence],
+            "follow_up_tasks": [t.model_dump(mode="json") for t in intake.follow_up_tasks],
             "key_symptoms_extracted": [
                 item.model_dump(mode="json") for item in intake.key_symptoms_extracted
             ],
@@ -89,4 +95,5 @@ class L2ToL3Adapter:
             profile[f"{key}_items"] = {
                 f"item{number}": score for number, score in result.items.items()
             }
+        ClinicalProfile.model_validate(profile)
         return profile

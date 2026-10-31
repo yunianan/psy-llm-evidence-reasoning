@@ -1,6 +1,6 @@
 {
   "standard": "DSM-5",
-  "version": "project-candidate-subgraph-1",
+  "version": "project-candidate-subgraph-3-insomnia-restored",
   "scope": "L3 Step 1; project adaptation, not all 29 original trees or author source code",
   "policy": {
     "unknown": "preserve branch; never infer absence",

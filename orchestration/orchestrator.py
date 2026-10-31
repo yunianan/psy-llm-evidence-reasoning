@@ -500,6 +500,8 @@ class FiveLayerOrchestrator:
         report = DiagnosticReport.model_validate(raw)
         session.l3_raw = raw
         session.diagnostic_report = report
+        if session.l2_session_id is not None:
+            self.l2.receive_l3_follow_up(session.l2_session_id, None, report.duration_evidence)
 
         if report.verifier_routing == "return_to_l2":
             session.l3_to_l2_loop_count += 1
@@ -516,6 +518,10 @@ class FiveLayerOrchestrator:
             session.pending_l3_dimensions = [
                 item.model_dump(mode="json") for item in report.missing_dimensions
             ]
+            planned = report.information_collection_plan.get("items") or session.pending_l3_dimensions
+            session.pending_l3_dimensions = list(planned)
+            if session.l2_session_id is not None:
+                self.l2.receive_l3_follow_up(session.l2_session_id, list(planned), report.duration_evidence)
             expected, question = self._l3_missing_requirement(
                 session.pending_l3_dimensions
             )

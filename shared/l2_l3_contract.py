@@ -68,13 +68,20 @@ REQUIRED_DIAGNOSTIC_FIELD_BY_LABEL = {
 }
 
 
+def requirement_value(context: Any, field: str):
+    get = context.get if isinstance(context, Mapping) else lambda name, default=None: getattr(context, name, default)
+    if field == "symptom_duration_days":
+        return get("duration_evidence") or get(field)
+    return get(field)
+
+
 def missing_required_context_fields(context: Any) -> list[RequiredDiagnosticField]:
     """检查 L2 DiagnosticContext；False 与 0 都是有效且必须保留的回答。"""
 
     return [
         item
         for item in L2_L3_REQUIRED_DIAGNOSTIC_FIELDS
-        if getattr(context, item.field, None) is None
+        if requirement_value(context, item.field) is None
     ]
 
 
@@ -86,7 +93,7 @@ def missing_required_profile_fields(
     return [
         item
         for item in L2_L3_REQUIRED_DIAGNOSTIC_FIELDS
-        if profile.get(item.field) is None
+        if requirement_value(profile, item.field) is None
     ]
 
 
@@ -103,8 +110,17 @@ def missing_required_profile_evidence(
     return [
         item
         for item in L2_L3_REQUIRED_DIAGNOSTIC_FIELDS
-        if profile.get(item.field) is not None and item.evidence_target not in targets
+        if requirement_value(profile, item.field) is not None and item.evidence_target not in targets
+        and not (item.field == "symptom_duration_days" and _duration_refs_valid(profile))
     ]
+
+
+def _duration_refs_valid(profile: Mapping[str, Any]) -> bool:
+    nodes = {n.get("evidence_id"): n for n in profile.get("evidence_nodes", []) if isinstance(n, Mapping)}
+    records = profile.get("duration_evidence") or []
+    return bool(records) and all(isinstance(r, Mapping) and r.get("evidence_refs")
+        and all(ref in nodes and str(r.get("raw_span", "")) in str(nodes[ref].get("quote", ""))
+                for ref in r["evidence_refs"]) for r in records)
 
 
 def as_missing_dimension(item: RequiredDiagnosticField) -> dict[str, str]:

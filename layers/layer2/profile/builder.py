@@ -9,6 +9,8 @@ def build_clinical_intake(state: L2SessionState) -> ClinicalIntake:
     missing = missing_dimensions(state)
     intake = ClinicalIntake(
         session_id=state.session_id,
+        contract_version=state.contract_version, interview_date=state.interview_date,
+        clinical_facts=state.clinical_facts, follow_up_tasks=state.follow_up_tasks,
         current_stage=state.current_stage,
         key_symptoms_extracted=list(state.symptoms.values()),
         emotions=state.emotions,

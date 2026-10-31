@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import uuid
+from datetime import datetime, timedelta, timezone
+from shared.clinical_contract import DurationEvidence, follow_up_task
 from typing import Any
 
 from layers.layer2.guards import (
@@ -56,6 +58,7 @@ class L2AssessmentService:
         controls = merge_persistent_controls([], safety_passport)
         state = L2SessionState(
             session_id=sid,
+            interview_date=datetime.now(timezone(timedelta(hours=8))).date().isoformat(),
             safety_passport=dict(safety_passport),
             active_safety_controls=controls,
         )
@@ -68,6 +71,8 @@ class L2AssessmentService:
     ) -> None:
         self.entrance_guard.verify(safety_passport, session_id=session_id)
         state = self.store.snapshot(session_id)
+        if state.interview_date is None:
+            state.interview_date = datetime.now(timezone(timedelta(hours=8))).date().isoformat()
         state.active_safety_controls = merge_persistent_controls(
             state.active_safety_controls, safety_passport
         )
@@ -315,6 +320,19 @@ class L2AssessmentService:
     def build_clinical_intake(self, session_id: str) -> ClinicalIntake:
         return build_clinical_intake(self.store.snapshot(session_id))
 
+    def receive_l3_follow_up(self, session_id: str, items: list[dict] | None, durations: list[dict] | None = None) -> None:
+        state = self.store.snapshot(session_id)
+        if items is not None:
+            state.follow_up_tasks = [follow_up_task(item) for item in items]
+        known = {(d.raw_span, d.scope, tuple(d.evidence_refs), d.source) for d in state.diagnostic_context.duration_evidence}
+        for value in durations or []:
+            record = DurationEvidence.model_validate(value)
+            key = (record.raw_span, record.scope, tuple(record.evidence_refs), record.source)
+            if key not in known:
+                state.diagnostic_context.duration_evidence.append(record)
+                known.add(key)
+        self.store.replace(state)
+
     def get_session_snapshot(self, session_id: str) -> L2SessionState:
         return self.store.snapshot(session_id)
 
@@ -368,6 +386,9 @@ class L2AssessmentService:
             "active_safety_controls": state.active_safety_controls,
             "validated_focus": [item.value for item in state.focus_topics],
             "missing_dimensions": state.missing_dimensions,
+            "follow_up_task": next((t.model_dump(mode="json") for t in state.follow_up_tasks if t.status == "pending"), None),
+            "interview_date": state.interview_date,
+            "symptom_context": [s.model_dump(mode="json") for s in state.symptoms.values()],
         }
 
     @staticmethod

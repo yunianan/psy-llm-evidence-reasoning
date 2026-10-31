@@ -3,7 +3,9 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from shared.clinical_contract import CONTRACT_VERSION, ClinicalFact, DurationEvidence, FollowUpTask, StructuredFieldName
+from shared.clinical_profile import ClinicalProfile
 
 
 MIStage = Literal["engaging", "focusing", "evoking", "planning"]
@@ -64,9 +66,28 @@ class SemanticCandidate(BaseModel):
 class StructuredFieldCandidate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    field: str
+    field: StructuredFieldName
     value: Any
     evidence_quote: str
+
+    @model_validator(mode="after")
+    def field_value_type(self):
+        # 自然语言病程合法保留，后续确定性解析，不能因类型不符静默丢弃。
+        if self.field == "symptom_duration_days" and not (
+            isinstance(self.value, (str, dict)) or type(self.value) is int
+        ):
+            raise ValueError("病程必须为原文、结构化病程或整数兼容值")
+        if self.field in ClinicalProfile.model_fields and self.field != "symptom_duration_days":
+            ClinicalProfile.model_validate({self.field: self.value})
+        if self.field.startswith("motivation_") and not (type(self.value) is int and 0 <= self.value <= 10):
+            raise ValueError("动机评分必须为0至10整数")
+        if self.field == "scale_consent" and type(self.value) is not bool:
+            raise ValueError("量表同意必须为布尔值")
+        if self.field == "scale_answer_score" and type(self.value) is not int:
+            raise ValueError("量表逐题答案必须为整数")
+        if self.field == "confirmation_decision" and self.value not in ("continue", "revise", "pause"):
+            raise ValueError("画像确认值无效")
+        return self
 
     @field_validator("field", "evidence_quote")
     @classmethod
@@ -135,6 +156,7 @@ class SymptomEvidence(BaseModel):
     sources: list[str] = Field(min_length=1)
     patient_quotes: list[str] = Field(min_length=1)
     attributes: dict[str, Any] = Field(default_factory=dict)
+    attribute_facts: list[ClinicalFact] = Field(default_factory=list)
 
 
 class ProfileFact(BaseModel):
@@ -181,6 +203,7 @@ class DiagnosticContext(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     symptom_duration_days: int | None = Field(default=None, ge=0)
+    duration_evidence: list[DurationEvidence] = Field(default_factory=list)
     functional_impairment: bool | None = None
     mania_or_hypomania_history: bool | None = None
     substance_or_medical_cause: bool | None = None
@@ -206,6 +229,10 @@ class L2SessionState(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     session_id: str
+    contract_version: str = CONTRACT_VERSION
+    interview_date: str | None = None
+    clinical_facts: list[ClinicalFact] = Field(default_factory=list)
+    follow_up_tasks: list[FollowUpTask] = Field(default_factory=list)
     current_stage: MIStage = "engaging"
     turn_index: int = 0
     safety_passport: dict[str, Any]
@@ -273,6 +300,10 @@ class ClinicalIntake(BaseModel):
     layer_id: Literal["L2"] = "L2"
     timestamp: str = Field(default_factory=utc_now)
     session_id: str
+    contract_version: str = CONTRACT_VERSION
+    interview_date: str | None = None
+    clinical_facts: list[ClinicalFact] = Field(default_factory=list)
+    follow_up_tasks: list[FollowUpTask] = Field(default_factory=list)
     current_stage: MIStage
     key_symptoms_extracted: list[SymptomEvidence] = Field(default_factory=list)
     emotions: list[ProfileFact] = Field(default_factory=list)

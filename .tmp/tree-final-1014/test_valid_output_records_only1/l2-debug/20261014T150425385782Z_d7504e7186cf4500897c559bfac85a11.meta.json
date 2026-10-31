@@ -1,9 +1,0 @@
-{
-  "stage": "L2.generate.schema_validation",
-  "timestamp": "2026-10-14T15:04:25.385782+00:00",
-  "finish_reason": "stop",
-  "content_length": 291,
-  "parse_success": true,
-  "output_valid": true,
-  "exception": null
-}

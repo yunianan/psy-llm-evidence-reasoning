@@ -34,11 +34,18 @@ class ControlledCLINICRReasoner:
         self.generate_calls.append(profile)
         required = {"item1", "item2", "item3", "item4", "item6"}
         complete = ["D013"] if required <= set(profile.get("PHQ9_items") or {}) else []
-        return controlled_generation(
+        generation = controlled_generation(
             ["D013", "D011", "D020", "D009"], ref=_known_ref(profile),
             complete_labels=complete,
             confidences={"D013": .75, "D011": .45, "D020": .35, "D009": .15},
         )
+        # 病程节点不能借用量表引用；使用夹具中真实患者病程证据。
+        refs = [ref for d in profile.get("duration_evidence", []) for ref in d.get("evidence_refs", [])]
+        if refs:
+            for record in generation.tree_trace:
+                if record.node_id == "criterion.D013.depressive_episode/min_duration" and record.status == "met":
+                    record.evidence_refs = refs[:1]
+        return generation
 
 
 class ControlledRewardModelVerifier:

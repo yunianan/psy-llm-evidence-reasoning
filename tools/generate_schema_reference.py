@@ -26,7 +26,7 @@ SECTIONS = {
         "layers.layer1.risk_classifier",
         "shared.schemas.safety_schema",
     ],
-    "L2：评估、量表与患者画像": ["layers.layer2.schemas.models"],
+    "L2：评估、量表与患者画像": ["shared.clinical_contract", "shared.clinical_profile", "layers.layer2.schemas.models"],
     "L3：诊断、疗法选择与治疗指令": [
         "layers.layer3.diagnosis.schemas",
         "layers.layer3.api",

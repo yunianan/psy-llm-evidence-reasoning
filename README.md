@@ -4,11 +4,13 @@
 
 各层当前 Schema、字段类型、必填项、默认值和约束见 [L1–L5 Schema 参考](docs/layer-schema-reference.md)。该文档从实际代码生成，Schema 改动后必须同步生成，并由自动化测试检查一致性。
 
-诊断标准为 **DSM-5**。全系统候选诊断范围是 **MentalKG 原始 D001–D023＋失眠障碍 `Insomnia`，共 24 个**。L3 从原始图谱读取 ID、名称、诊断条件和鉴别说明；失眠保留为独立项目扩展，已按 MentalKG 格式补齐 DSM-5 条件，不伪称原 MentalKG 节点。候选生成按 DSM-5 决策子图检查 24 个标签，输出 0–24 个有证据的候选；空结果返回 L2 补充信息。实现、来源和使用边界见 [决策树候选生成说明](knowledge/dsm5_decision_tree/README.md)。失眠补充见 [knowledge/dsm5_supplement](knowledge/dsm5_supplement/README.md)，症状总数为原图谱 84 项＋补充 3 项；标准取证直接定位 JSON 条目。
+诊断标准为 **DSM-5**。项目候选标签范围是 **MentalKG 原始 D001–D023＋失眠障碍 `Insomnia`，共 24 个**。原图谱、失眠补充及扩展子图均独立保留；失眠补充见 [dsm5_supplement](../external/MentalBench/resources/dsm5_supplement/README.md)。疾病目录与症状词表保留 24 个标签和 87 项症状。原决策树执行器保留供显式调用，说明见 [决策树候选生成说明](knowledge/dsm5_decision_tree/README.md)。
 
 展示使用九个项目分组和具体诊断名称，如“抑郁相关 · 重性抑郁障碍”。焦虑相关（D011、D012）与睡眠相关（Insomnia）分别展示，分组属于项目展示元数据。已适配 L2 画像、L3 推理与校验、L4/L5 报告传递、开发者展示及 Patient Agent 标签。新增诊断没有现有治疗映射时保留诊断结果并转人工复核，不自动套用疗法。
 
 图谱默认位置为工作区 `external/MentalBench/resources/knowledge_graph/EN`。独立部署时通过 `MENTALKG_PATH` 指定同一原始 EN 目录；缺少源码时应先下载作者仓库，不退回旧十类定义。第三层 API 的 `GET /diagnostic-catalog` 返回全部 24 个标签及九个展示分组。
+
+**L3 诊断知识当前未接入，等待后续 GraphRAG 接入。** 默认知识提供者不会读取 MentalKG 或失眠补充的诊断条件、鉴别说明和事件，也不会自动回退到 JSON 或自由生成诊断；默认诊断调用会提示知识尚未接入（HTTP 返回 503）。独立数据源、扩展子图和 Embedding 客户端均保留。模块分工与注入接口见 [L3 诊断知识访问](docs/l3-knowledge-access.md)。病例检索尚未接入。
 
 **本地完整系统入口是根目录 `main.py`。** 在 VS Code 中运行它即可输入自然语言，不需要分别启动五层服务，也不需要手动填写患者画像或诊断 JSON。
 
@@ -110,6 +112,37 @@ L4_MAX_REWRITE_ATTEMPTS=3
 
 本地终端入口要求 `openai_compat` 和 `l5_local`，不接受 Mock 模式。自动化测试通过显式注入受控模型运行。
 
+### Embedding 向量接口
+
+独立客户端 `shared/embedding_client.py` 使用百炼 `text-embedding-v4`，默认 **1024 维**，提供 `embed_query(text)` 和 `embed_documents(texts)`。批量输入自动按每批最多 10 条调用，并检查返回数量、索引与维度。当前客户端供后续检索使用，尚未接入 L3 图谱或病例检索流程。
+
+在本地 `.env` 中配置：
+
+```dotenv
+EMBEDDING_API_KEY=你的百炼API密钥
+EMBEDDING_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+EMBEDDING_MODEL=text-embedding-v4
+EMBEDDING_DIMENSIONS=1024
+```
+
+默认地址对应北京地域。也可使用控制台对应业务空间的 OpenAI 兼容 `base_url`，不要包含末尾 `/embeddings`；地域必须与密钥匹配。`EMBEDDING_API_KEY` 未填写时可使用 `DASHSCOPE_API_KEY`，聊天模型密钥由原有配置管理。接口参数和地址见[百炼官方文档](https://help.aliyun.com/zh/model-studio/embedding-interfaces-compatible-with-openai)。
+
+填写密钥后，在项目根目录检查真实接口（只发送一条固定测试文本，输出模型名和维度）：
+
+```powershell
+& '.\.venv\Scripts\python.exe' tools/check_embedding.py
+```
+
+成功输出 `{"ok": true, "model": "text-embedding-v4", "dimensions": 1024}`。应用入口已加载 `.env`；其他独立脚本调用客户端前也需加载配置。调用示例：
+
+```python
+from shared.embedding_client import EmbeddingClient
+
+with EmbeddingClient() as client:
+    vector = client.embed_query("最近入睡困难，白天疲倦")
+    vectors = client.embed_documents(["第一段文本", "第二段文本"])
+```
+
 ### 使用阿里平台的 DeepSeek
 
 可以在无共享连接配置时运行 `main.py` 并选择 `2`，也可以在 `.env` 中填写以下三项（把示意文字替换为控制台实际值）：
@@ -139,7 +172,7 @@ L2 语义提取提示中的完整输出约束直接由 `SemanticAnalysis.model_j
 1. **安全入口**：每条可处理消息先进入 L1。LLM 仅识别患者本人自杀风险语义和越狱风险，并输出带原文证据的结构化事实；规则按“自杀安全优先、越狱其次、正常放行最后”路由。存在自杀风险或无法排除风险时，由规则启动 NIMH ASQ；ASQ 非急性阳性或拒答后进入成人门诊 BSSA。BSSA 的自然访谈和事实提取由 API 完成，急性条件、处置路由、普通疗程暂停和 L2 放行均由规则与守卫决定。急性危机及需要进一步专业评估时不关闭界面，而是暂停普通疗程并保留安全转介页面。API错误与模型结构错误分别返回 `L1_API_ERROR` 和 `L1_MODEL_OUTPUT_INVALID`，都不放行到 L2。
 2. **L2 评估**：入口守卫验证本轮安全通行证；API 负责自然语言理解、语义提取和 MI 回复，规则负责证据记录、量表许可与计分、信息充分度和阶段转换。
 3. **画像确认**：信息充分后展示患者确认卡。修改则继续采集，暂停则停止自动推进；确认并通过 L2 出口守卫后进入 L3。
-4. **L3 三大功能**：CLINICR 在 Step 1 通过 API 一次完成候选取证、标准核对和鉴别剪枝，程序复用节点记录汇总状态，再调用独立终验；不再逐候选重复调用 ELIMINATIVE 模型；疗法三步选择及会话级指令编码使用规则。候选置信度与 Verifier 分数分开保存；插件选择只输出选择结果和依据，不调用插件 API。
+4. **L3 三大功能**：当前诊断知识未连接；保留的 CLINICR 执行器需显式注入知识，才能在 Step 1 通过 API 完成候选取证、标准核对和鉴别剪枝，再复用节点记录汇总状态、调用独立终验。疗法三步选择及会话级指令编码使用规则。候选置信度与 Verifier 分数分开保存；插件选择只输出选择结果和依据，不调用插件 API。
 5. **治疗轮次**：通过 L3→L4 守卫后建立治疗会话。之后每轮根据新消息、历史和静态指令调用 L3 指令 API，经过规则守卫后交给 L4 生成回复，再由 L5 审核。
 
 不是每条消息都完整跑一次五层：评估期间主要运行 L1/L2；治疗期间运行 L1、L3 本轮指令、L4/L5，不会每轮重新诊断和匹配疗法。

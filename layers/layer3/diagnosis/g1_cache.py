@@ -168,7 +168,7 @@ class CachedG1Reasoner:
                     raise ValueError("Cached node definition differs from current traversal")
                 if not set(record["evidence_refs"]) <= allowed:
                     raise ValueError("Cached node references unknown patient evidence")
-                answers.append(TreeNodeJudgment.model_validate({k: record[k] for k in TreeNodeJudgment.model_fields}))
+                answers.append(TreeNodeJudgment.model_validate({k: record[k] for k in TreeNodeJudgment.model_fields if k in record}))
                 consumed.add(node["node_id"])
             return answers
         generation = DecisionTreeCandidateGenerator(replay, knowledge=self.knowledge).generate()

@@ -236,3 +236,6 @@ diagnosis_output.json
 /artifacts/datasets/mentalbench_l2_format/
 /artifacts/datasets/mentalbench_split_v2/
 
+# Local generated developer pages; retain files on disk, never version patient views.
+/artifacts/developer_profiles/
+

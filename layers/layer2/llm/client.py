@@ -91,6 +91,9 @@ anxiety, trauma_related, obsession_compulsion, elevated_mood, passive_si。
 还允许使用以下 MentalKG 原始症状ID作为 value：{json.dumps(symptom_catalog(), ensure_ascii=False)}。
 已有通用标签能够准确表达时保留通用标签；新增症状使用原始ID。
 attributes 可记录患者明确提供的症状频率、病程、起病时间和情境，必须有原话支持，不推断诊断。
+病程保留患者原文字符串，包括约数、模糊说法、相对时间和反复模式；不自行把月份估算为天数。
+symptom_duration_days是旧兼容字段名，其value可填写病程原文，程序会按共享区间策略解析。
+若内部上下文提供follow_up_task，严格围绕其symptom_id、attribute、node_id抽取；省略回答只绑定该任务。
 possible_scale_domains 只能使用：PHQ-9, GAD-7, PCL-5, Y-BOCS, ISI, MDQ。
 它必须是字符串数组，例如 ["PHQ-9", "ISI"]；禁止使用 PHQ9、中文量表名、对象或带解释的名称；没有明确触发信号时返回 []。
 structured_fields 允许：symptom_duration_days, functional_impairment,

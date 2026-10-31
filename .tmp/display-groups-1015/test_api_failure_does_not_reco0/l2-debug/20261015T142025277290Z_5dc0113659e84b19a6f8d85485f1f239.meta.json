@@ -1,9 +1,0 @@
-{
-  "stage": "L2.generate.api_request",
-  "timestamp": "2026-10-15T14:20:25.277290+00:00",
-  "finish_reason": null,
-  "content_length": null,
-  "parse_success": null,
-  "output_valid": false,
-  "exception": "RuntimeError"
-}

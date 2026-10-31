@@ -74,13 +74,14 @@ def criterion_nodes(
         part = key.rsplit("/", 1)[-1]
         result[node_id] = {
             "stage": "criterion", "question": f"患者相关病程是否满足来源字段 {key} 的原始条件？",
-            "follow_up": f"请补充与 {key} 对应的症状、时间和情境信息。",
+            "follow_up": "这些相关症状大概从几月份开始？期间一直如此，还是反复出现？" if part in {"min_duration", "max_duration"} else f"请补充与 {key} 对应的症状、时间和情境信息。",
             "source_refs": [source["source_ref"] + f"/required_criteria/{key}"],
             "source_condition": value, "source_group": group, "mandatory": mandatory,
             "symptom_pool": group.get("symptom_pool", []) if part in {
                 "min_count", "must_include_one_of", "must_include_all"
             } else [],
             "disorders": [label],
+            "duration_symptom_pool": sorted(_symptom_pool(group) or _symptom_pool(source["criteria"])) if part in {"min_duration", "max_duration"} else [],
         }
     return result
 

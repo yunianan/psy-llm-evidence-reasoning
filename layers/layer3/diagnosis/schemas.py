@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from shared.clinical_contract import TemporalDecision
 
 
 from shared.disorder_catalog import DISORDER_COUNT, SUPPORTED_DISORDERS
@@ -25,6 +26,7 @@ class TreeNodeJudgment(BaseModel):
     status: Literal["met", "not_met", "pending"]
     rationale: str = Field(min_length=1)
     evidence_refs: list[str] = Field(default_factory=list)
+    temporal_decision: TemporalDecision | None = None
     symptom_ids: list[str] = Field(
         default_factory=list,
         description="仅 met 可携带正症状 ID；pending/not_met 必须为 []，不把未满足节点计为正症状",

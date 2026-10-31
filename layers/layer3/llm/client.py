@@ -444,6 +444,7 @@ class APICLINICRReasoner:
 symptom_ids 仅从当前节点 symptom_pool 选择有患者事实支持的症状；非 met 必须为空。anchor met 至少有一个症状，且只是候选召回，不是DSM诊断门槛。
 输出契约：status 为 pending 或 not_met 时，symptom_ids 必须逐字输出 []。即使部分症状已有线索但整个计数/关系条件仍 pending，也不得在该节点输出正症状 ID；患者引文可保留在 evidence_refs/rationale。禁止用猜测填满计数。
 criterion 应结合完整来源条目判断 source_condition，保留原始 relation、min_count、时间、事件和附加要求；禁止修改医学规则。
+v2画像中的病程由duration_evidence区间及固定策略统一比较；请定位患者原话引用，不要自行将模糊病程、约数边界或反复总病程升级为持续/单次发作已满足。最终病程结论以程序区间门为准。
 relation=include 的可选症状组缺失不代表完整标准失败；functional_impairment_required=false 表示没有这一必需要求，不要求患者没有损害。
 精神病性症状与心境症状的时间关系、躁狂/轻躁狂完整发作、物质与躯体病因必须有相应证据；共存不等于排除。
 来源不覆盖的年龄、无法判定的规则语义或来源冲突，返回 pending 并说明缺口，禁止自行补造规则。

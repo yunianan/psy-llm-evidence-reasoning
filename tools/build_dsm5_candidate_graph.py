@@ -91,7 +91,7 @@ def build_graph():
     ]:
         guard(key, question, [book("2.19", "99-103"), insomnia["criterion_source_refs"][code]], ["Insomnia"])
     return {
-        "standard": "DSM-5", "version": "project-candidate-subgraph-1",
+        "standard": "DSM-5", "version": "project-candidate-subgraph-3-insomnia-restored",
         "scope": "L3 Step 1; project adaptation, not all 29 original trees or author source code",
         "policy": {"unknown": "preserve branch; never infer absence", "admission": "one evidenced source symptom; engineering recall heuristic only",
                    "diagnosis": "endpoint remains candidate; downstream full criteria review required"},
