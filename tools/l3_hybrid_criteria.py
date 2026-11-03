@@ -32,7 +32,7 @@ def pack_sources(sources):
     return result
 
 
-class ComputableCriteriaReasoner(client.APICLINICRReasoner):
+class ComputableCriteriaReasoner(client.LegacyDSM5TreeReasoner):
     """Never selected by the production engine. A separate holdout is required."""
 
     def __init__(self, *args, shared_prefix=None, batch_observer=None, **kwargs):

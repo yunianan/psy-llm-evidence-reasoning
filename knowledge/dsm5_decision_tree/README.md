@@ -1,10 +1,16 @@
 # DSM-5 第三层候选生成决策子图
 
+2026-11-01 状态更新：本目录现在仅供历史重放和显式离线调用。默认 L3 已与旧树解耦，
+`APICLINICRReasoner` 只接受显式候选生成器，不自动创建本树。
+原 API 树执行器已明确命名为 `layers.layer3.llm.client.LegacyDSM5TreeReasoner`；
+历史研究入口显式使用它。独立重搭的论文执行框架见 [paper_dtree](../../paper_dtree/README.md)。
+以下为旧实现结构与历史来源说明，不能当作新框架现状。
+
 更新：2026-10-20。项目：基于大语言模型的心理诊疗循证推理研究。
 
 ## 保留的执行器（需显式知识提供者）
 
-`CLINICR.run → APICLINICRReasoner.generate_candidates → DecisionTreeCandidateGenerator`
+历史显式链路：`CLINICR(reasoner=LegacyDSM5TreeReasoner(...)) → DecisionTreeCandidateGenerator`
 
 输入是 L2 结构化患者画像。执行器代码保留；当前默认诊断知识已断开，等待后续 GraphRAG 接入。旧的一次性自由生成仅保留为显式调用的 `generate_candidates_baseline`，没有自动回退到它的逻辑。
 

@@ -40,7 +40,7 @@ def test_all_screens_use_only_existing_nodes_and_patient_evidence(monkeypatch, c
         ]})
 
     monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    answers = client.APICLINICRReasoner(
+    answers = client.LegacyDSM5TreeReasoner(
         knowledge=SentinelKnowledge(), **context_options,
     )._evaluate_tree_nodes({
         "key_narratives": [{"value": "screen fixture", "sources": ["ev-screen"]}],
@@ -75,7 +75,7 @@ def test_explicit_full_view_preserves_the_offline_comparator():
                                             {"anchor_compact_view": True}])
 def test_context_selection_does_not_enable_unconnected_runtime_model_requests(monkeypatch, context_options):
     monkeypatch.setattr(client, "ask_llm_stream", lambda *_a, **_k: pytest.fail("No connected provider"))
-    reasoner = client.APICLINICRReasoner(**context_options)
+    reasoner = client.LegacyDSM5TreeReasoner(**context_options)
     with pytest.raises(client.CLINICRModelUnavailable, match="诊断知识尚未接入"):
         reasoner.generate_candidates({})
 
@@ -140,7 +140,7 @@ def test_explicit_compact_api_option_overrides_zero_default(monkeypatch):
         assert "screening-entry-compact-v1" in prompt
         return json.dumps({"nodes": [{"node_id": node_id, "status": "pending", "rationale": "fixture"}]})
     monkeypatch.setattr(client, "ask_llm_stream", respond)
-    answers = client.APICLINICRReasoner(knowledge=provider, screening_compact_view=True)._evaluate_tree_nodes({}, [node])
+    answers = client.LegacyDSM5TreeReasoner(knowledge=provider, screening_compact_view=True)._evaluate_tree_nodes({}, [node])
     assert answers[0].status == "pending"
     provider.get_candidate.assert_not_called()
     assert provider.get_symptoms.call_count == 1
@@ -158,6 +158,6 @@ def test_explicit_full_api_option_overrides_zero_default(monkeypatch):
         assert '"fixture_full": true' in prompt
         return json.dumps({"nodes": [{"node_id": node_id, "status": "pending", "rationale": "fixture"}]})
     monkeypatch.setattr(client, "ask_llm_stream", respond)
-    answers = client.APICLINICRReasoner(knowledge=FullKnowledge(), screening_zero_knowledge=False)._evaluate_tree_nodes({}, [node])
+    answers = client.LegacyDSM5TreeReasoner(knowledge=FullKnowledge(), screening_zero_knowledge=False)._evaluate_tree_nodes({}, [node])
     assert answers[0].status == "pending"
     assert calls == node["disorders"]

@@ -1,4 +1,5 @@
 import uuid
+import os
 from pathlib import Path
 from typing import Any, Callable, cast
 
@@ -56,6 +57,7 @@ class FiveLayerOrchestrator:
         l3_diagnose: Callable[[dict[str, Any], dict[str, Any] | None], dict[str, Any]] | None = None,
         max_l3_to_l2_loops: int = 3,
         instruction_planner: TurnInstructionPlanner | None = None,
+        paper_tree_factory: Callable[..., Any] | None = None,
     ) -> None:
         if max_l3_to_l2_loops < 1:
             raise ValueError("max_l3_to_l2_loops 必须至少为1")
@@ -68,6 +70,10 @@ class FiveLayerOrchestrator:
         self.l3_diagnose = l3_diagnose or diagnose
         self.max_l3_to_l2_loops = max_l3_to_l2_loops
         self.instruction_planner = instruction_planner or TurnInstructionPlanner()
+        # An injected L3 is an explicit alternate/fixture pipeline. The normal
+        # production controller uses the requested interactive tree.
+        self.paper_tree_factory = paper_tree_factory or (self._default_paper_tree if l3_diagnose is None else None)
+        self._paper_tree_sessions: dict[str, Any] = {}
 
     def create_session(self, session_id: str | None = None) -> OrchestrationOutcome:
         sid = session_id or uuid.uuid4().hex
@@ -260,6 +266,9 @@ class FiveLayerOrchestrator:
                 reply="当前会话需要专业人员复核，自动流程已暂停。",
                 waiting_for="manual_review",
             )
+
+        if "paper_tree_followup_pending" in session.internal_flags:
+            return self._answer_paper_tree(session, user_message)
 
         if session.route == "AWAITING_PATIENT_CONFIRMATION":
             if session.l2_session_id is None:
@@ -490,6 +499,9 @@ class FiveLayerOrchestrator:
                 waiting_for="free_text",
             )
 
+        if self.paper_tree_factory is not None:
+            return self._start_paper_tree(session)
+
         passport = session.l1_passport or {}
         raw = self.l3_diagnose(profile, {
             "risk_level": passport.get("risk_level", 0),
@@ -566,6 +578,89 @@ class FiveLayerOrchestrator:
 
         session.pending_l3_dimensions = []
         return self._start_l4(session, report)
+
+    def _default_paper_tree(self, session_id: str, case: str):
+        from paper_dtree.__main__ import DEFAULT_TREE_BUNDLE
+        from paper_dtree.engine import PAIRWISE_POLICY, RetryPolicy
+        from paper_dtree.entries import DEFAULT_ENTRY_PROFILE, EntryProfile
+        from paper_dtree.followup import FollowUpRunner, L2FollowUpSession
+        from paper_dtree.models import load_bundle
+        from paper_dtree.transport import OpenAICompatibleTransport
+        from shared.llm_client import get_api_key, get_base_url, get_model
+
+        api_key = (os.getenv("PAPER_DT_API_KEY") or get_api_key()).strip()
+        endpoint = (os.getenv("PAPER_DT_BASE_URL") or get_base_url()).strip()
+        model = (os.getenv("PAPER_DT_MODEL") or os.getenv("L3_REASONER_MODEL") or get_model()).strip()
+        runner = FollowUpRunner(load_bundle(DEFAULT_TREE_BUNDLE),
+            OpenAICompatibleTransport(api_key=api_key, base_url=endpoint), model=model,
+            pairwise_policy=PAIRWISE_POLICY, retry=RetryPolicy(max_attempts=3, initial_seconds=1, maximum_seconds=4),
+            entry_profile=EntryProfile.load(DEFAULT_ENTRY_PROFILE))
+        return L2FollowUpSession(runner, self.l2, session_id, case, case_id=session_id)
+
+    def _start_paper_tree(self, session: PipelineSession) -> OrchestrationOutcome:
+        if session.l2_session_id is None:
+            raise RuntimeError("决策树缺少 L2 会话")
+        state = self.l2.get_session_snapshot(session.l2_session_id)
+        case = "\n".join(m["text"] for m in state.messages if m.get("role") == "patient" and m.get("text"))
+        if not case:
+            session.route = "MANUAL_REVIEW"
+            return self._finish(session, reply="缺少可核对的患者陈述，请由专业人员复核。", waiting_for="manual_review")
+        try:
+            bridge = self.paper_tree_factory(session.l2_session_id, case)
+            self._paper_tree_sessions[session.session_id] = bridge
+            result = bridge.start()
+        except Exception:
+            session.route = "MANUAL_REVIEW"
+            session.internal_flags.append("paper_tree_model_failure")
+            return self._finish(session, reply="当前无法完成信息核对，请由专业人员进一步复核。", waiting_for="manual_review")
+        return self._route_paper_tree(session, result)
+
+    def _answer_paper_tree(self, session: PipelineSession, message: str) -> OrchestrationOutcome:
+        bridge = self._paper_tree_sessions.get(session.session_id)
+        if bridge is None or session.l2_session_id is None:
+            session.route = "MANUAL_REVIEW"
+            return self._finish(session, reply="上次核对的进度不可用，请由专业人员继续。", waiting_for="manual_review")
+        try:
+            self.l2.update_safety_passport(session.l2_session_id, session.l1_passport or {})
+            result = bridge.answer(message, message_id=str((session.l1_passport or {}).get("message_id") or ""))
+        except L2EntranceGuardError:
+            session.route = "STOPPED"
+            session.stopped_reason = "L1到L2的安全接口校验失败，当前消息未进入L2。"
+            return self._finish(session, reply=session.stopped_reason, terminal=True)
+        except Exception:
+            session.route = "MANUAL_REVIEW"
+            session.internal_flags.append("paper_tree_followup_failure")
+            return self._finish(session, reply="补充信息暂时无法完成核对，请由专业人员继续。", waiting_for="manual_review")
+        session.clinical_intake = self.l2.build_clinical_intake(session.l2_session_id)
+        return self._route_paper_tree(session, result)
+
+    def _route_paper_tree(self, session: PipelineSession, result: dict[str, Any]) -> OrchestrationOutcome:
+        status = result.get("status")
+        if status == "awaiting_patient":
+            if "paper_tree_followup_pending" not in session.internal_flags:
+                session.internal_flags.append("paper_tree_followup_pending")
+                if session.l2_session_id is not None:
+                    self.l2.confirm_profile(session.l2_session_id, "revise")
+            session.route = "RETURN_TO_L2"
+            session.expected_input = "free_text"
+            return self._finish(session, reply=result["follow_up"]["question"], waiting_for="free_text")
+        if status == "l2_rejected":
+            session.route = "RETURN_TO_L2"
+            return self._finish(session, reply="这条信息尚未完成安全核验，请稍后再试。", waiting_for="free_text")
+        session.internal_flags = [f for f in session.internal_flags if f != "paper_tree_followup_pending"]
+        if status == "patient_declined_or_paused":
+            state = self.l2.get_session_snapshot(session.l2_session_id) if session.l2_session_id else None
+            if state and state.confirmation_status == "paused":
+                session.route = "PAUSED_BY_PATIENT"
+                return self._finish(session, reply="好的，先暂停补充。", waiting_for="resume")
+            session.route = "MANUAL_REVIEW"
+            return self._finish(session, reply="好的，不再追问这一问题，后续可由专业人员协助。", waiting_for="manual_review")
+        session.route = "MANUAL_REVIEW"
+        session.l3_raw = {"candidate_generation_method": "paper_dtree_followup", "model_result": result}
+        session.internal_flags.append("paper_tree_" + ("completed" if status == "success" else "unresolved"))
+        # Candidate strings are not a validated DiagnosticReport and must not
+        # be sent to treatment as a confirmed diagnosis.
+        return self._finish(session, reply="信息已记录，接下来需要专业人员进一步核对。", waiting_for="manual_review")
 
     def _apply_confirmation(
         self,

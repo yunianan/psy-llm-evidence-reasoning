@@ -55,7 +55,7 @@ def test_valid_denials_positive_cues_and_non_screen_nodes_are_unchanged(status, 
 def test_api_boundary_preserves_raw_status_and_exports_downgrade_event(monkeypatch, scope, expected):
     raw = judgment(denial_scope=scope).model_dump()
     monkeypatch.setattr(client, "ask_llm_stream", lambda *_a, **_k: json.dumps({"nodes": [raw]}))
-    reasoner = client.APICLINICRReasoner(knowledge=JsonDiagnosticKnowledgeProvider(), screening_zero_knowledge=True)
+    reasoner = client.LegacyDSM5TreeReasoner(knowledge=JsonDiagnosticKnowledgeProvider(), screening_zero_knowledge=True)
     node = {"node_id": "screen.appearance", **load_candidate_graph()["nodes"]["screen.appearance"]}
     answers = reasoner._evaluate_tree_nodes({client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-denial"]}, [node])
     assert answers[0].status == expected and raw["status"] == "not_met"
@@ -69,7 +69,7 @@ def test_scope_guard_does_not_hide_unknown_evidence(monkeypatch):
         calls.append(1)
         return json.dumps({"nodes": [raw]})
     monkeypatch.setattr(client, "ask_llm_stream", respond)
-    reasoner = client.APICLINICRReasoner(knowledge=JsonDiagnosticKnowledgeProvider(), screening_zero_knowledge=True)
+    reasoner = client.LegacyDSM5TreeReasoner(knowledge=JsonDiagnosticKnowledgeProvider(), screening_zero_knowledge=True)
     node = {"node_id": "screen.appearance", **load_candidate_graph()["nodes"]["screen.appearance"]}
     with pytest.raises(ValueError, match="白名单"):
         reasoner._evaluate_tree_nodes({client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-denial"]}, [node])

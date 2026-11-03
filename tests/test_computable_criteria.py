@@ -130,7 +130,7 @@ def test_full_tree_integration_preserves_candidate_and_reuses_identical_prefix(m
     monkeypatch.setattr(client, "ask_llm_stream", respond)
     provider = JsonDiagnosticKnowledgeProvider()
     profile = {"evidence_nodes": [{"evidence_id": "ev-mood", "quote": "synthetic"}], client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]}
-    full = client.APICLINICRReasoner(knowledge=provider, criterion_batching="per_label").generate_candidates(profile)
+    full = client.LegacyDSM5TreeReasoner(knowledge=provider, criterion_batching="per_label").generate_candidates(profile)
     graph = load_candidate_graph()
     prefix = {row.node_id: {"definition": {"node_id": row.node_id, **graph["nodes"][row.node_id]},
         "judgment": {key: row.model_dump()[key] for key in TreeNodeJudgment.model_fields}}

@@ -1,7 +1,8 @@
-"""DSM-5 candidate subgraph. Traversal is code; clinical facts are LLM judgments.
+"""Historical DSM-5 candidate subgraph, detached from the default L3 runtime.
 
 This is a project implementation, not the paper authors' source code or a
 reproduction of all 29 handbook trees. Original MentalKG remains read-only.
+Explicit legacy replay only; new paper-method code lives in paper_dtree.
 """
 from __future__ import annotations
 

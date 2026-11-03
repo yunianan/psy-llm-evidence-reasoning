@@ -55,7 +55,7 @@ def test_generation_receives_supplement_without_eliminative_call(monkeypatch):
             prompt, ["Insomnia"], "patient_utterance_L008", complete_labels=["Insomnia"]
         ))
     monkeypatch.setattr(client, "ask_llm_stream", fake_ask)
-    model = client.APICLINICRReasoner(model="offline-test", knowledge=JsonDiagnosticKnowledgeProvider())
+    model = client.LegacyDSM5TreeReasoner(model="offline-test", knowledge=JsonDiagnosticKnowledgeProvider())
     profile = _profile() | {client.ALLOWED_EVIDENCE_REFS_KEY: sorted(CLINICR._known_evidence_refs(_profile()))}
     generated = model.generate_candidates(profile)
     assert generated.candidates

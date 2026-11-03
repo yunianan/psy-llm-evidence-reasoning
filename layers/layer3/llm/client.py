@@ -355,7 +355,37 @@ from .node_knowledge import NodeKnowledgeView
 
 
 class APICLINICRReasoner:
-    """生产用 API 推理器：仅在 Step 1 生成候选并逐项取证。"""
+    """L3 candidate port. No implicit tree, free-generation or paper-result mapping.
+
+    The independent paper workflow consumes raw case text and returns diagnosis
+    sets; it cannot be silently converted to the project's 24-label evidence
+    contract. Callers must supply an explicitly compatible candidate generator.
+    """
+
+    def __init__(
+        self, model: str | None = None, *, knowledge: DiagnosticKnowledgeProvider | None = None,
+        candidate_generator: CLINICRReasoner | None = None,
+    ) -> None:
+        self.model = model or os.getenv("L3_REASONER_MODEL") or get_model()
+        self.knowledge = knowledge if knowledge is not None else get_default_knowledge_provider()
+        self.candidate_generator = candidate_generator
+
+    def generate_candidates(self, profile: dict[str, Any]) -> CandidateGeneration:
+        if self.candidate_generator is None:
+            prefix = "诊断知识尚未接入；" if isinstance(self.knowledge, UnconnectedDiagnosticKnowledgeProvider) else ""
+            raise CLINICRModelUnavailable(
+                prefix + "旧决策树已解耦，候选生成器尚未接入。请显式注入符合L3契约的生成器；"
+                "独立论文框架请使用 paper_dtree，不自动回退旧树或自由生成。"
+            )
+        return CandidateGeneration.model_validate(self.candidate_generator.generate_candidates(profile))
+
+
+class LegacyDSM5TreeReasoner:
+    """Explicit historical 24-label backend; not the independent paper workflow.
+
+    Retained for historical replay and engineering regression tests only.
+    APICLINICRReasoner and CLINICR never construct this class automatically.
+    """
 
     def __init__(
         self, model: str | None = None, *, knowledge: DiagnosticKnowledgeProvider | None = None,

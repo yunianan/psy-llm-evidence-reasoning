@@ -1,5 +1,12 @@
 # Layer3 诊断知识访问
 
+2026-11-01：旧候选树已从默认 L3 解耦。`APICLINICRReasoner` 现在只委托显式注入的
+`candidate_generator`，即使注入知识提供者也不会自动启动旧树。未注入时沿用
+`CLINICRModelUnavailable` / HTTP 503，明确提示生成器未接入；不回退自由生成。
+历史树的 API 后端为 `LegacyDSM5TreeReasoner`，仅供显式历史入口和工程回归。
+新独立论文框架 `paper_dtree` 不读取此知识协议，也不自动进入 L3 下游。
+其病例原文、二值问题及诊断集合与现有项目契约不同，见 [框架说明](../paper_dtree/README.md)。
+
 **当前状态：诊断知识未连接，等待用户后续通过 GraphRAG 接入。**
 
 默认 `get_default_knowledge_provider()` 返回 `UnconnectedDiagnosticKnowledgeProvider`。
@@ -37,7 +44,7 @@ Layer3 → 未连接的知识提供者 → 提示诊断知识尚未接入
 
 保留 `CLINICR(knowledge=...)` 注入接口。省略 `knowledge` 时使用未连接的提供者，
 没有自动选择 JSON 的运行时逻辑，也不会自动回退到旧自由生成基线。默认创建的
-候选生成器和 Verifier，以及标准汇总和报告引用均使用同一个提供者。若自行传入
+候选端口和 Verifier，以及标准汇总和报告引用均使用同一个提供者；候选端口仍需显式注入实现。若自行传入
 `reasoner` 或 `verifier`，其知识依赖由调用方配置。
 
 `JsonDiagnosticKnowledgeProvider` 仅由离线工具或测试显式构造。
@@ -58,7 +65,7 @@ Layer3 → 未连接的知识提供者 → 提示诊断知识尚未接入
 
 ## 离线 screening 上下文试验
 
-`APICLINICRReasoner(..., screening_zero_knowledge=True)` 可显式选择
+历史后端 `LegacyDSM5TreeReasoner(..., screening_zero_knowledge=True)` 可显式选择
 `NodeKnowledgeView` 的 screening 零知识视图：只在该 stage 跳过标签知识读取，
 其他 stage 保留原知识包。P1.0.7 验证后该模式已成为 reasoner 默认；单例 mood 的状态变化已按入口线索
 接受为 intentional change，逐节点与旧输出一致不是验收门槛。
@@ -90,7 +97,7 @@ screening compact 当前仅为失败研究对照，不作为以后备选默认�
 
 ## P1.0.8 anchor 紧凑视图实验
 
-`APICLINICRReasoner(..., anchor_compact_view=True)` 仅对 anchor 使用紧凑视图，默认 False。
+历史后端 `LegacyDSM5TreeReasoner(..., anchor_compact_view=True)` 仅对 anchor 使用紧凑视图，默认 False。
 节点问题和 symptom_pool 不变；只发送本批标签名和一份 pool 症状 ID/名称/原始短定义/来源，
 不发送完整 criteria、differential、events、examples/subtypes。原短定义中的成人等限定保留。
 其他 stage 的上下文保持原样。

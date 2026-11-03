@@ -27,11 +27,14 @@ class Responder:
         role: RoleInstruction,
         anchor: DiagnosticAnchor,
         boundary: BoundaryInstruction,
+        *,
+        temperature: float = 0.7,
     ) -> None:
         self._backend = backend
         self._role = role
         self._anchor = anchor
         self._boundary = boundary
+        self._temperature = temperature
 
     def generate(
         self,
@@ -45,11 +48,11 @@ class Responder:
             turn=turn, history=history, user_message=user_message,
             fix_instruction=fix_instruction,
         )
-        raw = self._backend.chat(messages, json_mode=True)
+        raw = self._backend.chat(messages, temperature=self._temperature, json_mode=True)
         try:
             parsed = json.loads(raw)
             return GenerationResult.model_validate(parsed)
         except (json.JSONDecodeError, ValidationError, TypeError):
-            fallback = self._backend.chat(messages, json_mode=False)
+            fallback = self._backend.chat(messages, temperature=self._temperature, json_mode=False)
             return GenerationResult(reply=fallback, stage_complete=False,
                                     reason="parse_fallback")

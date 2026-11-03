@@ -124,7 +124,10 @@ class L4Service:
         anchor = sd.anchor or DiagnosticAnchor()
         substage = sd.machine.resolve(req.turn.force_substage)
 
-        responder = Responder(self.backend, sd.role, anchor, sd.boundary)
+        responder = Responder(
+            self.backend, sd.role, anchor, sd.boundary,
+            temperature=self.config.llm_temperature,
+        )
         orchestrator = ReviewOrchestrator(
             responder, self.reviewer,
             self.config.max_rewrite_attempts, self.config.fallback_reply,

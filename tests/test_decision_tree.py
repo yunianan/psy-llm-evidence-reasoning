@@ -105,7 +105,7 @@ def test_api_rejects_invalid_nodes_after_one_repair(monkeypatch, bad):
         return json.dumps(payload)
     monkeypatch.setattr(client, "ask_llm_stream", respond)
     with pytest.raises(client.CLINICRModelUnavailable):
-        client.APICLINICRReasoner(
+        client.LegacyDSM5TreeReasoner(
             "offline", knowledge=JsonDiagnosticKnowledgeProvider(),
         ).generate_candidates({client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]})
     assert len(calls) == 2
@@ -124,7 +124,7 @@ def test_claimed_symptom_count_cannot_exceed_supported_ids(monkeypatch):
                           "evidence_refs": ["ev-mood"], "symptom_ids": ["S024"], "confidence": 0.9}]})
     monkeypatch.setattr(client, "ask_llm_stream", respond)
     with pytest.raises(ValueError, match="below source count"):
-        client.APICLINICRReasoner("offline", knowledge=JsonDiagnosticKnowledgeProvider())._evaluate_tree_nodes(
+        client.LegacyDSM5TreeReasoner("offline", knowledge=JsonDiagnosticKnowledgeProvider())._evaluate_tree_nodes(
             {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-mood"]}, [{
                 "node_id": "criterion.D013.depressive_episode/min_count", "stage": "criterion",
                 "disorders": ["D013"], "symptom_pool": ["S024", "S025", "S026", "S027", "S028"],

@@ -17,13 +17,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+paper = ["rapidfuzz>=3,<4"]
 dev = [
     "pytest>=8",
     "httpx>=0.27",
 ]
 
 [tool.setuptools.packages.find]
-include = ["layers*", "shared*"]
+include = ["layers*", "shared*", "paper_dtree*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

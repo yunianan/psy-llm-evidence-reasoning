@@ -36,12 +36,13 @@ def test_explicit_provider_clinicr_only_calls_step1_and_verifier(monkeypatch):
         return json.dumps(response, ensure_ascii=False)
 
     monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    result = CLINICR(knowledge=JsonDiagnosticKnowledgeProvider()).run(profile)
+    provider = JsonDiagnosticKnowledgeProvider()
+    result = CLINICR(reasoner=client.LegacyDSM5TreeReasoner(knowledge=provider), knowledge=provider).run(profile)
     assert result["diagnosis"]["primary"]["disorder"] == "D013"
     assert result["verifier_score"] == .87
     assert not any("ELIMINATIVE" in call["prompt"] for call in calls)
     assert sum("Reward Model Verifier" in call["prompt"] for call in calls) == 1
-    assert not hasattr(client.APICLINICRReasoner, "evaluate_candidate")
+    assert not hasattr(client.LegacyDSM5TreeReasoner, "evaluate_candidate")
     assert all(row["source"] == "step1_tree_records" for row in result["checked"])
     assert result["candidate_generation_method"] == "dsm5_decision_tree"
     assert result["tree_trace"]
@@ -77,7 +78,7 @@ def test_step1_maps_exact_scalar_field_alias_to_traceable_evidence_node(monkeypa
 
     monkeypatch.setattr("layers.layer3.llm.client.ask_llm_stream", controlled_api)
 
-    result = client.APICLINICRReasoner(
+    result = client.LegacyDSM5TreeReasoner(
         model="deepseek-chat", knowledge=JsonDiagnosticKnowledgeProvider(),
     )._evaluate_tree_nodes(profile, [{
         "node_id": "criterion.D013.depressive_episode/min_duration", "stage": "criterion", "disorders": ["D013"],

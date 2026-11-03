@@ -94,7 +94,7 @@ def test_injected_provider_reaches_generation_aggregation_verifier_and_report(mo
         return json.dumps(payload)
 
     monkeypatch.setattr(client, "ask_llm_stream", controlled_api)
-    engine = clinicr.CLINICR(knowledge=provider)
+    engine = clinicr.CLINICR(reasoner=client.LegacyDSM5TreeReasoner(knowledge=provider), knowledge=provider)
     assert engine.reasoner.knowledge is provider
     assert engine.verifier.model.knowledge is provider
     report = engine.run({"evidence_nodes": [{"evidence_id": "ev-fixture"}]})

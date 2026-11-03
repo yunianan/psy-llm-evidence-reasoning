@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -104,6 +105,40 @@ def test_turn_end_to_end():
     assert out.summary.layer_id == "L4"
     assert out.summary.evidence_refs  # 非空
     assert out.summary.flags == []
+
+
+@pytest.mark.parametrize("configured_temperature,expected", [(None, 0.7), ("0.12", 0.12), ("0", 0.0)])
+def test_temperature_reaches_api_for_generation_parse_retry_and_review_rewrite(
+    monkeypatch, configured_temperature, expected,
+):
+    monkeypatch.delenv("L4_LLM_TEMPERATURE", raising=False)
+    if configured_temperature is not None:
+        monkeypatch.setenv("L4_LLM_TEMPERATURE", configured_temperature)
+    service = L4Service(
+        Settings(_env_file=None, llm_provider="openai_compat",
+                 llm_api_key="controlled-placeholder", llm_base_url="https://example.invalid"),
+        reviewer=MockReviewer(fail_first=1),
+    )
+    payloads = []
+    responses = iter(["{", "听起来这很辛苦。", '{"reply": "我们可以慢慢聊。"}'])
+
+    def complete(**kwargs):
+        payloads.append(kwargs)
+        return SimpleNamespace(choices=[
+            SimpleNamespace(message=SimpleNamespace(content=next(responses)))
+        ])
+
+    monkeypatch.setattr(service.backend._client.chat.completions, "create", complete)
+    sid = _new_session(service)
+    out = service.handle_turn(TurnRequest(
+        session_id=sid, user_message="最近压力很大",
+        turn=controlled_turn(service, sid, "最近压力很大"),
+    ))
+
+    assert not out.fallback_used
+    assert out.reply == "我们可以慢慢聊。"
+    assert [payload["temperature"] for payload in payloads] == [expected] * 3
+    assert ["response_format" in payload for payload in payloads] == [True, False, True]
 
 
 def test_turn_unknown_session_raises():

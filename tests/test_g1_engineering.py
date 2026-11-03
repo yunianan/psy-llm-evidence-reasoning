@@ -44,7 +44,7 @@ def test_pending_output_is_repaired_without_promoting_status_or_dropping_referen
     provider = JsonDiagnosticKnowledgeProvider()
     defs = criterion_nodes("D013", knowledge=provider)
     key = "criterion.D013.depressive_episode/min_count"
-    result = client.APICLINICRReasoner(knowledge=provider)._evaluate_tree_nodes(
+    result = client.LegacyDSM5TreeReasoner(knowledge=provider)._evaluate_tree_nodes(
         {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev"]}, [{"node_id": key, **defs[key]}])
     assert len(calls) == 2 and "不能为了保留症状 ID 把 pending 改成 met" in calls[-1]
     assert result[0].status == "pending" and result[0].evidence_refs == ["ev"] and result[0].symptom_ids == []
@@ -54,7 +54,7 @@ def test_persistent_invalid_output_fails_after_one_repair(monkeypatch):
     call = Mock(return_value=json.dumps({"nodes": [{"node_id": "n", "status": "pending", "rationale": "fixture", "symptom_ids": ["S024"]}]}))
     monkeypatch.setattr(client, "ask_llm_stream", call)
     with pytest.raises(ValueError):
-        client.APICLINICRReasoner(knowledge=JsonDiagnosticKnowledgeProvider())._evaluate_tree_nodes(
+        client.LegacyDSM5TreeReasoner(knowledge=JsonDiagnosticKnowledgeProvider())._evaluate_tree_nodes(
             {}, [{"node_id": "n", "stage": "criterion", "disorders": ["D013"], "symptom_pool": ["S024"]}])
     assert call.call_count == 2
 
@@ -65,7 +65,7 @@ def test_per_label_batch_keeps_full_package_once_and_preserves_all_nodes():
     nodes = [{"node_id": key, **value} for label in ["D006", "D013"]
              for key, value in criterion_nodes(label, knowledge=provider).items()]
     provider.get_candidate.reset_mock()
-    reasoner = client.APICLINICRReasoner(knowledge=provider, criterion_batching="per_label")
+    reasoner = client.LegacyDSM5TreeReasoner(knowledge=provider, criterion_batching="per_label")
     batches = reasoner.node_batches(nodes)
     assert [len(batch) for batch in batches] == [17, 4]
     assert [node["node_id"] for batch in batches for node in batch] == [node["node_id"] for node in nodes]
@@ -73,7 +73,7 @@ def test_per_label_batch_keeps_full_package_once_and_preserves_all_nodes():
         source = reasoner.node_knowledge_view.sources_for_nodes(batch)
         assert len(source) == 1 and all(key in source[0] for key in ["criteria", "symptoms", "differential", "events"])
     assert provider.get_candidate.call_count == 2
-    assert [len(b) for b in client.APICLINICRReasoner(knowledge=provider).node_batches(nodes)] == [8, 8, 5]
+    assert [len(b) for b in client.LegacyDSM5TreeReasoner(knowledge=provider).node_batches(nodes)] == [8, 8, 5]
 
 
 def test_static_prefix_keeps_complete_knowledge_before_patient_and_changes_no_source(monkeypatch):
@@ -86,7 +86,7 @@ def test_static_prefix_keeps_complete_knowledge_before_patient_and_changes_no_so
     provider = JsonDiagnosticKnowledgeProvider()
     nodes = [{"node_id": key, **value} for key, value in criterion_nodes("D013", knowledge=provider).items()]
     for text in ["first synthetic narrative", "second synthetic narrative"]:
-        client.APICLINICRReasoner(knowledge=provider, criterion_batching="per_label", static_knowledge_prefix=True)._evaluate_tree_nodes(
+        client.LegacyDSM5TreeReasoner(knowledge=provider, criterion_batching="per_label", static_knowledge_prefix=True)._evaluate_tree_nodes(
             {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev"], "key_narratives": [{"text": text, "sources": ["ev"]}]}, nodes)
     prefix = prompts[0].split("允许的 evidence_refs（", 1)[0]
     assert prompts[1].startswith(prefix)
@@ -101,7 +101,7 @@ def fixture_cache(tmp_path):
     context = cache_context("case", profile, model="fixture", service_url="https://fixture.invalid/v1",
                             knowledge_digest=knowledge_hash(provider), prompt_version="fixture-v1", criterion_batching="per_label")
     generation = controlled_generation(["D013"], ref="ev")
-    delegate = client.APICLINICRReasoner(model="fixture", knowledge=provider, criterion_batching="per_label")
+    delegate = client.LegacyDSM5TreeReasoner(model="fixture", knowledge=provider, criterion_batching="per_label")
     delegate.generate_candidates = Mock(return_value=generation)
     return provider, profile, context, generation, delegate, G1NodeCache(tmp_path)
 

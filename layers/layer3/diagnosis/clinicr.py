@@ -89,7 +89,8 @@ class CLINICR:
             ALLOWED_EVIDENCE_REFS_KEY: sorted(known_refs),
         }
 
-        # Step 1: 完整考虑 MentalKG 23 个节点及失眠障碍，按患者证据保留候选。
+        # Step 1 consumes the injected project candidate port. The historical
+        # tree and standalone paper workflow are not selected automatically.
         generation = self.reasoner.generate_candidates(model_profile)
         if profile.get("contract_version") == CONTRACT_VERSION:
             generation = apply_temporal_contract(generation, profile, knowledge=self.knowledge)

@@ -92,7 +92,8 @@ def run_arm(arm, row, *, request=None, model="offline-fixture", knowledge=None, 
     from shared.diagnostic_knowledge import JsonDiagnosticKnowledgeProvider
     from layers.layer3.diagnosis.clinicr import CLINICR
     provider = knowledge if knowledge is not None else JsonDiagnosticKnowledgeProvider()
-    delegate = reasoner or client.APICLINICRReasoner(model=model, knowledge=provider,
+    # Historical registered protocol explicitly selects the retained old tree.
+    delegate = reasoner or client.LegacyDSM5TreeReasoner(model=model, knowledge=provider,
         criterion_batching="per_label", static_knowledge_prefix=True)
     return export_prediction(row["case_id"], arm, CLINICR(reasoner=delegate, verifier=verifier, knowledge=provider).run(row["profile"]))
 
@@ -200,7 +201,7 @@ def _live_a1(row, transport, out, request):
         knowledge_digest=knowledge_hash(provider), prompt_version=":".join((client.NODE_PROMPT_VERSION,
             client.SCREENING_PROMPT_VERSION, client.ANCHOR_PROMPT_VERSION)),
         criterion_batching="per_label", static_knowledge_prefix=True, generation_options=POLICY)
-    delegate = client.APICLINICRReasoner(model=model, knowledge=provider, criterion_batching="per_label", static_knowledge_prefix=True)
+    delegate = client.LegacyDSM5TreeReasoner(model=model, knowledge=provider, criterion_batching="per_label", static_knowledge_prefix=True)
     stats = attach_checkpoints(delegate, NodeCheckpoint(out / "checkpoints/A1", context), transport)
     reasoner = CachedG1Reasoner(G1NodeCache(out / "g1-nodes"), context, knowledge=provider, delegate=delegate,
         mode="record", provenance=lambda: {"source_run": str(out.name), "event_version": EVENT_VERSION,

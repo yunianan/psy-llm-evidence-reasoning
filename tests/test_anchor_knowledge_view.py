@@ -69,7 +69,7 @@ def test_anchor_not_met_means_no_positive_evidence_and_does_not_require_denial(m
                                       "rationale": "No pool symptom evidence in the supplied narrative",
                                       "evidence_refs": refs, "symptom_ids": [], "denial_scope": "unknown"}]})
     monkeypatch.setattr(client, "ask_llm_stream", respond)
-    result = client.APICLINICRReasoner(knowledge=JsonDiagnosticKnowledgeProvider(), anchor_compact_view=compact)._evaluate_tree_nodes(
+    result = client.LegacyDSM5TreeReasoner(knowledge=JsonDiagnosticKnowledgeProvider(), anchor_compact_view=compact)._evaluate_tree_nodes(
         {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-patient"]}, nodes("anchor.D013"))
     assert result[0].status == "not_met" and len(calls) == 1
 
@@ -88,7 +88,7 @@ def test_anchor_positive_evidence_and_whitelist_requirements_remain_strict(monke
         return json.dumps({"nodes": [item]})
     monkeypatch.setattr(client, "ask_llm_stream", respond)
     with pytest.raises(ValueError):
-        client.APICLINICRReasoner(knowledge=JsonDiagnosticKnowledgeProvider(), anchor_compact_view=True)._evaluate_tree_nodes(
+        client.LegacyDSM5TreeReasoner(knowledge=JsonDiagnosticKnowledgeProvider(), anchor_compact_view=True)._evaluate_tree_nodes(
             {client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-patient"]}, nodes("anchor.D013"))
     assert len(calls) == 2
 
@@ -126,7 +126,7 @@ def test_screen_downgrades_survive_later_frontiers_and_reset_once_per_generation
                 item.update(status="not_met", denial_scope="partial", evidence_refs=["ev-patient"])
         return json.dumps(payload)
     monkeypatch.setattr(client, "ask_llm_stream", respond)
-    reasoner = client.APICLINICRReasoner(knowledge=JsonDiagnosticKnowledgeProvider())
+    reasoner = client.LegacyDSM5TreeReasoner(knowledge=JsonDiagnosticKnowledgeProvider())
     for _ in range(2):
         result = reasoner.generate_candidates({client.ALLOWED_EVIDENCE_REFS_KEY: ["ev-patient"]})
         assert any(item.stage == "criterion" for item in result.tree_trace)

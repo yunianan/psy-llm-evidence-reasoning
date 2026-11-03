@@ -9,7 +9,13 @@ from shared.candidate_ordering import candidate_sort_key
 
 from .decision_tree import criterion_nodes, load_candidate_graph
 
-VERSION = "l3-diagnostic-information-v1"
+VERSION = "l3-diagnostic-information-v2"
+CORE_CONDITIONS = {"min_count", "must_include_one_of", "must_include_all"}
+DISPOSITIONS = {
+    "evidence_ready": "依据齐备，待终验",
+    "needs_follow_up": "待追问",
+    "needs_review": "待复核",
+}
 LABELS = {
     "supported": "必需判据已满足",
     "known_blocker": "存在已知不满足条件",
@@ -20,6 +26,40 @@ LABELS = {
 
 def _priority(rank: int) -> str:
     return "top_1" if rank == 1 else "top_3" if rank <= 3 else "remaining"
+
+
+def _coverage(checks: list[dict[str, Any]]) -> dict[str, Any]:
+    """Count required checks, not independent facts or disease probabilities."""
+    total = len(checks)
+    counts = Counter(check["state"] for check in checks)
+    return {
+        "total": total,
+        **{f"{state}_count": counts[state] for state in ("confirmed", "unknown", "contradicted")},
+        **{f"{state}_ratio": counts[state] / total if total else None
+           for state in ("confirmed", "unknown", "contradicted")},
+    }
+
+
+def _evidence_check(nid, definition, expected, record):
+    raw = record["status"] if record else "pending"
+    refs = list(record.get("evidence_refs", [])) if record else []
+    # Live CLINICR has already validated refs against the patient allowlist.
+    # An unreferenced known judgment in an archived/direct report is not proof.
+    unknown_reason = ("record_missing" if record is None else "node_pending" if raw == "pending"
+                      else "patient_evidence_refs_missing" if not refs else None)
+    state = "unknown" if unknown_reason else "confirmed" if raw == expected else "contradicted"
+    core = definition["stage"] == "criterion" and nid.rsplit("/", 1)[-1] in CORE_CONDITIONS
+    check = {
+        "node_id": nid, "stage": definition["stage"],
+        "kind": "core" if core else "criterion" if definition["stage"] == "criterion" else "guard",
+        "observed_status": raw, "expected_status": expected, "state": state,
+        "unknown_reason": unknown_reason, "evidence_refs": refs,
+        "source_refs": list(definition["source_refs"]),
+        "rationale": record.get("rationale") if record else None,
+    }
+    if definition["stage"] == "criterion":
+        check["source_condition"] = definition["source_condition"]
+    return check
 
 
 def build_information_report(
@@ -46,7 +86,8 @@ def build_information_report(
                 if record["node_id"] in records:
                     raise ValueError(f"Duplicate report path record: {record['node_id']}")
                 records[record["node_id"]] = record
-        pending, blockers, optional_pending = [], [], []
+        pending, blockers, evidence_checks = [], [], []
+        record_issues = []
         checks = [(nid, definition, "met") for nid, definition in definitions.items() if definition["mandatory"]]
         optional_pending = [nid for nid, d in definitions.items()
                             if not d["mandatory"] and records.get(nid, {}).get("status", "pending") == "pending"]
@@ -54,8 +95,11 @@ def build_information_report(
                    for g in graph["paths"][label]["guards"]]
         for nid, definition, expected in checks:
             record = records.get(nid)
-            raw = record["status"] if record else "pending"
-            if raw == "pending":
+            check = _evidence_check(nid, definition, expected, record)
+            evidence_checks.append(check)
+            if check["unknown_reason"] == "patient_evidence_refs_missing":
+                record_issues.append(f"patient_evidence_refs_missing:{nid}")
+            if check["state"] == "unknown":
                 pending.append(nid)
                 if nid not in questions:
                     questions[nid] = {
@@ -67,11 +111,10 @@ def build_information_report(
                     }
                 questions[nid]["required_by"].append(label)
                 questions[nid]["expected_by_candidate"][label] = expected
-            elif raw != expected:
+            elif check["state"] == "contradicted":
                 blockers.append({"node_id": nid, "stage": definition["stage"],
-                                 "observed_status": raw, "expected_status": expected,
+                                 "observed_status": check["observed_status"], "expected_status": expected,
                                  "rationale": record["rationale"], "evidence_refs": list(record["evidence_refs"])})
-        record_issues = []
         if not candidate_paths:
             record_issues.append("candidate_path_missing")
         elif any(p["provisional"] for p in candidate_paths) and not pending and not blockers:
@@ -81,8 +124,21 @@ def build_information_report(
             record_issues.append("assessment_not_confirmed")
         status = ("known_blocker" if blockers else "insufficient_information"
                   if pending or record_issues else "supported")
+        core_checks = [check for check in evidence_checks if check["kind"] == "core"]
+        core = _coverage(core_checks)
+        disposition = ("needs_review" if blockers else "needs_follow_up" if pending
+                       else "needs_review" if record_issues else "evidence_ready")
         paths.append({"disorder": label, "label": candidate["label"], "candidate_rank": rank,
                       "status": status, "status_label": LABELS[status],
+                      "disposition": disposition, "disposition_label": DISPOSITIONS[disposition],
+                      "anchor_confidence": candidate["confidence"],
+                      "evidence_coverage": {
+                          "required": _coverage(evidence_checks), "core": core,
+                          "core_requirements_confirmed": (
+                              core["confirmed_count"] == core["total"] if core["total"] else None),
+                          "retained_with_unknowns_only": bool(pending) and not blockers,
+                          "checks": evidence_checks,
+                      },
                       "pending_required_nodes": pending, "known_blockers": blockers,
                       "optional_pending_nodes": optional_pending, "record_issues": record_issues})
     counts = Counter(p["status"] for p in paths)
@@ -96,9 +152,20 @@ def build_information_report(
         "status": overall, "status_label": LABELS[overall],
         "counts": {key: counts[key] for key in ("supported", "known_blocker", "insufficient_information")},
         "candidate_path_count": len(paths), "excluded_path_count": excluded, "candidates": paths,
+        "candidate_groups": {group: [p["disorder"] for p in paths if p["disposition"] == group]
+                             for group in DISPOSITIONS},
+        "evidence_policy": {
+            "unit": "required_node_checks", "core_scope": "mandatory_min_count_and_must_include",
+            "ready_rule": "all_mandatory_criteria_and_expected_guards_confirmed_with_refs_and_assessment",
+            "unknown_rule": "needs_follow_up", "contradiction_rule": "needs_review",
+            "ratio_is_diagnostic_probability": False, "raw_candidate_pool_preserved": True,
+        },
         "final_diagnosis_reported": bool(diagnosis.get("primary") or diagnosis.get("secondary")),
         "verifier_routing": result.get("verifier_routing"),
-        "note": "判据状态不等于最终诊断；最终输出仍须经过原置信度门和Verifier。",
+        "note": ("比例按现行必需判据与鉴别检查计数，非独立事实数或诊断概率；已证实指既有节点判定有患者引用，"
+                 "未重新核验原文。核心为来源规定的必需计数/必含症状条件，可选条件不进分母。"
+                 "原candidates为G1召回池；使用candidate_groups区分待追问、待复核与依据齐备，"
+                 "比例不替代诊断门、置信度门和Verifier。"),
     }
     plan = {
         "version": VERSION, "mode": "planning_only", "priority_window": 3,
@@ -119,6 +186,7 @@ def input_information_report(missing: list[dict[str, str]]) -> dict[str, dict[st
             "version": VERSION, "scope": "input_contract_only", "status": "insufficient_information",
             "status_label": LABELS["insufficient_information"],
             "candidate_path_count": 0, "excluded_path_count": 0, "candidates": [],
+            "candidate_groups": {group: [] for group in DISPOSITIONS},
             "counts": {key: 0 for key in ("supported", "known_blocker", "insufficient_information")},
             "final_diagnosis_reported": False, "verifier_routing": "return_to_l2",
             "note": "输入字段或证据缺失，尚未进行路径评估；未知不表示病症不存在。",

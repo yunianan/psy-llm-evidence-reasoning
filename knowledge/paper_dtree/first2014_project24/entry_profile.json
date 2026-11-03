@@ -1,0 +1,1682 @@
+{
+  "id": "project-nine-groups-twenty-four-source-family-entries-v1",
+  "standard": "DSM-5",
+  "review_status": "source_verified",
+  "groups": [
+    {
+      "id": "attention",
+      "label": "注意缺陷与多动相关"
+    },
+    {
+      "id": "psychotic",
+      "label": "精神病性及相关障碍"
+    },
+    {
+      "id": "bipolar",
+      "label": "双相相关"
+    },
+    {
+      "id": "anxiety",
+      "label": "焦虑相关"
+    },
+    {
+      "id": "sleep",
+      "label": "睡眠相关"
+    },
+    {
+      "id": "depressive",
+      "label": "抑郁相关"
+    },
+    {
+      "id": "obsessive",
+      "label": "强迫及相关障碍"
+    },
+    {
+      "id": "stress",
+      "label": "创伤与应激相关"
+    },
+    {
+      "id": "eating",
+      "label": "进食相关"
+    }
+  ],
+  "entries": [
+    {
+      "id": "entry.D001",
+      "group_id": "attention",
+      "disorder_id": "D001",
+      "name": "Attention-Deficit/Hyperactivity Disorder (Combined Presentation)",
+      "label": "注意缺陷/多动障碍（混合表现）",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Often fails to give close attention to details or makes careless mistakes.\n- Often has difficulty sustaining attention in tasks or play activities.\n- Often does not seem to listen when spoken to directly.\n- Often does not follow through on instructions and fails to finish schoolwork, chores, or duties in the workplace.\n- Often has difficulty organizing tasks and activities.\n- Often avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort.\n- Often loses things necessary for tasks or activities.\n- Often easily distracted by extraneous stimuli (for older adolescents and adults, may include unrelated thoughts).\n- Often forgetful in daily activities (e.g., doing chores, running errands; for older adolescents and adults, returning calls, paying bills, keeping appointments).\n- Often fidgets with or taps hands or feet or squirms in seat.\n- Often leaves seat in situations when remaining seated is expected.\n- Often runs about or climbs in situations where it is inappropriate. (Note: In adolescents or adults, may be limited to feeling restless.)\n- Often unable to play or engage in leisure activities quietly.\n- Is often 'on the go', acting as if 'driven by a motor'.\n- Often talks excessively.\n- Often blurts out an answer before a question has been completed.\n- Often has difficulty waiting his or her turn.\n- Often interrupts or intrudes on others (e.g., butts into conversations, games, or activities).",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D001",
+        "first2014_project24/source_audit.json#/p24.adhd"
+      ],
+      "tree_ids": [
+        "p24.adhd"
+      ],
+      "symptoms": [
+        {
+          "id": "S001",
+          "description": "Often fails to give close attention to details or makes careless mistakes.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S001"
+        },
+        {
+          "id": "S002",
+          "description": "Often has difficulty sustaining attention in tasks or play activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S002"
+        },
+        {
+          "id": "S003",
+          "description": "Often does not seem to listen when spoken to directly.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S003"
+        },
+        {
+          "id": "S004",
+          "description": "Often does not follow through on instructions and fails to finish schoolwork, chores, or duties in the workplace.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S004"
+        },
+        {
+          "id": "S005",
+          "description": "Often has difficulty organizing tasks and activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S005"
+        },
+        {
+          "id": "S006",
+          "description": "Often avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S006"
+        },
+        {
+          "id": "S007",
+          "description": "Often loses things necessary for tasks or activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S007"
+        },
+        {
+          "id": "S008",
+          "description": "Often easily distracted by extraneous stimuli (for older adolescents and adults, may include unrelated thoughts).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S008"
+        },
+        {
+          "id": "S009",
+          "description": "Often forgetful in daily activities (e.g., doing chores, running errands; for older adolescents and adults, returning calls, paying bills, keeping appointments).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S009"
+        },
+        {
+          "id": "S010",
+          "description": "Often fidgets with or taps hands or feet or squirms in seat.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S010"
+        },
+        {
+          "id": "S011",
+          "description": "Often leaves seat in situations when remaining seated is expected.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S011"
+        },
+        {
+          "id": "S012",
+          "description": "Often runs about or climbs in situations where it is inappropriate. (Note: In adolescents or adults, may be limited to feeling restless.)",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S012"
+        },
+        {
+          "id": "S013",
+          "description": "Often unable to play or engage in leisure activities quietly.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S013"
+        },
+        {
+          "id": "S014",
+          "description": "Is often 'on the go', acting as if 'driven by a motor'.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S014"
+        },
+        {
+          "id": "S015",
+          "description": "Often talks excessively.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S015"
+        },
+        {
+          "id": "S016",
+          "description": "Often blurts out an answer before a question has been completed.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S016"
+        },
+        {
+          "id": "S017",
+          "description": "Often has difficulty waiting his or her turn.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S017"
+        },
+        {
+          "id": "S018",
+          "description": "Often interrupts or intrudes on others (e.g., butts into conversations, games, or activities).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S018"
+        }
+      ]
+    },
+    {
+      "id": "entry.D002",
+      "group_id": "attention",
+      "disorder_id": "D002",
+      "name": "Attention-Deficit/Hyperactivity Disorder (Predominantly Inattentive Presentation)",
+      "label": "注意缺陷/多动障碍（注意缺陷为主）",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Often fails to give close attention to details or makes careless mistakes.\n- Often has difficulty sustaining attention in tasks or play activities.\n- Often does not seem to listen when spoken to directly.\n- Often does not follow through on instructions and fails to finish schoolwork, chores, or duties in the workplace.\n- Often has difficulty organizing tasks and activities.\n- Often avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort.\n- Often loses things necessary for tasks or activities.\n- Often easily distracted by extraneous stimuli (for older adolescents and adults, may include unrelated thoughts).\n- Often forgetful in daily activities (e.g., doing chores, running errands; for older adolescents and adults, returning calls, paying bills, keeping appointments).\n- Often fidgets with or taps hands or feet or squirms in seat.\n- Often leaves seat in situations when remaining seated is expected.\n- Often runs about or climbs in situations where it is inappropriate. (Note: In adolescents or adults, may be limited to feeling restless.)\n- Often unable to play or engage in leisure activities quietly.\n- Is often 'on the go', acting as if 'driven by a motor'.\n- Often talks excessively.\n- Often blurts out an answer before a question has been completed.\n- Often has difficulty waiting his or her turn.\n- Often interrupts or intrudes on others (e.g., butts into conversations, games, or activities).",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D002",
+        "first2014_project24/source_audit.json#/p24.adhd"
+      ],
+      "tree_ids": [
+        "p24.adhd"
+      ],
+      "symptoms": [
+        {
+          "id": "S001",
+          "description": "Often fails to give close attention to details or makes careless mistakes.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S001"
+        },
+        {
+          "id": "S002",
+          "description": "Often has difficulty sustaining attention in tasks or play activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S002"
+        },
+        {
+          "id": "S003",
+          "description": "Often does not seem to listen when spoken to directly.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S003"
+        },
+        {
+          "id": "S004",
+          "description": "Often does not follow through on instructions and fails to finish schoolwork, chores, or duties in the workplace.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S004"
+        },
+        {
+          "id": "S005",
+          "description": "Often has difficulty organizing tasks and activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S005"
+        },
+        {
+          "id": "S006",
+          "description": "Often avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S006"
+        },
+        {
+          "id": "S007",
+          "description": "Often loses things necessary for tasks or activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S007"
+        },
+        {
+          "id": "S008",
+          "description": "Often easily distracted by extraneous stimuli (for older adolescents and adults, may include unrelated thoughts).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S008"
+        },
+        {
+          "id": "S009",
+          "description": "Often forgetful in daily activities (e.g., doing chores, running errands; for older adolescents and adults, returning calls, paying bills, keeping appointments).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S009"
+        },
+        {
+          "id": "S010",
+          "description": "Often fidgets with or taps hands or feet or squirms in seat.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S010"
+        },
+        {
+          "id": "S011",
+          "description": "Often leaves seat in situations when remaining seated is expected.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S011"
+        },
+        {
+          "id": "S012",
+          "description": "Often runs about or climbs in situations where it is inappropriate. (Note: In adolescents or adults, may be limited to feeling restless.)",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S012"
+        },
+        {
+          "id": "S013",
+          "description": "Often unable to play or engage in leisure activities quietly.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S013"
+        },
+        {
+          "id": "S014",
+          "description": "Is often 'on the go', acting as if 'driven by a motor'.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S014"
+        },
+        {
+          "id": "S015",
+          "description": "Often talks excessively.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S015"
+        },
+        {
+          "id": "S016",
+          "description": "Often blurts out an answer before a question has been completed.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S016"
+        },
+        {
+          "id": "S017",
+          "description": "Often has difficulty waiting his or her turn.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S017"
+        },
+        {
+          "id": "S018",
+          "description": "Often interrupts or intrudes on others (e.g., butts into conversations, games, or activities).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S018"
+        }
+      ]
+    },
+    {
+      "id": "entry.D003",
+      "group_id": "attention",
+      "disorder_id": "D003",
+      "name": "Attention-Deficit/Hyperactivity Disorder (Predominantly Hyperactive/Impulsive Presentation)",
+      "label": "注意缺陷/多动障碍（多动冲动为主）",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Often fails to give close attention to details or makes careless mistakes.\n- Often has difficulty sustaining attention in tasks or play activities.\n- Often does not seem to listen when spoken to directly.\n- Often does not follow through on instructions and fails to finish schoolwork, chores, or duties in the workplace.\n- Often has difficulty organizing tasks and activities.\n- Often avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort.\n- Often loses things necessary for tasks or activities.\n- Often easily distracted by extraneous stimuli (for older adolescents and adults, may include unrelated thoughts).\n- Often forgetful in daily activities (e.g., doing chores, running errands; for older adolescents and adults, returning calls, paying bills, keeping appointments).\n- Often fidgets with or taps hands or feet or squirms in seat.\n- Often leaves seat in situations when remaining seated is expected.\n- Often runs about or climbs in situations where it is inappropriate. (Note: In adolescents or adults, may be limited to feeling restless.)\n- Often unable to play or engage in leisure activities quietly.\n- Is often 'on the go', acting as if 'driven by a motor'.\n- Often talks excessively.\n- Often blurts out an answer before a question has been completed.\n- Often has difficulty waiting his or her turn.\n- Often interrupts or intrudes on others (e.g., butts into conversations, games, or activities).",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D003",
+        "first2014_project24/source_audit.json#/p24.adhd"
+      ],
+      "tree_ids": [
+        "p24.adhd"
+      ],
+      "symptoms": [
+        {
+          "id": "S001",
+          "description": "Often fails to give close attention to details or makes careless mistakes.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S001"
+        },
+        {
+          "id": "S002",
+          "description": "Often has difficulty sustaining attention in tasks or play activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S002"
+        },
+        {
+          "id": "S003",
+          "description": "Often does not seem to listen when spoken to directly.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S003"
+        },
+        {
+          "id": "S004",
+          "description": "Often does not follow through on instructions and fails to finish schoolwork, chores, or duties in the workplace.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S004"
+        },
+        {
+          "id": "S005",
+          "description": "Often has difficulty organizing tasks and activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S005"
+        },
+        {
+          "id": "S006",
+          "description": "Often avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S006"
+        },
+        {
+          "id": "S007",
+          "description": "Often loses things necessary for tasks or activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S007"
+        },
+        {
+          "id": "S008",
+          "description": "Often easily distracted by extraneous stimuli (for older adolescents and adults, may include unrelated thoughts).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S008"
+        },
+        {
+          "id": "S009",
+          "description": "Often forgetful in daily activities (e.g., doing chores, running errands; for older adolescents and adults, returning calls, paying bills, keeping appointments).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/1adhd_inattention.json#/S009"
+        },
+        {
+          "id": "S010",
+          "description": "Often fidgets with or taps hands or feet or squirms in seat.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S010"
+        },
+        {
+          "id": "S011",
+          "description": "Often leaves seat in situations when remaining seated is expected.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S011"
+        },
+        {
+          "id": "S012",
+          "description": "Often runs about or climbs in situations where it is inappropriate. (Note: In adolescents or adults, may be limited to feeling restless.)",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S012"
+        },
+        {
+          "id": "S013",
+          "description": "Often unable to play or engage in leisure activities quietly.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S013"
+        },
+        {
+          "id": "S014",
+          "description": "Is often 'on the go', acting as if 'driven by a motor'.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S014"
+        },
+        {
+          "id": "S015",
+          "description": "Often talks excessively.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S015"
+        },
+        {
+          "id": "S016",
+          "description": "Often blurts out an answer before a question has been completed.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S016"
+        },
+        {
+          "id": "S017",
+          "description": "Often has difficulty waiting his or her turn.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S017"
+        },
+        {
+          "id": "S018",
+          "description": "Often interrupts or intrudes on others (e.g., butts into conversations, games, or activities).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/2adhd_hyperactivity.json#/S018"
+        }
+      ]
+    },
+    {
+      "id": "entry.D004",
+      "group_id": "psychotic",
+      "disorder_id": "D004",
+      "name": "Delusional Disorder",
+      "label": "妄想障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Fixed beliefs that do not change easily, even in the face of contradictory evidence.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D004",
+        "first2014_project24/source_audit.json#/p24.delusional"
+      ],
+      "tree_ids": [
+        "p24.delusional"
+      ],
+      "symptoms": [
+        {
+          "id": "S019",
+          "description": "Fixed beliefs that do not change easily, even in the face of contradictory evidence.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S019"
+        }
+      ]
+    },
+    {
+      "id": "entry.D005",
+      "group_id": "psychotic",
+      "disorder_id": "D005",
+      "name": "Schizophrenia",
+      "label": "精神分裂症",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Fixed beliefs that do not change easily, even in the face of contradictory evidence.\n- Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.\n- Symptoms where speech or thought appears scattered and difficult to follow due to a lack of logical or consistent flow.\n- A state where behavior and motor control are severely disturbed, appearing as movements or reactions inappropriate to the situation.\n- A state where emotions, motivation, speech, or social interest that should normally be present are diminished or lost.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D005",
+        "first2014_project24/source_audit.json#/p24.schizophrenia"
+      ],
+      "tree_ids": [
+        "p24.schizophrenia"
+      ],
+      "symptoms": [
+        {
+          "id": "S019",
+          "description": "Fixed beliefs that do not change easily, even in the face of contradictory evidence.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S019"
+        },
+        {
+          "id": "S020",
+          "description": "Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S020"
+        },
+        {
+          "id": "S021",
+          "description": "Symptoms where speech or thought appears scattered and difficult to follow due to a lack of logical or consistent flow.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S021"
+        },
+        {
+          "id": "S022",
+          "description": "A state where behavior and motor control are severely disturbed, appearing as movements or reactions inappropriate to the situation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S022"
+        },
+        {
+          "id": "S023",
+          "description": "A state where emotions, motivation, speech, or social interest that should normally be present are diminished or lost.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S023"
+        }
+      ]
+    },
+    {
+      "id": "entry.D006",
+      "group_id": "psychotic",
+      "disorder_id": "D006",
+      "name": "Schizoaffective Disorder (Bipolar Type)",
+      "label": "分裂情感性障碍（双相型）",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Fixed beliefs that do not change easily, even in the face of contradictory evidence.\n- Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.\n- Symptoms where speech or thought appears scattered and difficult to follow due to a lack of logical or consistent flow.\n- A state where behavior and motor control are severely disturbed, appearing as movements or reactions inappropriate to the situation.\n- A state where emotions, motivation, speech, or social interest that should normally be present are diminished or lost.\n- A state where a sad, empty, or hopeless mood persists.\n- A state where interest or pleasure in previously enjoyed activities is markedly diminished.\n- Significant increase or decrease in appetite or weight.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Observable increase or decrease in psychomotor activity.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.\n- A distinct period of abnormally and persistently elevated, expansive, or irritable mood.\n- Abnormally and persistently increased goal-directed activity or energy.\n- Inflated self-esteem or grandiosity (may range from uncritical self-confidence to delusional proportions).\n- Decreased need for sleep (e.g., feels rested after only 3 hours of sleep).\n- More talkative than usual or pressure to keep talking.\n- Flight of ideas or subjective experience that thoughts are racing.\n- Attention is too easily drawn to unimportant or irrelevant external stimuli.\n- Increase in goal-directed activity (at work, school, socially, or sexually) or purposeless psychomotor agitation.\n- Excessive involvement in activities that have a high potential for painful consequences.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D006",
+        "first2014_project24/source_audit.json#/p24.schizoaffective"
+      ],
+      "tree_ids": [
+        "p24.schizoaffective"
+      ],
+      "symptoms": [
+        {
+          "id": "S019",
+          "description": "Fixed beliefs that do not change easily, even in the face of contradictory evidence.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S019"
+        },
+        {
+          "id": "S020",
+          "description": "Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S020"
+        },
+        {
+          "id": "S021",
+          "description": "Symptoms where speech or thought appears scattered and difficult to follow due to a lack of logical or consistent flow.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S021"
+        },
+        {
+          "id": "S022",
+          "description": "A state where behavior and motor control are severely disturbed, appearing as movements or reactions inappropriate to the situation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S022"
+        },
+        {
+          "id": "S023",
+          "description": "A state where emotions, motivation, speech, or social interest that should normally be present are diminished or lost.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S023"
+        },
+        {
+          "id": "S024",
+          "description": "A state where a sad, empty, or hopeless mood persists.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S024"
+        },
+        {
+          "id": "S025",
+          "description": "A state where interest or pleasure in previously enjoyed activities is markedly diminished.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S025"
+        },
+        {
+          "id": "S026",
+          "description": "Significant increase or decrease in appetite or weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S026"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S028",
+          "description": "Observable increase or decrease in psychomotor activity.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S028"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S030",
+          "description": "Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S030"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S032",
+          "description": "Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S032"
+        },
+        {
+          "id": "S033",
+          "description": "A distinct period of abnormally and persistently elevated, expansive, or irritable mood.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S033"
+        },
+        {
+          "id": "S034",
+          "description": "Abnormally and persistently increased goal-directed activity or energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S034"
+        },
+        {
+          "id": "S035",
+          "description": "Inflated self-esteem or grandiosity (may range from uncritical self-confidence to delusional proportions).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S035"
+        },
+        {
+          "id": "S036",
+          "description": "Decreased need for sleep (e.g., feels rested after only 3 hours of sleep).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S036"
+        },
+        {
+          "id": "S037",
+          "description": "More talkative than usual or pressure to keep talking.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S037"
+        },
+        {
+          "id": "S038",
+          "description": "Flight of ideas or subjective experience that thoughts are racing.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S038"
+        },
+        {
+          "id": "S039",
+          "description": "Attention is too easily drawn to unimportant or irrelevant external stimuli.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S039"
+        },
+        {
+          "id": "S040",
+          "description": "Increase in goal-directed activity (at work, school, socially, or sexually) or purposeless psychomotor agitation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S040"
+        },
+        {
+          "id": "S041",
+          "description": "Excessive involvement in activities that have a high potential for painful consequences.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S041"
+        }
+      ]
+    },
+    {
+      "id": "entry.D007",
+      "group_id": "psychotic",
+      "disorder_id": "D007",
+      "name": "Schizoaffective Disorder (Depressive Type)",
+      "label": "分裂情感性障碍（抑郁型）",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Fixed beliefs that do not change easily, even in the face of contradictory evidence.\n- Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.\n- Symptoms where speech or thought appears scattered and difficult to follow due to a lack of logical or consistent flow.\n- A state where behavior and motor control are severely disturbed, appearing as movements or reactions inappropriate to the situation.\n- A state where emotions, motivation, speech, or social interest that should normally be present are diminished or lost.\n- A state where a sad, empty, or hopeless mood persists.\n- A state where interest or pleasure in previously enjoyed activities is markedly diminished.\n- Significant increase or decrease in appetite or weight.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Observable increase or decrease in psychomotor activity.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D007",
+        "first2014_project24/source_audit.json#/p24.schizoaffective"
+      ],
+      "tree_ids": [
+        "p24.schizoaffective"
+      ],
+      "symptoms": [
+        {
+          "id": "S019",
+          "description": "Fixed beliefs that do not change easily, even in the face of contradictory evidence.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S019"
+        },
+        {
+          "id": "S020",
+          "description": "Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S020"
+        },
+        {
+          "id": "S021",
+          "description": "Symptoms where speech or thought appears scattered and difficult to follow due to a lack of logical or consistent flow.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S021"
+        },
+        {
+          "id": "S022",
+          "description": "A state where behavior and motor control are severely disturbed, appearing as movements or reactions inappropriate to the situation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S022"
+        },
+        {
+          "id": "S023",
+          "description": "A state where emotions, motivation, speech, or social interest that should normally be present are diminished or lost.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S023"
+        },
+        {
+          "id": "S024",
+          "description": "A state where a sad, empty, or hopeless mood persists.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S024"
+        },
+        {
+          "id": "S025",
+          "description": "A state where interest or pleasure in previously enjoyed activities is markedly diminished.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S025"
+        },
+        {
+          "id": "S026",
+          "description": "Significant increase or decrease in appetite or weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S026"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S028",
+          "description": "Observable increase or decrease in psychomotor activity.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S028"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S030",
+          "description": "Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S030"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S032",
+          "description": "Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S032"
+        }
+      ]
+    },
+    {
+      "id": "entry.D008",
+      "group_id": "bipolar",
+      "disorder_id": "D008",
+      "name": "Bipolar I Disorder",
+      "label": "双相Ⅰ型障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- A state where a sad, empty, or hopeless mood persists.\n- A state where interest or pleasure in previously enjoyed activities is markedly diminished.\n- Significant increase or decrease in appetite or weight.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Observable increase or decrease in psychomotor activity.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.\n- A distinct period of abnormally and persistently elevated, expansive, or irritable mood.\n- Abnormally and persistently increased goal-directed activity or energy.\n- Inflated self-esteem or grandiosity (may range from uncritical self-confidence to delusional proportions).\n- Decreased need for sleep (e.g., feels rested after only 3 hours of sleep).\n- More talkative than usual or pressure to keep talking.\n- Flight of ideas or subjective experience that thoughts are racing.\n- Attention is too easily drawn to unimportant or irrelevant external stimuli.\n- Increase in goal-directed activity (at work, school, socially, or sexually) or purposeless psychomotor agitation.\n- Excessive involvement in activities that have a high potential for painful consequences.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D008",
+        "first2014_project24/source_audit.json#/p24.bipolar1"
+      ],
+      "tree_ids": [
+        "p24.bipolar1"
+      ],
+      "symptoms": [
+        {
+          "id": "S024",
+          "description": "A state where a sad, empty, or hopeless mood persists.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S024"
+        },
+        {
+          "id": "S025",
+          "description": "A state where interest or pleasure in previously enjoyed activities is markedly diminished.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S025"
+        },
+        {
+          "id": "S026",
+          "description": "Significant increase or decrease in appetite or weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S026"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S028",
+          "description": "Observable increase or decrease in psychomotor activity.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S028"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S030",
+          "description": "Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S030"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S032",
+          "description": "Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S032"
+        },
+        {
+          "id": "S033",
+          "description": "A distinct period of abnormally and persistently elevated, expansive, or irritable mood.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S033"
+        },
+        {
+          "id": "S034",
+          "description": "Abnormally and persistently increased goal-directed activity or energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S034"
+        },
+        {
+          "id": "S035",
+          "description": "Inflated self-esteem or grandiosity (may range from uncritical self-confidence to delusional proportions).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S035"
+        },
+        {
+          "id": "S036",
+          "description": "Decreased need for sleep (e.g., feels rested after only 3 hours of sleep).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S036"
+        },
+        {
+          "id": "S037",
+          "description": "More talkative than usual or pressure to keep talking.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S037"
+        },
+        {
+          "id": "S038",
+          "description": "Flight of ideas or subjective experience that thoughts are racing.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S038"
+        },
+        {
+          "id": "S039",
+          "description": "Attention is too easily drawn to unimportant or irrelevant external stimuli.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S039"
+        },
+        {
+          "id": "S040",
+          "description": "Increase in goal-directed activity (at work, school, socially, or sexually) or purposeless psychomotor agitation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S040"
+        },
+        {
+          "id": "S041",
+          "description": "Excessive involvement in activities that have a high potential for painful consequences.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S041"
+        }
+      ]
+    },
+    {
+      "id": "entry.D009",
+      "group_id": "bipolar",
+      "disorder_id": "D009",
+      "name": "Bipolar II Disorder",
+      "label": "双相Ⅱ型障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- A state where a sad, empty, or hopeless mood persists.\n- A state where interest or pleasure in previously enjoyed activities is markedly diminished.\n- Significant increase or decrease in appetite or weight.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Observable increase or decrease in psychomotor activity.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.\n- A distinct period of abnormally and persistently elevated, expansive, or irritable mood.\n- Abnormally and persistently increased goal-directed activity or energy.\n- Inflated self-esteem or grandiosity (may range from uncritical self-confidence to delusional proportions).\n- Decreased need for sleep (e.g., feels rested after only 3 hours of sleep).\n- More talkative than usual or pressure to keep talking.\n- Flight of ideas or subjective experience that thoughts are racing.\n- Attention is too easily drawn to unimportant or irrelevant external stimuli.\n- Increase in goal-directed activity (at work, school, socially, or sexually) or purposeless psychomotor agitation.\n- Excessive involvement in activities that have a high potential for painful consequences.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D009",
+        "first2014_project24/source_audit.json#/p24.bipolar2"
+      ],
+      "tree_ids": [
+        "p24.bipolar2"
+      ],
+      "symptoms": [
+        {
+          "id": "S024",
+          "description": "A state where a sad, empty, or hopeless mood persists.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S024"
+        },
+        {
+          "id": "S025",
+          "description": "A state where interest or pleasure in previously enjoyed activities is markedly diminished.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S025"
+        },
+        {
+          "id": "S026",
+          "description": "Significant increase or decrease in appetite or weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S026"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S028",
+          "description": "Observable increase or decrease in psychomotor activity.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S028"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S030",
+          "description": "Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S030"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S032",
+          "description": "Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S032"
+        },
+        {
+          "id": "S033",
+          "description": "A distinct period of abnormally and persistently elevated, expansive, or irritable mood.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S033"
+        },
+        {
+          "id": "S034",
+          "description": "Abnormally and persistently increased goal-directed activity or energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S034"
+        },
+        {
+          "id": "S035",
+          "description": "Inflated self-esteem or grandiosity (may range from uncritical self-confidence to delusional proportions).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S035"
+        },
+        {
+          "id": "S036",
+          "description": "Decreased need for sleep (e.g., feels rested after only 3 hours of sleep).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S036"
+        },
+        {
+          "id": "S037",
+          "description": "More talkative than usual or pressure to keep talking.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S037"
+        },
+        {
+          "id": "S038",
+          "description": "Flight of ideas or subjective experience that thoughts are racing.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S038"
+        },
+        {
+          "id": "S039",
+          "description": "Attention is too easily drawn to unimportant or irrelevant external stimuli.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S039"
+        },
+        {
+          "id": "S040",
+          "description": "Increase in goal-directed activity (at work, school, socially, or sexually) or purposeless psychomotor agitation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S040"
+        },
+        {
+          "id": "S041",
+          "description": "Excessive involvement in activities that have a high potential for painful consequences.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S041"
+        }
+      ]
+    },
+    {
+      "id": "entry.D010",
+      "group_id": "bipolar",
+      "disorder_id": "D010",
+      "name": "Bipolar I Disorder with Psychotic Features",
+      "label": "双相Ⅰ型障碍伴精神病性特征",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Fixed beliefs that do not change easily, even in the face of contradictory evidence.\n- Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.\n- A state where a sad, empty, or hopeless mood persists.\n- A state where interest or pleasure in previously enjoyed activities is markedly diminished.\n- Significant increase or decrease in appetite or weight.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Observable increase or decrease in psychomotor activity.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.\n- A distinct period of abnormally and persistently elevated, expansive, or irritable mood.\n- Abnormally and persistently increased goal-directed activity or energy.\n- Inflated self-esteem or grandiosity (may range from uncritical self-confidence to delusional proportions).\n- Decreased need for sleep (e.g., feels rested after only 3 hours of sleep).\n- More talkative than usual or pressure to keep talking.\n- Flight of ideas or subjective experience that thoughts are racing.\n- Attention is too easily drawn to unimportant or irrelevant external stimuli.\n- Increase in goal-directed activity (at work, school, socially, or sexually) or purposeless psychomotor agitation.\n- Excessive involvement in activities that have a high potential for painful consequences.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D010",
+        "first2014_project24/source_audit.json#/p24.bipolar1"
+      ],
+      "tree_ids": [
+        "p24.bipolar1"
+      ],
+      "symptoms": [
+        {
+          "id": "S019",
+          "description": "Fixed beliefs that do not change easily, even in the face of contradictory evidence.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S019"
+        },
+        {
+          "id": "S020",
+          "description": "Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S020"
+        },
+        {
+          "id": "S024",
+          "description": "A state where a sad, empty, or hopeless mood persists.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S024"
+        },
+        {
+          "id": "S025",
+          "description": "A state where interest or pleasure in previously enjoyed activities is markedly diminished.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S025"
+        },
+        {
+          "id": "S026",
+          "description": "Significant increase or decrease in appetite or weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S026"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S028",
+          "description": "Observable increase or decrease in psychomotor activity.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S028"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S030",
+          "description": "Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S030"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S032",
+          "description": "Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S032"
+        },
+        {
+          "id": "S033",
+          "description": "A distinct period of abnormally and persistently elevated, expansive, or irritable mood.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S033"
+        },
+        {
+          "id": "S034",
+          "description": "Abnormally and persistently increased goal-directed activity or energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S034"
+        },
+        {
+          "id": "S035",
+          "description": "Inflated self-esteem or grandiosity (may range from uncritical self-confidence to delusional proportions).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S035"
+        },
+        {
+          "id": "S036",
+          "description": "Decreased need for sleep (e.g., feels rested after only 3 hours of sleep).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S036"
+        },
+        {
+          "id": "S037",
+          "description": "More talkative than usual or pressure to keep talking.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S037"
+        },
+        {
+          "id": "S038",
+          "description": "Flight of ideas or subjective experience that thoughts are racing.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S038"
+        },
+        {
+          "id": "S039",
+          "description": "Attention is too easily drawn to unimportant or irrelevant external stimuli.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S039"
+        },
+        {
+          "id": "S040",
+          "description": "Increase in goal-directed activity (at work, school, socially, or sexually) or purposeless psychomotor agitation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S040"
+        },
+        {
+          "id": "S041",
+          "description": "Excessive involvement in activities that have a high potential for painful consequences.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S041"
+        }
+      ]
+    },
+    {
+      "id": "entry.D011",
+      "group_id": "anxiety",
+      "disorder_id": "D011",
+      "name": "Generalized Anxiety Disorder",
+      "label": "广泛性焦虑障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Excessive anxiety and worry (expectant apprehension) occurring persistently about a number of events or activities.\n- The subjective experience of finding it difficult to stop or control the worry.\n- Restlessness, or feeling keyed up or on edge.\n- Difficulty concentrating or mind going blank.\n- A state of reacting sensitively or sharply to minor stimuli.\n- A state where muscles are continuously tense, stiff, and accompanied by discomfort.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D011",
+        "first2014_project24/source_audit.json#/p24.gad"
+      ],
+      "tree_ids": [
+        "p24.gad"
+      ],
+      "symptoms": [
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S056",
+          "description": "Excessive anxiety and worry (expectant apprehension) occurring persistently about a number of events or activities.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S056"
+        },
+        {
+          "id": "S057",
+          "description": "The subjective experience of finding it difficult to stop or control the worry.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S057"
+        },
+        {
+          "id": "S058",
+          "description": "Restlessness, or feeling keyed up or on edge.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S058"
+        },
+        {
+          "id": "S059",
+          "description": "Difficulty concentrating or mind going blank.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S059"
+        },
+        {
+          "id": "S060",
+          "description": "A state of reacting sensitively or sharply to minor stimuli.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S060"
+        },
+        {
+          "id": "S061",
+          "description": "A state where muscles are continuously tense, stiff, and accompanied by discomfort.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S061"
+        }
+      ]
+    },
+    {
+      "id": "entry.D012",
+      "group_id": "anxiety",
+      "disorder_id": "D012",
+      "name": "Specific Phobia",
+      "label": "特定恐怖症",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Marked fear or anxiety about a specific object or situation that is out of proportion to the actual danger. (Note: In children, may be expressed by crying, tantrums, freezing, or clinging).\n- The phobic object or situation almost always provokes immediate fear or anxiety.\n- The phobic object or situation is actively avoided or endured with intense fear or anxiety.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D012",
+        "first2014_project24/source_audit.json#/p24.phobia"
+      ],
+      "tree_ids": [
+        "p24.phobia"
+      ],
+      "symptoms": [
+        {
+          "id": "S062",
+          "description": "Marked fear or anxiety about a specific object or situation that is out of proportion to the actual danger. (Note: In children, may be expressed by crying, tantrums, freezing, or clinging).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S062"
+        },
+        {
+          "id": "S063",
+          "description": "The phobic object or situation almost always provokes immediate fear or anxiety.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S063"
+        },
+        {
+          "id": "S064",
+          "description": "The phobic object or situation is actively avoided or endured with intense fear or anxiety.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/7anxiety.json#/S064"
+        }
+      ]
+    },
+    {
+      "id": "entry.Insomnia",
+      "group_id": "sleep",
+      "disorder_id": "Insomnia",
+      "name": "Insomnia Disorder",
+      "label": "失眠障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Trouble falling asleep; children may need caregiver help.\n- Repeated waking or difficulty resuming sleep; children may need caregiver help.\n- Unwanted early waking with difficulty returning to sleep.",
+      "source_refs": [
+        "../external/MentalBench/resources/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia",
+        "first2014_project24/source_audit.json#/p24.insomnia"
+      ],
+      "tree_ids": [
+        "p24.insomnia"
+      ],
+      "symptoms": [
+        {
+          "id": "S085",
+          "description": "Trouble falling asleep; children may need caregiver help.",
+          "source_ref": "../external/MentalBench/resources/dsm5_supplement/EN/symptom/10insomnia.json#/S085"
+        },
+        {
+          "id": "S086",
+          "description": "Repeated waking or difficulty resuming sleep; children may need caregiver help.",
+          "source_ref": "../external/MentalBench/resources/dsm5_supplement/EN/symptom/10insomnia.json#/S086"
+        },
+        {
+          "id": "S087",
+          "description": "Unwanted early waking with difficulty returning to sleep.",
+          "source_ref": "../external/MentalBench/resources/dsm5_supplement/EN/symptom/10insomnia.json#/S087"
+        }
+      ]
+    },
+    {
+      "id": "entry.D013",
+      "group_id": "depressive",
+      "disorder_id": "D013",
+      "name": "Major Depressive Disorder",
+      "label": "重性抑郁障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- A state where a sad, empty, or hopeless mood persists.\n- A state where interest or pleasure in previously enjoyed activities is markedly diminished.\n- Significant increase or decrease in appetite or weight.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Observable increase or decrease in psychomotor activity.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D013",
+        "first2014_project24/source_audit.json#/p24.mdd"
+      ],
+      "tree_ids": [
+        "p24.mdd"
+      ],
+      "symptoms": [
+        {
+          "id": "S024",
+          "description": "A state where a sad, empty, or hopeless mood persists.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S024"
+        },
+        {
+          "id": "S025",
+          "description": "A state where interest or pleasure in previously enjoyed activities is markedly diminished.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S025"
+        },
+        {
+          "id": "S026",
+          "description": "Significant increase or decrease in appetite or weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S026"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S028",
+          "description": "Observable increase or decrease in psychomotor activity.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S028"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S030",
+          "description": "Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S030"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S032",
+          "description": "Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S032"
+        }
+      ]
+    },
+    {
+      "id": "entry.D014",
+      "group_id": "depressive",
+      "disorder_id": "D014",
+      "name": "Persistent Depressive Disorder",
+      "label": "持续性抑郁障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- A state where a sad, empty, or hopeless mood persists.\n- Significant increase or decrease in appetite or weight.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Diminished ability to think or concentrate, or indecisiveness.\n- A persistent tendency to evaluate oneself as incompetent or worthless; chronically low self-evaluation.\n- A feeling of despair or having no hope for the future.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D014",
+        "first2014_project24/source_audit.json#/p24.pdd"
+      ],
+      "tree_ids": [
+        "p24.pdd"
+      ],
+      "symptoms": [
+        {
+          "id": "S024",
+          "description": "A state where a sad, empty, or hopeless mood persists.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S024"
+        },
+        {
+          "id": "S026",
+          "description": "Significant increase or decrease in appetite or weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S026"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S042",
+          "description": "A persistent tendency to evaluate oneself as incompetent or worthless; chronically low self-evaluation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/5manic_episode.json#/S042"
+        },
+        {
+          "id": "S083",
+          "description": "A feeling of despair or having no hope for the future.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S083"
+        }
+      ]
+    },
+    {
+      "id": "entry.D015",
+      "group_id": "depressive",
+      "disorder_id": "D015",
+      "name": "Major Depressive Disorder with Psychotic Features",
+      "label": "重性抑郁障碍伴精神病性特征",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Fixed beliefs that do not change easily, even in the face of contradictory evidence.\n- Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.\n- A state where a sad, empty, or hopeless mood persists.\n- A state where interest or pleasure in previously enjoyed activities is markedly diminished.\n- Significant increase or decrease in appetite or weight.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Observable increase or decrease in psychomotor activity.\n- Persistent fatigue that is not relieved by rest and a marked lack of energy.\n- Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D015",
+        "first2014_project24/source_audit.json#/p24.mdd"
+      ],
+      "tree_ids": [
+        "p24.mdd"
+      ],
+      "symptoms": [
+        {
+          "id": "S019",
+          "description": "Fixed beliefs that do not change easily, even in the face of contradictory evidence.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S019"
+        },
+        {
+          "id": "S020",
+          "description": "Perception-like experiences that occur without an external stimulus and are as vivid and clear as normal perception.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/3psychotic.json#/S020"
+        },
+        {
+          "id": "S024",
+          "description": "A state where a sad, empty, or hopeless mood persists.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S024"
+        },
+        {
+          "id": "S025",
+          "description": "A state where interest or pleasure in previously enjoyed activities is markedly diminished.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S025"
+        },
+        {
+          "id": "S026",
+          "description": "Significant increase or decrease in appetite or weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S026"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S028",
+          "description": "Observable increase or decrease in psychomotor activity.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S028"
+        },
+        {
+          "id": "S029",
+          "description": "Persistent fatigue that is not relieved by rest and a marked lack of energy.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S029"
+        },
+        {
+          "id": "S030",
+          "description": "Feelings of worthlessness or excessive or inappropriate guilt (which may be delusional; not merely self-reproach or guilt about being sick).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S030"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S032",
+          "description": "Recurrent thoughts of death, recurrent suicidal ideation, or a suicide attempt.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S032"
+        }
+      ]
+    },
+    {
+      "id": "entry.D016",
+      "group_id": "obsessive",
+      "disorder_id": "D016",
+      "name": "Obsessive-Compulsive Disorder",
+      "label": "强迫症",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Recurrent and persistent thoughts, urges, or images that are experienced as intrusive and unwanted, and attempts to ignore or suppress them.\n- Repetitive behaviors or mental acts performed in response to an obsession or to prevent anxiety/distress; clearly excessive or not realistically connected.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D016",
+        "first2014_project24/source_audit.json#/p24.ocd"
+      ],
+      "tree_ids": [
+        "p24.ocd"
+      ],
+      "symptoms": [
+        {
+          "id": "S065",
+          "description": "Recurrent and persistent thoughts, urges, or images that are experienced as intrusive and unwanted, and attempts to ignore or suppress them.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/8obsession.json#/S065"
+        },
+        {
+          "id": "S066",
+          "description": "Repetitive behaviors or mental acts performed in response to an obsession or to prevent anxiety/distress; clearly excessive or not realistically connected.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/8obsession.json#/S066"
+        }
+      ]
+    },
+    {
+      "id": "entry.D017",
+      "group_id": "obsessive",
+      "disorder_id": "D017",
+      "name": "Body Dysmorphic Disorder",
+      "label": "躯体变形障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Preoccupation with one or more perceived defects or flaws in physical appearance that are not observable or appear slight to others.\n- Repetitive behaviors or mental acts performed in response to appearance concerns.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D017",
+        "first2014_project24/source_audit.json#/p24.bdd"
+      ],
+      "tree_ids": [
+        "p24.bdd"
+      ],
+      "symptoms": [
+        {
+          "id": "S067",
+          "description": "Preoccupation with one or more perceived defects or flaws in physical appearance that are not observable or appear slight to others.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/8obsession.json#/S067"
+        },
+        {
+          "id": "S068",
+          "description": "Repetitive behaviors or mental acts performed in response to appearance concerns.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/8obsession.json#/S068"
+        }
+      ]
+    },
+    {
+      "id": "entry.D018",
+      "group_id": "stress",
+      "disorder_id": "D018",
+      "name": "Posttraumatic Stress Disorder",
+      "label": "创伤后应激障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- A state where interest or pleasure in previously enjoyed activities is markedly diminished.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent, involuntary, and intrusive distressing memories of the traumatic event.\n- Persistent avoidance of stimuli associated with the traumatic event.\n- Inability to remember an important aspect of the traumatic event (typically due to dissociative amnesia and not to other factors like head injury or alcohol).\n- Persistent and exaggerated negative beliefs or expectations about oneself, others, or the world.\n- Persistent, distorted cognitions about the cause or consequences of the traumatic event that lead the individual to blame himself/herself or others.\n- Persistent negative emotional state (e.g., fear, horror, anger, guilt, or shame).\n- Feelings of detachment or estrangement from others.\n- Persistent inability to experience positive emotions (e.g., inability to experience happiness, satisfaction, or loving feelings).\n- Irritable behavior and angry outbursts (with little or no provocation) typically expressed as verbal or physical aggression.\n- Reckless or self-destructive behavior pattern that endangers one's safety or health.\n- Persistent state of being alert and tense about the surrounding environment.\n- Exaggerated startle response to minor stimuli.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D018",
+        "first2014_project24/source_audit.json#/p24.ptsd"
+      ],
+      "tree_ids": [
+        "p24.ptsd"
+      ],
+      "symptoms": [
+        {
+          "id": "S025",
+          "description": "A state where interest or pleasure in previously enjoyed activities is markedly diminished.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S025"
+        },
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S069",
+          "description": "Recurrent, involuntary, and intrusive distressing memories of the traumatic event.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S069"
+        },
+        {
+          "id": "S070",
+          "description": "Persistent avoidance of stimuli associated with the traumatic event.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S070"
+        },
+        {
+          "id": "S071",
+          "description": "Inability to remember an important aspect of the traumatic event (typically due to dissociative amnesia and not to other factors like head injury or alcohol).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S071"
+        },
+        {
+          "id": "S072",
+          "description": "Persistent and exaggerated negative beliefs or expectations about oneself, others, or the world.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S072"
+        },
+        {
+          "id": "S073",
+          "description": "Persistent, distorted cognitions about the cause or consequences of the traumatic event that lead the individual to blame himself/herself or others.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S073"
+        },
+        {
+          "id": "S074",
+          "description": "Persistent negative emotional state (e.g., fear, horror, anger, guilt, or shame).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S074"
+        },
+        {
+          "id": "S075",
+          "description": "Feelings of detachment or estrangement from others.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S075"
+        },
+        {
+          "id": "S076",
+          "description": "Persistent inability to experience positive emotions (e.g., inability to experience happiness, satisfaction, or loving feelings).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S076"
+        },
+        {
+          "id": "S077",
+          "description": "Irritable behavior and angry outbursts (with little or no provocation) typically expressed as verbal or physical aggression.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S077"
+        },
+        {
+          "id": "S078",
+          "description": "Reckless or self-destructive behavior pattern that endangers one's safety or health.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S078"
+        },
+        {
+          "id": "S079",
+          "description": "Persistent state of being alert and tense about the surrounding environment.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S079"
+        },
+        {
+          "id": "S080",
+          "description": "Exaggerated startle response to minor stimuli.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S080"
+        }
+      ]
+    },
+    {
+      "id": "entry.D019",
+      "group_id": "stress",
+      "disorder_id": "D019",
+      "name": "Acute Stress Disorder",
+      "label": "急性应激障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- A state where there is a significant change in the quantity or quality of sleep.\n- Diminished ability to think or concentrate, or indecisiveness.\n- Recurrent, involuntary, and intrusive distressing memories of the traumatic event.\n- Persistent avoidance of stimuli associated with the traumatic event.\n- Inability to remember an important aspect of the traumatic event (typically due to dissociative amnesia and not to other factors like head injury or alcohol).\n- Persistent inability to experience positive emotions (e.g., inability to experience happiness, satisfaction, or loving feelings).\n- Irritable behavior and angry outbursts (with little or no provocation) typically expressed as verbal or physical aggression.\n- Persistent state of being alert and tense about the surrounding environment.\n- Exaggerated startle response to minor stimuli.\n- Altered sense of the reality of one's self or surroundings after a traumatic event.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D019",
+        "first2014_project24/source_audit.json#/p24.asd"
+      ],
+      "tree_ids": [
+        "p24.asd"
+      ],
+      "symptoms": [
+        {
+          "id": "S027",
+          "description": "A state where there is a significant change in the quantity or quality of sleep.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S027"
+        },
+        {
+          "id": "S031",
+          "description": "Diminished ability to think or concentrate, or indecisiveness.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/4depressive_episode.json#/S031"
+        },
+        {
+          "id": "S069",
+          "description": "Recurrent, involuntary, and intrusive distressing memories of the traumatic event.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S069"
+        },
+        {
+          "id": "S070",
+          "description": "Persistent avoidance of stimuli associated with the traumatic event.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S070"
+        },
+        {
+          "id": "S071",
+          "description": "Inability to remember an important aspect of the traumatic event (typically due to dissociative amnesia and not to other factors like head injury or alcohol).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S071"
+        },
+        {
+          "id": "S076",
+          "description": "Persistent inability to experience positive emotions (e.g., inability to experience happiness, satisfaction, or loving feelings).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S076"
+        },
+        {
+          "id": "S077",
+          "description": "Irritable behavior and angry outbursts (with little or no provocation) typically expressed as verbal or physical aggression.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S077"
+        },
+        {
+          "id": "S079",
+          "description": "Persistent state of being alert and tense about the surrounding environment.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S079"
+        },
+        {
+          "id": "S080",
+          "description": "Exaggerated startle response to minor stimuli.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S080"
+        },
+        {
+          "id": "S082",
+          "description": "Altered sense of the reality of one's self or surroundings after a traumatic event.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S082"
+        }
+      ]
+    },
+    {
+      "id": "entry.D020",
+      "group_id": "stress",
+      "disorder_id": "D020",
+      "name": "Adjustment Disorder",
+      "label": "适应障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Emotional or behavioral symptoms appearing in response to an identifiable stressor.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D020",
+        "first2014_project24/source_audit.json#/p24.adjustment"
+      ],
+      "tree_ids": [
+        "p24.adjustment"
+      ],
+      "symptoms": [
+        {
+          "id": "S081",
+          "description": "Emotional or behavioral symptoms appearing in response to an identifiable stressor.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/9ptsd.json#/S081"
+        }
+      ]
+    },
+    {
+      "id": "entry.D021",
+      "group_id": "eating",
+      "disorder_id": "D021",
+      "name": "Anorexia Nervosa",
+      "label": "神经性厌食",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Persistent restriction of energy intake relative to requirements, leading to significantly low body weight.\n- A body weight that is significantly below the minimum level of health for age, sex, developmental trajectory, and physical health.\n- Intense fear of gaining weight or of becoming fat, even though at a significantly low weight.\n- Undue influence of body weight or shape on self-evaluation.\n- Persistent lack of recognition of the seriousness of the current low body weight.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D021",
+        "first2014_project24/source_audit.json#/p24.anorexia"
+      ],
+      "tree_ids": [
+        "p24.anorexia"
+      ],
+      "symptoms": [
+        {
+          "id": "S043",
+          "description": "Persistent restriction of energy intake relative to requirements, leading to significantly low body weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S043"
+        },
+        {
+          "id": "S044",
+          "description": "A body weight that is significantly below the minimum level of health for age, sex, developmental trajectory, and physical health.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S044"
+        },
+        {
+          "id": "S045",
+          "description": "Intense fear of gaining weight or of becoming fat, even though at a significantly low weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S045"
+        },
+        {
+          "id": "S046",
+          "description": "Undue influence of body weight or shape on self-evaluation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S046"
+        },
+        {
+          "id": "S084",
+          "description": "Persistent lack of recognition of the seriousness of the current low body weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S084"
+        }
+      ]
+    },
+    {
+      "id": "entry.D022",
+      "group_id": "eating",
+      "disorder_id": "D022",
+      "name": "Bulimia Nervosa",
+      "label": "神经性贪食",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Intense fear of gaining weight or of becoming fat, even though at a significantly low weight.\n- Undue influence of body weight or shape on self-evaluation.\n- Recurrent inappropriate compensatory behaviors to prevent weight gain without purging (direct removal of food).\n- Recurrent inappropriate compensatory behaviors involving the expulsion of food or fluids to prevent weight gain.\n- Eating, in a discrete period of time, an amount of food that is definitely larger than what most individuals would eat in a similar period of time under similar circumstances.\n- A sense of lack of control over eating during the episode (e.g., a feeling that one cannot stop eating or control what or how much one is eating).",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D022",
+        "first2014_project24/source_audit.json#/p24.bulimia"
+      ],
+      "tree_ids": [
+        "p24.bulimia"
+      ],
+      "symptoms": [
+        {
+          "id": "S045",
+          "description": "Intense fear of gaining weight or of becoming fat, even though at a significantly low weight.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S045"
+        },
+        {
+          "id": "S046",
+          "description": "Undue influence of body weight or shape on self-evaluation.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S046"
+        },
+        {
+          "id": "S047",
+          "description": "Recurrent inappropriate compensatory behaviors to prevent weight gain without purging (direct removal of food).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S047"
+        },
+        {
+          "id": "S048",
+          "description": "Recurrent inappropriate compensatory behaviors involving the expulsion of food or fluids to prevent weight gain.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S048"
+        },
+        {
+          "id": "S049",
+          "description": "Eating, in a discrete period of time, an amount of food that is definitely larger than what most individuals would eat in a similar period of time under similar circumstances.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S049"
+        },
+        {
+          "id": "S050",
+          "description": "A sense of lack of control over eating during the episode (e.g., a feeling that one cannot stop eating or control what or how much one is eating).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S050"
+        }
+      ]
+    },
+    {
+      "id": "entry.D023",
+      "group_id": "eating",
+      "disorder_id": "D023",
+      "name": "Binge-Eating Disorder",
+      "label": "暴食障碍",
+      "question": "For entry screening only, does the clinical case contain a presentation relevant to the following source-defined symptom descriptions? Select a reasoning path based on the case facts; do not determine a diagnosis, presentation subtype, severity, or whether full DSM criteria are met at this screening step.\n- Eating, in a discrete period of time, an amount of food that is definitely larger than what most individuals would eat in a similar period of time under similar circumstances.\n- A sense of lack of control over eating during the episode (e.g., a feeling that one cannot stop eating or control what or how much one is eating).\n- Eating much more rapidly than normal.\n- Eating until feeling uncomfortably full.\n- Eating large amounts of food when not feeling physically hungry.\n- Eating alone because of feeling embarrassed by how much one is eating.\n- Feeling disgusted with oneself, depressed, or very guilty afterward.",
+      "source_refs": [
+        "../external/MentalBench/resources/knowledge_graph/EN/diagnostic_criteria.json#/D023",
+        "first2014_project24/source_audit.json#/p24.binge"
+      ],
+      "tree_ids": [
+        "p24.binge"
+      ],
+      "symptoms": [
+        {
+          "id": "S049",
+          "description": "Eating, in a discrete period of time, an amount of food that is definitely larger than what most individuals would eat in a similar period of time under similar circumstances.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S049"
+        },
+        {
+          "id": "S050",
+          "description": "A sense of lack of control over eating during the episode (e.g., a feeling that one cannot stop eating or control what or how much one is eating).",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S050"
+        },
+        {
+          "id": "S051",
+          "description": "Eating much more rapidly than normal.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S051"
+        },
+        {
+          "id": "S052",
+          "description": "Eating until feeling uncomfortably full.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S052"
+        },
+        {
+          "id": "S053",
+          "description": "Eating large amounts of food when not feeling physically hungry.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S053"
+        },
+        {
+          "id": "S054",
+          "description": "Eating alone because of feeling embarrassed by how much one is eating.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S054"
+        },
+        {
+          "id": "S055",
+          "description": "Feeling disgusted with oneself, depressed, or very guilty afterward.",
+          "source_ref": "../external/MentalBench/resources/knowledge_graph/EN/symptom/6eating.json#/S055"
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "group_and_label_metadata": "shared/disorder_catalog.py:grouped_catalog",
+    "route_references": "tools/project24_tree_specifications.py:specifications/*/target_ids",
+    "symptom_content": [
+      "../external/MentalBench/resources/knowledge_graph/EN/symptom",
+      "../external/MentalBench/resources/dsm5_supplement/EN/symptom"
+    ],
+    "scope_decision": "User selected nine groups and 24 label-associated symptom entries, then replaced the previous source tree package",
+    "route_status": "All 24 entries route to the 19 source-derived family trees; no old symptom-tree route dependencies",
+    "runtime_isolation": "Exported data only; no old executor, pending-state policy, confidence or criteria thresholds imported"
+  },
+  "notes": [
+    "沿用用户选择的 9 类/24 症状入口；入口只选路径，不直接给诊断。",
+    "24 入口全部筛选完，再在共享队列推进所有适用树；共享树只执行一次。",
+    "症状文本来源保留；路由来自当前 19 棵家族树，不读取旧执行器或旧树映射。",
+    "树内容取自 PDF；入口症状是离线导出的项目数据，来源在每项 source_ref 中区分。",
+    "候选仅有 24 项；范围外原因记录为观察/终止，不强制归入最近标签。",
+    "手册没有完整重印 DSM 诊断标准；完整性缺口见 first2014_project24/source_gaps.json。"
+  ]
+}
