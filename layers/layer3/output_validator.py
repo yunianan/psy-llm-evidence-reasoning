@@ -1,23 +1,22 @@
 from typing import Any
 
-from shared.report_integrity import REQUIRED_L3_CHECKS, l3_report_fingerprint
-from .instructions.instruction_generator import validate_session_instructions
+from layers.layer4.schemas.l3_report import ICD10ClinicalReview
+from shared.report_integrity import (
+    ICD10_OUTPUT_POLICY, ICD10_STANDARD, REQUIRED_L3_CHECKS, l3_report_fingerprint,
+)
+from .diagnosis.icd10_report import reviewed_diagnosis
+from .instructions.instruction_generator import (
+    BASE_TECHNIQUES, PLUGIN_TECHNIQUES, validate_session_instructions,
+)
 
-
-from shared.disorder_catalog import canonical_disorder, treatment_key
 
 MIN_CANDIDATE_CONFIDENCE = 0.5
 
-PRIMARY_THERAPY_BY_DIAGNOSIS = {
-    "MDD": {"CBT", "CBT+BA"}, "GAD": {"CBT"}, "PTSD": {"CBT-TF"},
-    "OCD": {"CBT"}, "Bipolar": {"CBT+IPSRT"}, "Insomnia": {"CBT-I"},
-    "AdjustmentDisorder": {"CBT/SFBT"},
-}
 
 class L3OutputValidator:
     """L3 对自身诊断输出进行确定性自检，并生成供 L4 验证的凭证。"""
 
-    def validate(self, report: dict[str, Any]) -> dict[str, Any]:
+    def validate(self, report: dict[str, Any], *, icd10_result: dict | None = None) -> dict[str, Any]:
         checks: list[dict[str, str]] = []
         diagnosis = report.get("diagnosis") or {}
         primary = diagnosis.get("primary")
@@ -33,23 +32,24 @@ class L3OutputValidator:
         except (ValueError, KeyError, TypeError) as exc:
             self._check(checks, "V3-TREATMENT-INSTRUCTIONS", False, str(exc))
 
-        candidate_confidence = (
-            report["candidate_confidence"]
-            if "candidate_confidence" in report
-            else primary.get("confidence", 0.0)
+        candidate_confidence = report.get("candidate_confidence")
+        confidence_ok = (
+            type(candidate_confidence) in {int, float}
+            and MIN_CANDIDATE_CONFIDENCE <= candidate_confidence <= 1
+            and candidate_confidence == primary.get("confidence")
+            and all(
+                type(item.get("confidence")) in {int, float}
+                and MIN_CANDIDATE_CONFIDENCE <= item["confidence"] <= 1
+                for item in diagnosis.get("secondary", [])
+            )
         )
         self._check(
-            checks,
-            "V3-CANDIDATE-CONFIDENCE",
-            candidate_confidence >= MIN_CANDIDATE_CONFIDENCE,
+            checks, "V3-CANDIDATE-CONFIDENCE", confidence_ok,
             f"候选诊断支持度={candidate_confidence}，最低门槛={MIN_CANDIDATE_CONFIDENCE}",
         )
 
-        primary_code = self._canonical_diagnosis(primary.get("disorder", ""))
-        ruled_out_codes = {
-            self._canonical_diagnosis(item.get("disorder", ""))
-            for item in diagnosis.get("ruled_out") or []
-        }
+        primary_code = primary.get("disorder", "")
+        ruled_out_codes = {item.get("disorder", "") for item in diagnosis.get("ruled_out") or []}
         self._check(
             checks,
             "V3-PRIMARY-NOT-RULED-OUT",
@@ -57,33 +57,7 @@ class L3OutputValidator:
             f"主诊断={primary.get('disorder', '')}，排除诊断={sorted(ruled_out_codes)}",
         )
 
-        detail_by_code = {
-            item.get("code"): item
-            for item in primary.get("dsm5_criteria_detail") or []
-        }
-        missing_evidence = [
-            code
-            for code in primary.get("dsm5_criteria_met") or []
-            if code not in detail_by_code
-            or detail_by_code[code].get("status") != "met"
-            or not detail_by_code[code].get("evidence_refs")
-        ]
-        self._check(
-            checks,
-            "V3-CRITERIA-EVIDENCE",
-            not missing_evidence,
-            f"缺少逐条证据的DSM条目={missing_evidence}",
-        )
-
-        therapy = (report.get("recommended_therapy") or {}).get("primary", "")
-        allowed = PRIMARY_THERAPY_BY_DIAGNOSIS.get(treatment_key(primary_code))
-        therapy_ok = allowed is not None and therapy in allowed
-        self._check(
-            checks,
-            "V3-THERAPY-MATCH",
-            therapy_ok,
-            f"主诊断={primary.get('disorder', '')}，疗法={therapy or '<empty>'}，允许值={sorted(allowed or [])}",
-        )
+        self._check_icd10(report, icd10_result, checks)
 
         recommended = report.get("recommended_therapy") or {}
         plugins = recommended.get("addon") or []
@@ -93,6 +67,12 @@ class L3OutputValidator:
             len(plugins) <= 2
             and len(plugins) == len(set(plugins))
             and plugins == trigger_plugins
+        )
+        plugin_routing_ok = plugin_routing_ok and all(
+            plugin in PLUGIN_TECHNIQUES and isinstance(item.get("conditions"), list)
+            and item["conditions"] and all(isinstance(text, str) and text.strip()
+                                           for text in item["conditions"])
+            for plugin, item in zip(plugins, triggers)
         )
         self._check(
             checks,
@@ -105,11 +85,14 @@ class L3OutputValidator:
         adjustment_ok = bool(adjustments.get("severity_band")) and isinstance(
             adjustments.get("instructions"), list
         )
+        adjustment_ok = adjustment_ok and bool(adjustments.get("instructions")) and all(
+            isinstance(item, str) and item.strip() for item in adjustments["instructions"]
+        )
         self._check(
             checks,
             "V3-THERAPY-ADJUSTMENT",
             adjustment_ok,
-            "Step 3必须输出严重程度分组和可供L4执行的微调指令",
+            "复核计划必须提供严重程度分组和可供 L4 执行的微调指令",
         )
 
         exposure_blocked = adjustments.get("exposure_policy") == "prohibited_until_stabilized"
@@ -147,6 +130,44 @@ class L3OutputValidator:
 
         return self._receipt(report, checks)
 
+    def _check_icd10(self, report, result, checks):
+        review = None
+        try:
+            review = ICD10ClinicalReview.model_validate(report.get("icd10_review"))
+        except ValueError:
+            pass
+        review_ok = bool(
+            report.get("diagnostic_standard") == ICD10_STANDARD
+            and review and result and result.get("status") == "completed"
+            and result.get("session_id") == review.tree_session_id
+            and result.get("catalog_id") == report.get("icd10_catalog_id")
+            and report.get("verifier_decision") == "clinician_confirmed"
+            and report.get("verifier_routing") == "pass"
+            and report.get("verifier_score") is None
+            and report.get("severity_level") == review.severity_level
+        )
+        self._check(checks, "V3-ICD10-CLINICAL-REVIEW", review_ok, "复核必须对应当前已完成的 ICD-10 树及确认结论")
+
+        evidence_ok = False
+        detail = "缺少与当前树运行绑定的 ICD-10 复核"
+        if review_ok:
+            try:
+                expected = reviewed_diagnosis(result, review).model_dump(mode="json")
+                evidence_ok = expected == report["diagnosis"]
+                detail = "与 ICD-10 路径、WHO 出处和原话证据一致" if evidence_ok else "报告诊断或证据与 ICD-10 路径不一致"
+            except (KeyError, ValueError) as exc:
+                detail = str(exc)
+        self._check(checks, "V3-CRITERIA-EVIDENCE", evidence_ok, detail)
+
+        therapy = report.get("recommended_therapy") or {}
+        therapy_parts = therapy.get("primary", "").replace("/", "+").split("+")
+        therapy_ok = bool(
+            review and review.primary_code == report["diagnosis"]["primary"].get("disorder")
+            and review.therapy.model_dump(mode="json") == therapy
+            and all(part in BASE_TECHNIQUES for part in therapy_parts)
+        )
+        self._check(checks, "V3-THERAPY-MATCH", therapy_ok, "ICD-10 编码和受支持的治疗计划须与复核一致")
+
     @staticmethod
     def _check(checks, rule_id, passed, detail):
         checks.append({
@@ -163,9 +184,5 @@ class L3OutputValidator:
             "route": "allow_l4" if passed else "reject",
             "checks": checks,
             "payload_hash": l3_report_fingerprint(report),
-            "policy_version": "L3_OUTPUT_V1",
+            "policy_version": ICD10_OUTPUT_POLICY,
         }
-
-    @staticmethod
-    def _canonical_diagnosis(value: str) -> str:
-        return canonical_disorder(value)

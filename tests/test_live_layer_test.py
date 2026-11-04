@@ -4,7 +4,6 @@ import pytest
 
 import live_layer_test
 from layers.layer1.service import L1SafetyService
-from layers.layer3.api import build_input_contract_report
 from tests.l2_test_double import ControlledL2Model
 
 
@@ -32,46 +31,6 @@ def _l2_answers_before_confirmation() -> list[str]:
         "我的目标是恢复工作状态和改善睡眠。",
         "重要性8分，信心6分，准备度7分。",
     ]
-
-
-def test_l3_independent_fixture_reaches_diagnosis_after_input_contract():
-    profile = live_layer_test._fictional_l3_profile()
-    assert profile["psychotic_symptoms"] is False
-    assert any(
-        node["target_path"] == "diagnostic_context.psychotic_symptoms"
-        and node["quote"] == "没有听到别人听不到的声音，也没有感觉被监视"
-        for node in profile["evidence_nodes"]
-    )
-    assert build_input_contract_report(profile) is None
-
-
-def test_l3_independent_run_reports_invalid_fixture_before_model_call(monkeypatch):
-    profile = live_layer_test._fictional_l3_profile()
-    profile.pop("psychotic_symptoms")
-    monkeypatch.setattr(live_layer_test, "_fictional_l3_profile", lambda: profile)
-    monkeypatch.setattr(
-        live_layer_test, "_run_timed",
-        lambda *args, **kwargs: pytest.fail("输入契约失败后不能声明正在调用模型"),
-    )
-
-    with pytest.raises(RuntimeError, match="psychotic_symptoms"):
-        live_layer_test.test_l3()
-
-
-def test_l3_independent_run_repeats_elapsed_summary_after_report(monkeypatch, capsys):
-    monkeypatch.setattr(
-        "layers.layer3.api.diagnose",
-        lambda *_args, **_kwargs: {"verifier_routing": "pass"},
-    )
-
-    live_layer_test.test_l3()
-
-    output = capsys.readouterr().out
-    assert "[L3 完整诊断] 完成，耗时" in output
-    assert output.rstrip().splitlines()[-1].startswith(
-        "[L3 运行摘要] 耗时约 "
-    )
-    assert "路由：pass" in output.rstrip().splitlines()[-1]
 
 
 def test_l1_independent_run_reaches_safety_exit_after_asq(monkeypatch, capsys):

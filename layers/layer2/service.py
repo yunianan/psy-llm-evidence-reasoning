@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timedelta, timezone
-from shared.clinical_contract import DurationEvidence, follow_up_task
 from typing import Any
 
 from layers.layer2.guards import (
@@ -319,19 +318,6 @@ class L2AssessmentService:
 
     def build_clinical_intake(self, session_id: str) -> ClinicalIntake:
         return build_clinical_intake(self.store.snapshot(session_id))
-
-    def receive_l3_follow_up(self, session_id: str, items: list[dict] | None, durations: list[dict] | None = None) -> None:
-        state = self.store.snapshot(session_id)
-        if items is not None:
-            state.follow_up_tasks = [follow_up_task(item) for item in items]
-        known = {(d.raw_span, d.scope, tuple(d.evidence_refs), d.source) for d in state.diagnostic_context.duration_evidence}
-        for value in durations or []:
-            record = DurationEvidence.model_validate(value)
-            key = (record.raw_span, record.scope, tuple(record.evidence_refs), record.source)
-            if key not in known:
-                state.diagnostic_context.duration_evidence.append(record)
-                known.add(key)
-        self.store.replace(state)
 
     def get_session_snapshot(self, session_id: str) -> L2SessionState:
         return self.store.snapshot(session_id)

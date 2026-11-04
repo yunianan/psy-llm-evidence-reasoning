@@ -7,13 +7,12 @@ from typing import Protocol
 
 from pydantic import Field
 
-from shared.llm_client import ask_llm, get_model
+from shared.llm_client import ask_llm, get_model, parse_json_object
 from shared.schemas.treatment_instructions import (
     InstructionModel, ProgressObservation, SourceQuote, Substage,
     TreatmentInstructions, TreatmentTurnRecord, TurnInstruction,
 )
 from shared.treatment_instruction_guard import turn_sources, validate_turn_instructions
-from ..llm.client import _parse_json_object
 
 
 class TreatmentPlanningUnavailable(RuntimeError):
@@ -71,7 +70,7 @@ class TreatmentPlannerModel(Protocol):
 
 class APITreatmentPlanner:
     def __init__(self, model: str | None = None):
-        self.model = model or os.getenv("L3_INSTRUCTION_MODEL") or os.getenv("L3_REASONER_MODEL") or get_model()
+        self.model = model or os.getenv("L3_INSTRUCTION_MODEL") or get_model()
 
     def propose(self, context: dict) -> TurnProposal:
         prompt = f"""你是诊断层 L3 的本轮治疗指令编写器，不是患者对话生成器。
@@ -108,7 +107,7 @@ link_previous 在有历史时须具体衔接上轮话题；plugin_steps 只含�
             )
             raise TreatmentPlanningAPIError("治疗指令模型 API 不可用") from exc
         try:
-            return TurnProposal.model_validate(_parse_json_object(raw))
+            return TurnProposal.model_validate(parse_json_object(raw))
         except Exception as exc:
             _log_planning_failure(
                 "L3_INSTRUCTION_MODEL_OUTPUT_INVALID",

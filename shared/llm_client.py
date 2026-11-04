@@ -1,6 +1,19 @@
+import json
 import os
+import re
 
 from openai import OpenAI
+
+
+def parse_json_object(raw: str) -> dict:
+    text = raw.strip()
+    fenced = re.fullmatch(r"```(?:json)?\s*(.*?)\s*```", text, re.DOTALL | re.IGNORECASE)
+    if fenced:
+        text = fenced.group(1).strip()
+    value = json.loads(text)
+    if not isinstance(value, dict):
+        raise ValueError("模型输出必须是 JSON 对象")
+    return value
 
 
 def get_api_key():

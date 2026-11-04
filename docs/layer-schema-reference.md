@@ -693,295 +693,11 @@ L1 的 LLM 连续失败时返回的终止错误，不能传递给 L2。
 
 ## L3：诊断、疗法选择与治疗指令
 
-### `layers.layer3.diagnosis.schemas`
-
-#### `MissingDimension` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:14`](../layers/layer3/diagnosis/schemas.py#L14)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `field` | `str` | 是 | — | 最短长度=1 |
-| `purpose` | `str` | 是 | — | 最短长度=1 |
-| `suggested_question` | `str` | 是 | — | 最短长度=1 |
-
-#### `TreeNodeJudgment` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:22`](../layers/layer3/diagnosis/schemas.py#L22)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `node_id` | `str` | 是 | — | 最短长度=1 |
-| `status` | `Literal['met', 'not_met', 'pending']` | 是 | — | 枚举='met', 'not_met', 'pending' |
-| `rationale` | `str` | 是 | — | 最短长度=1 |
-| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
-| `temporal_decision` | `TemporalDecision | NoneType` | 否 | `None` | — |
-| `symptom_ids` | `list[str]` | 否 | 工厂生成 | — |
-| `confidence` | `float` | 否 | `0.5` | 最小=0；最大=1 |
-| `denial_scope` | `Literal['full', 'partial', 'none', 'unknown']` | 否 | `'unknown'` | 枚举='full', 'partial', 'none', 'unknown' |
-
-#### `TreeDecisionRecord` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:47`](../layers/layer3/diagnosis/schemas.py#L47)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `node_id` | `str` | 是 | — | 最短长度=1 |
-| `status` | `Literal['met', 'not_met', 'pending']` | 是 | — | 枚举='met', 'not_met', 'pending' |
-| `rationale` | `str` | 是 | — | 最短长度=1 |
-| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
-| `temporal_decision` | `TemporalDecision | NoneType` | 否 | `None` | — |
-| `symptom_ids` | `list[str]` | 否 | 工厂生成 | — |
-| `confidence` | `float` | 否 | `0.5` | 最小=0；最大=1 |
-| `denial_scope` | `Literal['full', 'partial', 'none', 'unknown']` | 否 | `'unknown'` | 枚举='full', 'partial', 'none', 'unknown' |
-| `question` | `str` | 是 | — | — |
-| `source_refs` | `list[str]` | 是 | — | — |
-| `stage` | `Literal['screening', 'anchor', 'exclusion', 'criterion']` | 是 | — | 枚举='screening', 'anchor', 'exclusion', 'criterion' |
-
-#### `CandidateDecisionPath` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:53`](../layers/layer3/diagnosis/schemas.py#L53)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `path_id` | `str` | 是 | — | — |
-| `tree_refs` | `list[str]` | 是 | — | — |
-| `provisional` | `bool` | 是 | — | — |
-| `decisions` | `list[TreeDecisionRecord]` | 是 | — | — |
-
-#### `SymptomMatch` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:62`](../layers/layer3/diagnosis/schemas.py#L62)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `matched` | `int` | 是 | — | 最小=0 |
-| `total` | `int` | 是 | — | 最小=1 |
-
-#### `DiagnosticCandidate` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:75`](../layers/layer3/diagnosis/schemas.py#L75)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `disorder` | `Literal['D001', 'D002', 'D003', 'D004', 'D005', 'D006', 'D007', 'D008', 'D009', 'D010', 'D011', 'D012', 'D013', 'D014', 'D015', 'D016', 'D017', 'D018', 'D019', 'D020', 'D021', 'D022', 'D023', 'Insomnia']` | 是 | — | 枚举='D001', 'D002', 'D003', 'D004', 'D005', 'D006', 'D007', 'D008', 'D009', 'D010', 'D011', 'D012', 'D013', 'D014', 'D015', 'D016', 'D017', 'D018', 'D019', 'D020', 'D021', 'D022', 'D023', 'Insomnia' |
-| `label` | `str` | 是 | — | 最短长度=1 |
-| `symptom_match` | `SymptomMatch` | 是 | — | — |
-| `core_evidence_summary` | `str` | 是 | — | 最短长度=1 |
-| `evidence_refs` | `list[str]` | 是 | — | 最少项=1 |
-| `confidence` | `float` | 是 | — | 最小=0.0；最大=1.0 |
-| `decision_paths` | `list[CandidateDecisionPath]` | 否 | 工厂生成 | — |
-
-#### `CandidateGeneration` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:87`](../layers/layer3/diagnosis/schemas.py#L87)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `considered_disorders` | `list[Literal['D001', 'D002', 'D003', 'D004', 'D005', 'D006', 'D007', 'D008', 'D009', 'D010', 'D011', 'D012', 'D013', 'D014', 'D015', 'D016', 'D017', 'D018', 'D019', 'D020', 'D021', 'D022', 'D023', 'Insomnia']]` | 是 | — | 最少项=24；最多项=24 |
-| `candidates` | `list[DiagnosticCandidate]` | 否 | 工厂生成 | 最多项=24 |
-| `tree_trace` | `list[TreeDecisionRecord]` | 否 | 工厂生成 | — |
-| `missing_dimensions` | `list[MissingDimension]` | 否 | 工厂生成 | — |
-| `candidate_coverage` | `dict[str, str]` | 否 | 工厂生成 | — |
-
-#### `CriterionAssessment` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:97`](../layers/layer3/diagnosis/schemas.py#L97)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `code` | `str` | 是 | — | 最短长度=1 |
-| `name` | `str` | 是 | — | 最短长度=1 |
-| `status` | `Literal['met', 'not_met', 'pending']` | 是 | — | 枚举='met', 'not_met', 'pending' |
-| `rationale` | `str` | 是 | — | 最短长度=1 |
-| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
-
-#### `EliminativeAssessment` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:107`](../layers/layer3/diagnosis/schemas.py#L107)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `disorder` | `Literal['D001', 'D002', 'D003', 'D004', 'D005', 'D006', 'D007', 'D008', 'D009', 'D010', 'D011', 'D012', 'D013', 'D014', 'D015', 'D016', 'D017', 'D018', 'D019', 'D020', 'D021', 'D022', 'D023', 'Insomnia']` | 是 | — | 枚举='D001', 'D002', 'D003', 'D004', 'D005', 'D006', 'D007', 'D008', 'D009', 'D010', 'D011', 'D012', 'D013', 'D014', 'D015', 'D016', 'D017', 'D018', 'D019', 'D020', 'D021', 'D022', 'D023', 'Insomnia' |
-| `criteria_detail` | `list[CriterionAssessment]` | 是 | — | 最少项=1 |
-| `conclusion` | `Literal['meets_criteria', 'watch', 'ruled_out']` | 是 | — | 枚举='meets_criteria', 'watch', 'ruled_out' |
-| `conclusion_reason` | `str` | 是 | — | 最短长度=1 |
-| `missing_dimensions` | `list[MissingDimension]` | 否 | 工厂生成 | — |
-
-#### `VerifierDimension` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:117`](../layers/layer3/diagnosis/schemas.py#L117)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `dimension` | `Literal['evidence_sufficiency', 'logic_coherence', 'differential_coverage', 'no_reasoning_leaps']` | 是 | — | 枚举='evidence_sufficiency', 'logic_coherence', 'differential_coverage', 'no_reasoning_leaps' |
-| `score` | `float` | 是 | — | 最小=0.0；最大=1.0 |
-| `reason` | `str` | 是 | — | 最短长度=1 |
-| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
-
-#### `RewardModelAssessment` · 内部结构
-
-源码：[`layers/layer3/diagnosis/schemas.py:131`](../layers/layer3/diagnosis/schemas.py#L131)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `score` | `float` | 是 | — | 最小=0.0；最大=1.0 |
-| `dimensions` | `list[VerifierDimension]` | 是 | — | 最少项=4；最多项=4 |
-| `fail_reasons` | `list[str]` | 否 | 工厂生成 | — |
-| `missing_dimensions` | `list[MissingDimension]` | 否 | 工厂生成 | — |
-
-### `layers.layer3.api`
-
-#### `MotivationInput` · 内部结构
-
-源码：[`layers/layer3/api.py:26`](../layers/layer3/api.py#L26)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `importance` | `int | NoneType` | 否 | `None` | — |
-| `confidence` | `int | NoneType` | 否 | `None` | — |
-| `readiness` | `int | NoneType` | 否 | `None` | — |
-| `sources` | `list[str]` | 否 | 工厂生成 | — |
-
-#### `DiagnoseRequest` · 层间接口
-
-源码：[`layers/layer3/api.py:33`](../layers/layer3/api.py#L33)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `contract_version` | `Literal['l2-l3-clinical-v2']` | 否 | `'l2-l3-clinical-v2'` | — |
-| `interview_date` | `date | NoneType` | 否 | `None` | — |
-| `clinical_facts` | `list[ClinicalFact]` | 否 | 工厂生成 | — |
-| `duration_evidence` | `list[DurationEvidence]` | 否 | 工厂生成 | — |
-| `follow_up_tasks` | `list[FollowUpTask]` | 否 | 工厂生成 | — |
-| `temporal_audit` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `PHQ9` | `float | NoneType` | 否 | `None` | — |
-| `GAD7` | `float | NoneType` | 否 | `None` | — |
-| `MDQ` | `float | NoneType` | 否 | `None` | — |
-| `PCL5` | `float | NoneType` | 否 | `None` | — |
-| `ISI` | `float | NoneType` | 否 | `None` | — |
-| `Y_BOCS` | `float | NoneType` | 否 | `None` | — |
-| `ADNM` | `float | NoneType` | 否 | `None` | — |
-| `RRS` | `float | NoneType` | 否 | `None` | — |
-| `AAQ_II` | `float | NoneType` | 否 | `None` | — |
-| `PHQ15` | `float | NoneType` | 否 | `None` | — |
-| `PHQ9_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `GAD7_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `MDQ_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `PCL5_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `ISI_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `Y_BOCS_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `ADNM_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `RRS_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `AAQ_II_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `PHQ15_items` | `dict[str, float]` | 否 | 工厂生成 | — |
-| `relapse_count` | `Annotated | NoneType` | 否 | `None` | — |
-| `chronic_months` | `Annotated | NoneType` | 否 | `None` | — |
-| `interpersonal_conflicts` | `Annotated | NoneType` | 否 | `None` | — |
-| `symptom_duration_days` | `Annotated | NoneType` | 否 | `None` | — |
-| `functional_impairment` | `Annotated | NoneType` | 否 | `None` | — |
-| `mania_or_hypomania_history` | `Annotated | NoneType` | 否 | `None` | — |
-| `substance_or_medical_cause` | `Annotated | NoneType` | 否 | `None` | — |
-| `rhythm_disturbance` | `Annotated | NoneType` | 否 | `None` | — |
-| `exposure_avoidant` | `Annotated | NoneType` | 否 | `None` | — |
-| `ritual_behaviors` | `Annotated | NoneType` | 否 | `None` | — |
-| `insomnia_chief_complaint` | `Annotated | NoneType` | 否 | `None` | — |
-| `interpersonal_impairment` | `Annotated | NoneType` | 否 | `None` | — |
-| `single_focus` | `Annotated | NoneType` | 否 | `None` | — |
-| `psychotic_symptoms` | `Annotated | NoneType` | 否 | `None` | — |
-| `substance_active` | `Annotated | NoneType` | 否 | `None` | — |
-| `severe_dissociation` | `Annotated | NoneType` | 否 | `None` | — |
-| `differential_diagnoses_assessed` | `list[str] | NoneType` | 否 | `None` | — |
-| `evidence_conflicts` | `list[dict[str, Any]] | NoneType` | 否 | `None` | — |
-| `diagnostic_details` | `dict[str, Any]` | 否 | 工厂生成 | — |
-| `key_symptoms_extracted` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `emotions` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `cognitive_patterns` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `key_narratives` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `functional_impairments` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `patient_goals` | `list[str]` | 否 | 工厂生成 | — |
-| `motivation` | `MotivationInput` | 否 | 工厂生成 | — |
-| `evidence_nodes` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `risk_level` | `int` | 否 | `0` | — |
-| `sensitive_topics` | `list[str]` | 否 | 有默认值 | — |
-| `l1_flags` | `list[str]` | 否 | 有默认值 | — |
-
-#### `DiagnoseResponse` · 层间接口
-
-源码：[`layers/layer3/api.py:40`](../layers/layer3/api.py#L40)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `layer_id` | `Literal['L3']` | 否 | `'L3'` | — |
-| `timestamp` | `str` | 是 | — | — |
-| `diagnostic_standard` | `Literal['DSM-5']` | 否 | `'DSM-5'` | — |
-| `supported_disorders` | `list[str]` | 否 | 工厂生成 | — |
-| `diagnostic_catalog` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `considered_disorders` | `list[str]` | 否 | 工厂生成 | — |
-| `candidates` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `checked` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `candidate_generation_method` | `str` | 否 | `'external_reasoner'` | — |
-| `tree_trace` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `candidate_coverage` | `dict[str, str]` | 否 | 工厂生成 | — |
-| `candidate_missing_dimensions` | `list[dict[str, str]]` | 否 | 工厂生成 | — |
-| `diagnostic_readiness` | `dict[str, Any]` | 否 | 工厂生成 | — |
-| `information_collection_plan` | `dict[str, Any]` | 否 | 工厂生成 | — |
-| `duration_evidence` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `temporal_audit` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `diagnosis` | `dict` | 是 | — | — |
-| `verifier_score` | `float` | 是 | — | — |
-| `verifier_decision` | `str` | 是 | — | — |
-| `candidate_confidence` | `float` | 是 | — | — |
-| `verifier_routing` | `str` | 是 | — | — |
-| `recommended_therapy` | `dict` | 是 | — | — |
-| `severity_level` | `int` | 是 | — | — |
-| `clinical_notes_for_L4` | `str` | 是 | — | — |
-| `summary` | `str` | 是 | — | — |
-| `structured_labels` | `dict` | 是 | — | — |
-| `evidence_refs` | `list` | 是 | — | — |
-| `confidence` | `float` | 是 | — | — |
-| `flags` | `list` | 是 | — | — |
-| `instruction_to_next` | `str` | 是 | — | — |
-| `instructions` | `dict` | 是 | — | — |
-| `missing_dimensions` | `list[dict[str, str]]` | 否 | 工厂生成 | — |
-| `provisional_diagnosis` | `dict | NoneType` | 否 | `None` | — |
-| `verifier_checks` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `verifier_fail_reasons` | `list[str]` | 否 | 工厂生成 | — |
-| `l3_validation` | `dict[str, Any]` | 是 | — | — |
-
 ### `layers.layer3.instructions.turn_planner`
 
 #### `TurnProposal` · 内部结构
 
-源码：[`layers/layer3/instructions/turn_planner.py:54`](../layers/layer3/instructions/turn_planner.py#L54)
+源码：[`layers/layer3/instructions/turn_planner.py:53`](../layers/layer3/instructions/turn_planner.py#L53)
 
 !!! abstract "Usage Documentation"
 
@@ -1030,7 +746,9 @@ L3 生成的会话级锚点；L4 只消费，不重新推导。
 
 | 字段 | 类型 | 必填 | 默认值 | 约束 |
 |---|---|:---:|---|---|
+| `diagnostic_standard` | `Literal['WHO ICD-10']` | 否 | `'WHO ICD-10'` | — |
 | `primary` | `str` | 否 | `''` | — |
+| `primary_label` | `str` | 否 | `''` | — |
 | `comorbidities` | `list[str]` | 否 | 有默认值 | — |
 | `excluded` | `list[str]` | 否 | 有默认值 | — |
 | `core_beliefs` | `list[str]` | 否 | 有默认值 | — |
@@ -1038,9 +756,9 @@ L3 生成的会话级锚点；L4 只消费，不重新推导。
 | `plugin_triggers` | `list[dict[str, Any]]` | 否 | 有默认值 | — |
 | `strategy_adjustments` | `dict[str, Any]` | 否 | 有默认值 | — |
 | `contraindications` | `list[str]` | 否 | 有默认值 | — |
-| `confidence` | `float` | 否 | `0.0` | — |
-| `candidate_confidence` | `float` | 否 | `0.0` | — |
-| `verifier_score` | `float` | 否 | `0.0` | — |
+| `confidence` | `float | NoneType` | 否 | `None` | — |
+| `candidate_confidence` | `float | NoneType` | 否 | `0.0` | — |
+| `verifier_score` | `float | NoneType` | 否 | `None` | — |
 | `therapy_type` | `str` | 否 | `''` | — |
 | `verifier_decision` | `str` | 否 | `''` | — |
 | `diagnosis_details` | `dict[str, Any]` | 否 | 工厂生成 | — |
@@ -1054,7 +772,7 @@ L3 生成的会话级锚点；L4 只消费，不重新推导。
 
 #### `SourceQuote` · 内部结构
 
-源码：[`shared/schemas/treatment_instructions.py:46`](../shared/schemas/treatment_instructions.py#L46)
+源码：[`shared/schemas/treatment_instructions.py:48`](../shared/schemas/treatment_instructions.py#L48)
 
 !!! abstract "Usage Documentation"
 
@@ -1065,7 +783,7 @@ L3 生成的会话级锚点；L4 只消费，不重新推导。
 
 #### `ProgressObservation` · 内部结构
 
-源码：[`shared/schemas/treatment_instructions.py:51`](../shared/schemas/treatment_instructions.py#L51)
+源码：[`shared/schemas/treatment_instructions.py:53`](../shared/schemas/treatment_instructions.py#L53)
 
 !!! abstract "Usage Documentation"
 
@@ -1077,7 +795,7 @@ L3 生成的会话级锚点；L4 只消费，不重新推导。
 
 #### `TurnInstruction` · 内部结构
 
-源码：[`shared/schemas/treatment_instructions.py:57`](../shared/schemas/treatment_instructions.py#L57)
+源码：[`shared/schemas/treatment_instructions.py:59`](../shared/schemas/treatment_instructions.py#L59)
 
 L3 本轮动态指令（每轮重新生成）。
 
@@ -1102,7 +820,7 @@ L3 本轮动态指令（每轮重新生成）。
 
 #### `BoundaryInstruction` · 内部结构
 
-源码：[`shared/schemas/treatment_instructions.py:78`](../shared/schemas/treatment_instructions.py#L78)
+源码：[`shared/schemas/treatment_instructions.py:80`](../shared/schemas/treatment_instructions.py#L80)
 
 L4 防越界指令（每轮复用）。
 
@@ -1113,7 +831,7 @@ L4 防越界指令（每轮复用）。
 
 #### `TreatmentInstructions` · 层间接口
 
-源码：[`shared/schemas/treatment_instructions.py:85`](../shared/schemas/treatment_instructions.py#L85)
+源码：[`shared/schemas/treatment_instructions.py:87`](../shared/schemas/treatment_instructions.py#L87)
 
 会话建立时 L3 为空；每次生成回复前必须有绑定本轮的 L3。
 
@@ -1126,7 +844,7 @@ L4 防越界指令（每轮复用）。
 
 #### `TreatmentTurnRecord` · 内部结构
 
-源码：[`shared/schemas/treatment_instructions.py:94`](../shared/schemas/treatment_instructions.py#L94)
+源码：[`shared/schemas/treatment_instructions.py:96`](../shared/schemas/treatment_instructions.py#L96)
 
 !!! abstract "Usage Documentation"
 
@@ -1139,7 +857,7 @@ L4 防越界指令（每轮复用）。
 
 #### `SafetyPassport` · 层间接口
 
-源码：[`shared/schemas/treatment_instructions.py:101`](../shared/schemas/treatment_instructions.py#L101)
+源码：[`shared/schemas/treatment_instructions.py:103`](../shared/schemas/treatment_instructions.py#L103)
 
 L1 安全通行证中 L4 需要的部分（每轮复用）。
 
@@ -1153,7 +871,7 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 
 ### `layers.layer4.schemas.l3_report`
 
-#### `DSMCriterionEvidence` · 内部结构
+#### `ICD10EvidenceQuote` · 内部结构
 
 源码：[`layers/layer4/schemas/l3_report.py:9`](../layers/layer4/schemas/l3_report.py#L9)
 
@@ -1161,15 +879,30 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 
 | 字段 | 类型 | 必填 | 默认值 | 约束 |
 |---|---|:---:|---|---|
-| `code` | `str` | 是 | — | — |
-| `name` | `str` | 是 | — | — |
-| `status` | `Literal['met', 'not_met', 'unknown']` | 是 | — | 枚举='met', 'not_met', 'unknown' |
-| `met` | `bool` | 是 | — | — |
-| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
+| `message_id` | `str` | 是 | — | 最短长度=1 |
+| `quote` | `str` | 是 | — | 最短长度=1 |
+| `source_role` | `Literal['patient', 'collateral', 'clinical_record']` | 是 | — | 枚举='patient', 'collateral', 'clinical_record' |
+
+#### `ICD10CriterionEvidence` · 内部结构
+
+源码：[`layers/layer4/schemas/l3_report.py:15`](../layers/layer4/schemas/l3_report.py#L15)
+
+!!! abstract "Usage Documentation"
+
+| 字段 | 类型 | 必填 | 默认值 | 约束 |
+|---|---|:---:|---|---|
+| `node_id` | `str` | 是 | — | — |
+| `answer` | `Literal['yes', 'no', 'unknown']` | 是 | — | 枚举='yes', 'no', 'unknown' |
+| `source` | `dict[str, Any]` | 是 | — | — |
+| `question` | `str` | 否 | `''` | — |
+| `original_clause` | `str` | 否 | `''` | — |
+| `evidence` | `list[ICD10EvidenceQuote]` | 否 | 工厂生成 | — |
+| `calculation` | `dict[str, Any] | NoneType` | 否 | `None` | — |
+| `confidence` | `float | NoneType` | 否 | `None` | — |
 
 #### `DiagnosticDisplay` · 内部结构
 
-源码：[`layers/layer4/schemas/l3_report.py:17`](../layers/layer4/schemas/l3_report.py#L17)
+源码：[`layers/layer4/schemas/l3_report.py:26`](../layers/layer4/schemas/l3_report.py#L26)
 
 !!! abstract "Usage Documentation"
 
@@ -1184,27 +917,6 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 
 #### `PrimaryDiagnosis` · 内部结构
 
-源码：[`layers/layer4/schemas/l3_report.py:26`](../layers/layer4/schemas/l3_report.py#L26)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `name` | `str` | 否 | `''` | — |
-| `label` | `str` | 否 | `''` | — |
-| `display_group` | `str` | 否 | `''` | — |
-| `display_group_label` | `str` | 否 | `''` | — |
-| `display_name` | `str` | 否 | `''` | — |
-| `knowledge_source` | `str` | 否 | `''` | — |
-| `disorder` | `str` | 是 | — | — |
-| `confidence` | `float` | 否 | `0.0` | — |
-| `severity` | `str` | 否 | `''` | — |
-| `evidence` | `str` | 否 | `''` | — |
-| `dsm5_criteria_met` | `list[str]` | 否 | 有默认值 | — |
-| `dsm5_criteria_detail` | `list[DSMCriterionEvidence]` | 否 | 工厂生成 | — |
-
-#### `SecondaryDiagnosis` · 内部结构
-
 源码：[`layers/layer4/schemas/l3_report.py:35`](../layers/layer4/schemas/l3_report.py#L35)
 
 !!! abstract "Usage Documentation"
@@ -1218,12 +930,33 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 | `display_name` | `str` | 否 | `''` | — |
 | `knowledge_source` | `str` | 否 | `''` | — |
 | `disorder` | `str` | 是 | — | — |
-| `confidence` | `float` | 否 | `0.0` | — |
+| `confidence` | `float | NoneType` | 否 | `0.0` | — |
+| `severity` | `str` | 否 | `''` | — |
 | `evidence` | `str` | 否 | `''` | — |
+| `criteria_evidence` | `list[ICD10CriterionEvidence]` | 否 | 工厂生成 | — |
+
+#### `SecondaryDiagnosis` · 内部结构
+
+源码：[`layers/layer4/schemas/l3_report.py:43`](../layers/layer4/schemas/l3_report.py#L43)
+
+!!! abstract "Usage Documentation"
+
+| 字段 | 类型 | 必填 | 默认值 | 约束 |
+|---|---|:---:|---|---|
+| `name` | `str` | 否 | `''` | — |
+| `label` | `str` | 否 | `''` | — |
+| `display_group` | `str` | 否 | `''` | — |
+| `display_group_label` | `str` | 否 | `''` | — |
+| `display_name` | `str` | 否 | `''` | — |
+| `knowledge_source` | `str` | 否 | `''` | — |
+| `disorder` | `str` | 是 | — | — |
+| `confidence` | `float | NoneType` | 否 | `0.0` | — |
+| `evidence` | `str` | 否 | `''` | — |
+| `criteria_evidence` | `list[ICD10CriterionEvidence]` | 否 | 工厂生成 | — |
 
 #### `RuledOutDiagnosis` · 内部结构
 
-源码：[`layers/layer4/schemas/l3_report.py:41`](../layers/layer4/schemas/l3_report.py#L41)
+源码：[`layers/layer4/schemas/l3_report.py:50`](../layers/layer4/schemas/l3_report.py#L50)
 
 !!! abstract "Usage Documentation"
 
@@ -1239,28 +972,9 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 | `reason` | `str` | 否 | `''` | — |
 | `evidence_ref` | `str` | 否 | `''` | — |
 
-#### `UnderObservationDiagnosis` · 内部结构
-
-源码：[`layers/layer4/schemas/l3_report.py:47`](../layers/layer4/schemas/l3_report.py#L47)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `name` | `str` | 否 | `''` | — |
-| `label` | `str` | 否 | `''` | — |
-| `display_group` | `str` | 否 | `''` | — |
-| `display_group_label` | `str` | 否 | `''` | — |
-| `display_name` | `str` | 否 | `''` | — |
-| `knowledge_source` | `str` | 否 | `''` | — |
-| `disorder` | `str` | 是 | — | — |
-| `confidence` | `float` | 否 | `0.0` | — |
-| `reason` | `str` | 否 | `''` | — |
-| `missing_dimensions` | `list[dict]` | 否 | 工厂生成 | — |
-
 #### `Diagnosis` · 内部结构
 
-源码：[`layers/layer4/schemas/l3_report.py:54`](../layers/layer4/schemas/l3_report.py#L54)
+源码：[`layers/layer4/schemas/l3_report.py:56`](../layers/layer4/schemas/l3_report.py#L56)
 
 !!! abstract "Usage Documentation"
 
@@ -1268,12 +982,11 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 |---|---|:---:|---|---|
 | `primary` | `PrimaryDiagnosis | NoneType` | 否 | `None` | — |
 | `secondary` | `list[SecondaryDiagnosis]` | 否 | 有默认值 | — |
-| `under_observation` | `list[UnderObservationDiagnosis]` | 否 | 工厂生成 | — |
 | `ruled_out` | `list[RuledOutDiagnosis]` | 否 | 有默认值 | — |
 
 #### `RecommendedTherapy` · 内部结构
 
-源码：[`layers/layer4/schemas/l3_report.py:61`](../layers/layer4/schemas/l3_report.py#L61)
+源码：[`layers/layer4/schemas/l3_report.py:62`](../layers/layer4/schemas/l3_report.py#L62)
 
 !!! abstract "Usage Documentation"
 
@@ -1285,82 +998,25 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 | `strategy_adjustments` | `dict[str, Any]` | 否 | 工厂生成 | — |
 | `contraindications` | `list[str]` | 否 | 有默认值 | — |
 
-#### `TherapyRouting` · 内部结构
+#### `ICD10ClinicalReview` · 内部结构
 
-源码：[`layers/layer4/schemas/l3_report.py:69`](../layers/layer4/schemas/l3_report.py#L69)
+源码：[`layers/layer4/schemas/l3_report.py:70`](../layers/layer4/schemas/l3_report.py#L70)
 
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `primary` | `str` | 否 | `''` | — |
-| `addon` | `list[str]` | 否 | 有默认值 | — |
-| `plugin_triggers` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `strategy_adjustments` | `dict[str, Any]` | 否 | 工厂生成 | — |
-| `l4_substage_priority` | `list[str]` | 否 | 有默认值 | — |
-
-#### `StructuredLabels` · 内部结构
-
-源码：[`layers/layer4/schemas/l3_report.py:77`](../layers/layer4/schemas/l3_report.py#L77)
-
-!!! abstract "Usage Documentation"
+Input from the trusted clinical-review caller for one tree run.
 
 | 字段 | 类型 | 必填 | 默认值 | 约束 |
 |---|---|:---:|---|---|
-| `therapy_routing` | `TherapyRouting` | 否 | 有默认值 | — |
-| `wording_constraint` | `str` | 否 | `''` | — |
-| `risk_monitoring` | `list[str]` | 否 | 有默认值 | — |
-
-#### `EvidenceRefIn` · 内部结构
-
-源码：[`layers/layer4/schemas/l3_report.py:83`](../layers/layer4/schemas/l3_report.py#L83)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `type` | `str` | 否 | `''` | — |
-| `disorder` | `str` | 否 | `''` | — |
-| `criteria_met` | `str` | 否 | `''` | — |
-| `source_doc` | `str` | 否 | `''` | — |
-| `threshold` | `str` | 否 | `''` | — |
-| `therapy` | `str` | 否 | `''` | — |
-| `source` | `str` | 否 | `''` | — |
-| `criterion_code` | `str` | 否 | `''` | — |
-| `criterion_name` | `str` | 否 | `''` | — |
-| `status` | `str` | 否 | `''` | — |
-| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
-
-#### `MissingDimension` · 内部结构
-
-源码：[`layers/layer4/schemas/l3_report.py:97`](../layers/layer4/schemas/l3_report.py#L97)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `field` | `str` | 是 | — | — |
-| `purpose` | `str` | 否 | `''` | — |
-| `suggested_question` | `str` | 否 | `''` | — |
-
-#### `VerifierCheck` · 内部结构
-
-源码：[`layers/layer4/schemas/l3_report.py:103`](../layers/layer4/schemas/l3_report.py#L103)
-
-!!! abstract "Usage Documentation"
-
-| 字段 | 类型 | 必填 | 默认值 | 约束 |
-|---|---|:---:|---|---|
-| `check_id` | `str` | 是 | — | — |
-| `status` | `Literal['pass', 'fail']` | 是 | — | 枚举='pass', 'fail' |
-| `score` | `float` | 是 | — | — |
-| `weight` | `float` | 是 | — | — |
-| `reasons` | `list[str]` | 否 | 工厂生成 | — |
-| `evidence_refs` | `list[str]` | 否 | 工厂生成 | — |
+| `tree_session_id` | `str` | 是 | — | 最短长度=1 |
+| `reviewer_id` | `str` | 是 | — | 最短长度=1 |
+| `primary_code` | `str` | 是 | — | 最短长度=1 |
+| `secondary_codes` | `list[str]` | 否 | 工厂生成 | — |
+| `rationale` | `str` | 是 | — | 最短长度=1 |
+| `severity_level` | `int` | 是 | — | 最小=1；最大=3 |
+| `therapy` | `RecommendedTherapy` | 是 | — | — |
 
 #### `L3ValidationCheck` · 内部结构
 
-源码：[`layers/layer4/schemas/l3_report.py:112`](../layers/layer4/schemas/l3_report.py#L112)
+源码：[`layers/layer4/schemas/l3_report.py:84`](../layers/layer4/schemas/l3_report.py#L84)
 
 !!! abstract "Usage Documentation"
 
@@ -1372,7 +1028,7 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 
 #### `L3ValidationReceipt` · 内部结构
 
-源码：[`layers/layer4/schemas/l3_report.py:118`](../layers/layer4/schemas/l3_report.py#L118)
+源码：[`layers/layer4/schemas/l3_report.py:90`](../layers/layer4/schemas/l3_report.py#L90)
 
 !!! abstract "Usage Documentation"
 
@@ -1386,46 +1042,25 @@ L1 安全通行证中 L4 需要的部分（每轮复用）。
 
 #### `DiagnosticReport` · 层间接口
 
-源码：[`layers/layer4/schemas/l3_report.py:126`](../layers/layer4/schemas/l3_report.py#L126)
+源码：[`layers/layer4/schemas/l3_report.py:98`](../layers/layer4/schemas/l3_report.py#L98)
 
-接口三：L3 → L4 DiagnosticReport（诊断报告）。未知字段忽略，真实 L3 完整 JSON 可解析。
+接口三。将经复核的 WHO ICD-10 诊断与治疗指令交给 L4。
 
 | 字段 | 类型 | 必填 | 默认值 | 约束 |
 |---|---|:---:|---|---|
-| `diagnostic_standard` | `Literal['DSM-5']` | 否 | `'DSM-5'` | — |
-| `supported_disorders` | `list[str]` | 否 | 工厂生成 | — |
-| `diagnostic_catalog` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `considered_disorders` | `list[str]` | 否 | 工厂生成 | — |
-| `candidates` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `checked` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `candidate_generation_method` | `str` | 否 | `'external_reasoner'` | — |
-| `tree_trace` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `candidate_coverage` | `dict[str, str]` | 否 | 工厂生成 | — |
-| `candidate_missing_dimensions` | `list[dict[str, str]]` | 否 | 工厂生成 | — |
-| `diagnostic_readiness` | `dict[str, Any]` | 否 | 工厂生成 | — |
-| `information_collection_plan` | `dict[str, Any]` | 否 | 工厂生成 | — |
-| `duration_evidence` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
-| `temporal_audit` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
+| `diagnostic_standard` | `Literal['WHO ICD-10']` | 是 | — | — |
+| `icd10_catalog_id` | `str` | 否 | `''` | — |
+| `icd10_review` | `ICD10ClinicalReview | NoneType` | 否 | `None` | — |
+| `candidate_generation_method` | `Literal['icd10_tree']` | 否 | `'icd10_tree'` | — |
 | `layer_id` | `str` | 否 | `'L3'` | — |
 | `timestamp` | `str` | 否 | `''` | — |
 | `diagnosis` | `Diagnosis` | 否 | 有默认值 | — |
-| `provisional_diagnosis` | `PrimaryDiagnosis | NoneType` | 否 | `None` | — |
-| `verifier_score` | `float` | 否 | `0.0` | — |
+| `verifier_score` | `NoneType` | 否 | `None` | — |
 | `verifier_decision` | `str` | 否 | `''` | — |
-| `candidate_confidence` | `float` | 否 | `0.0` | — |
+| `candidate_confidence` | `float | NoneType` | 否 | `0.0` | — |
 | `verifier_routing` | `str` | 否 | `''` | — |
-| `verifier_checks` | `list[VerifierCheck]` | 否 | 工厂生成 | — |
-| `verifier_fail_reasons` | `list[str]` | 否 | 工厂生成 | — |
 | `recommended_therapy` | `RecommendedTherapy` | 否 | 有默认值 | — |
 | `severity_level` | `int` | 否 | `1` | — |
-| `clinical_notes_for_L4` | `str` | 否 | `''` | — |
-| `summary` | `str` | 否 | `''` | — |
-| `structured_labels` | `StructuredLabels` | 否 | 有默认值 | — |
-| `evidence_refs` | `list[EvidenceRefIn]` | 否 | 有默认值 | — |
-| `confidence` | `float` | 否 | `0.0` | — |
-| `flags` | `list[str]` | 否 | 有默认值 | — |
-| `instruction_to_next` | `str` | 否 | `''` | — |
-| `missing_dimensions` | `list[MissingDimension]` | 否 | 有默认值 | — |
 | `l3_validation` | `L3ValidationReceipt | NoneType` | 否 | `None` | — |
 | `instructions` | `dict[str, Any]` | 否 | 工厂生成 | — |
 
@@ -1734,9 +1369,7 @@ L5 审核结果（Mock 审核器与真实 L5 共用）。
 | `clinical_intake` | `ClinicalIntake | NoneType` | 否 | `None` | — |
 | `diagnostic_report` | `DiagnosticReport | NoneType` | 否 | `None` | — |
 | `l3_raw` | `dict[str, Any] | NoneType` | 否 | `None` | — |
-| `pending_l3_dimensions` | `list[dict[str, Any]]` | 否 | 工厂生成 | — |
 | `pending_l5_review` | `dict[str, Any] | NoneType` | 否 | `None` | — |
-| `l3_to_l2_loop_count` | `int` | 否 | `0` | — |
 | `patient_confirmation` | `PatientConfirmation | NoneType` | 否 | `None` | — |
 | `stopped_reason` | `str` | 否 | `''` | — |
 | `internal_flags` | `list[str]` | 否 | 工厂生成 | — |

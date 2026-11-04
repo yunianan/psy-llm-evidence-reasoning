@@ -1,5 +1,4 @@
 import uuid
-import os
 from pathlib import Path
 from typing import Any, Callable, cast
 
@@ -12,12 +11,11 @@ from layers.layer2 import (
     L2ToL3Adapter,
 )
 from layers.layer2.schemas import ClinicalIntake, ExpectedDialogueInput
-from layers.layer3.api import diagnose
 from layers.layer3.instructions.turn_planner import TurnInstructionPlanner, TreatmentPlanningUnavailable
 from layers.layer4.schemas.instructions import (
     SafetyPassport,
 )
-from layers.layer4.schemas.l3_report import DiagnosticReport
+from layers.layer4.schemas.l3_report import DiagnosticReport, ICD10ClinicalReview
 from layers.layer4.service import L4Service, SessionRequest, TurnRequest
 from layers.layer4.validation import L3ToL4Gate
 from patient_presentation import (
@@ -33,17 +31,6 @@ from orchestration.schemas import (
 from orchestration.session_store import PipelineSessionStore
 
 
-DIAGNOSTIC_EXPECTATIONS = {
-    "symptom_duration_days",
-    "functional_impairment",
-    "mania_or_hypomania_history",
-    "substance_or_medical_cause",
-    "psychotic_symptoms",
-    "differential_diagnoses_assessed",
-    "evidence_conflicts",
-}
-
-
 class FiveLayerOrchestrator:
     """五层系统的应用级控制器；只路由，不重做各层临床判断。"""
 
@@ -54,26 +41,18 @@ class FiveLayerOrchestrator:
         l4_service: L4Service | None = None,
         store: PipelineSessionStore | None = None,
         profile_renderer: DeveloperProfileRenderer | None = None,
-        l3_diagnose: Callable[[dict[str, Any], dict[str, Any] | None], dict[str, Any]] | None = None,
-        max_l3_to_l2_loops: int = 3,
         instruction_planner: TurnInstructionPlanner | None = None,
-        paper_tree_factory: Callable[..., Any] | None = None,
+        icd10_tree_factory: Callable[[str, ClinicalIntake], Any] | None = None,
     ) -> None:
-        if max_l3_to_l2_loops < 1:
-            raise ValueError("max_l3_to_l2_loops 必须至少为1")
         self.l2 = l2_service or L2AssessmentService()
         self.dialogue = L2DialogueAdapter(self.l2)
         self.l2_to_l3 = L2ToL3Adapter()
         self.l4 = l4_service or L4Service()
         self.store = store or PipelineSessionStore()
         self.profile_renderer = profile_renderer or DeveloperProfileRenderer()
-        self.l3_diagnose = l3_diagnose or diagnose
-        self.max_l3_to_l2_loops = max_l3_to_l2_loops
         self.instruction_planner = instruction_planner or TurnInstructionPlanner()
-        # An injected L3 is an explicit alternate/fixture pipeline. The normal
-        # production controller uses the requested interactive tree.
-        self.paper_tree_factory = paper_tree_factory or (self._default_paper_tree if l3_diagnose is None else None)
-        self._paper_tree_sessions: dict[str, Any] = {}
+        self.icd10_tree_factory = icd10_tree_factory or self._default_icd10_tree
+        self._icd10_tree_sessions: dict[str, Any] = {}
 
     def create_session(self, session_id: str | None = None) -> OrchestrationOutcome:
         sid = session_id or uuid.uuid4().hex
@@ -267,8 +246,8 @@ class FiveLayerOrchestrator:
                 waiting_for="manual_review",
             )
 
-        if "paper_tree_followup_pending" in session.internal_flags:
-            return self._answer_paper_tree(session, user_message)
+        if "icd10_tree_followup_pending" in session.internal_flags:
+            return self._answer_icd10_tree(session, user_message)
 
         if session.route == "AWAITING_PATIENT_CONFIRMATION":
             if session.l2_session_id is None:
@@ -488,8 +467,7 @@ class FiveLayerOrchestrator:
         session.route = "L3_PROCESSING"
         try:
             self.l2_to_l3.assert_valid(intake)
-            profile = self.l2_to_l3.to_profile(intake)
-        except ValueError as exc:
+        except ValueError:
             session.route = "RETURN_TO_L2"
             session.expected_input = "free_text"
             session.internal_flags.append("l2_to_l3_guard_rejected")
@@ -499,124 +477,32 @@ class FiveLayerOrchestrator:
                 waiting_for="free_text",
             )
 
-        if self.paper_tree_factory is not None:
-            return self._start_paper_tree(session)
+        return self._start_icd10_tree(session, intake)
 
-        passport = session.l1_passport or {}
-        raw = self.l3_diagnose(profile, {
-            "risk_level": passport.get("risk_level", 0),
-            "sensitive_topics": passport.get("sensitive_topics", []),
-            "flags": passport.get("flags", []),
-            "l1_flags": passport.get("flags", []),
-        })
-        report = DiagnosticReport.model_validate(raw)
-        session.l3_raw = raw
-        session.diagnostic_report = report
-        if session.l2_session_id is not None:
-            self.l2.receive_l3_follow_up(session.l2_session_id, None, report.duration_evidence)
+    def _default_icd10_tree(self, session_id: str, intake: ClinicalIntake):
+        from orchestration.icd10_followup import ICD10FollowUpSession
 
-        if report.verifier_routing == "return_to_l2":
-            session.l3_to_l2_loop_count += 1
-            if session.l3_to_l2_loop_count > self.max_l3_to_l2_loops:
-                session.route = "MANUAL_REVIEW"
-                return self._finish(
-                    session,
-                    reply="多次补充后仍无法形成稳定判断，需要专业人员进一步复核。",
-                    waiting_for="manual_review",
-                )
-            session.route = "RETURN_TO_L2"
-            if session.l2_session_id is not None:
-                self.l2.confirm_profile(session.l2_session_id, "revise")
-            session.pending_l3_dimensions = [
-                item.model_dump(mode="json") for item in report.missing_dimensions
-            ]
-            planned = report.information_collection_plan.get("items") or session.pending_l3_dimensions
-            session.pending_l3_dimensions = list(planned)
-            if session.l2_session_id is not None:
-                self.l2.receive_l3_follow_up(session.l2_session_id, list(planned), report.duration_evidence)
-            expected, question = self._l3_missing_requirement(
-                session.pending_l3_dimensions
-            )
-            session.expected_input = expected
-            return self._finish(
-                session,
-                reply=(
-                    "为了避免作出不准确的判断，还需要补充一个方面。"
-                    f"{question}"
-                ),
-                waiting_for=expected,
-            )
+        return ICD10FollowUpSession(self.l2, session_id, intake)
 
-        if report.verifier_routing == "manual_review":
-            session.route = "MANUAL_REVIEW"
-            return self._finish(
-                session,
-                reply="当前信息中存在需要进一步核对的地方，系统暂不进入下一阶段。",
-                waiting_for="manual_review",
-            )
-
-        if report.verifier_routing == "reject":
-            session.route = "STOPPED"
-            session.stopped_reason = "当前证据不支持进入治疗层。"
-            return self._finish(
-                session,
-                reply=session.stopped_reason,
-                terminal=True,
-            )
-
-        try:
-            L3ToL4Gate().assert_valid(report)
-        except ValueError:
-            session.route = "STOPPED"
-            session.stopped_reason = "诊断输出没有通过进入治疗层前的完整性检查。"
-            session.internal_flags.append("l3_to_l4_guard_rejected")
-            return self._finish(
-                session,
-                reply=session.stopped_reason,
-                terminal=True,
-            )
-
-        session.pending_l3_dimensions = []
-        return self._start_l4(session, report)
-
-    def _default_paper_tree(self, session_id: str, case: str):
-        from paper_dtree.__main__ import DEFAULT_TREE_BUNDLE
-        from paper_dtree.engine import PAIRWISE_POLICY, RetryPolicy
-        from paper_dtree.entries import DEFAULT_ENTRY_PROFILE, EntryProfile
-        from paper_dtree.followup import FollowUpRunner, L2FollowUpSession
-        from paper_dtree.models import load_bundle
-        from paper_dtree.transport import OpenAICompatibleTransport
-        from shared.llm_client import get_api_key, get_base_url, get_model
-
-        api_key = (os.getenv("PAPER_DT_API_KEY") or get_api_key()).strip()
-        endpoint = (os.getenv("PAPER_DT_BASE_URL") or get_base_url()).strip()
-        model = (os.getenv("PAPER_DT_MODEL") or os.getenv("L3_REASONER_MODEL") or get_model()).strip()
-        runner = FollowUpRunner(load_bundle(DEFAULT_TREE_BUNDLE),
-            OpenAICompatibleTransport(api_key=api_key, base_url=endpoint), model=model,
-            pairwise_policy=PAIRWISE_POLICY, retry=RetryPolicy(max_attempts=3, initial_seconds=1, maximum_seconds=4),
-            entry_profile=EntryProfile.load(DEFAULT_ENTRY_PROFILE))
-        return L2FollowUpSession(runner, self.l2, session_id, case, case_id=session_id)
-
-    def _start_paper_tree(self, session: PipelineSession) -> OrchestrationOutcome:
+    def _start_icd10_tree(self, session: PipelineSession, intake: ClinicalIntake) -> OrchestrationOutcome:
         if session.l2_session_id is None:
             raise RuntimeError("决策树缺少 L2 会话")
         state = self.l2.get_session_snapshot(session.l2_session_id)
-        case = "\n".join(m["text"] for m in state.messages if m.get("role") == "patient" and m.get("text"))
-        if not case:
+        if not any(m.get("role") == "patient" and str(m.get("text") or "").strip() for m in state.messages):
             session.route = "MANUAL_REVIEW"
             return self._finish(session, reply="缺少可核对的患者陈述，请由专业人员复核。", waiting_for="manual_review")
         try:
-            bridge = self.paper_tree_factory(session.l2_session_id, case)
-            self._paper_tree_sessions[session.session_id] = bridge
+            bridge = self.icd10_tree_factory(session.l2_session_id, intake)
+            self._icd10_tree_sessions[session.session_id] = bridge
             result = bridge.start()
         except Exception:
             session.route = "MANUAL_REVIEW"
-            session.internal_flags.append("paper_tree_model_failure")
+            session.internal_flags.append("icd10_tree_model_failure")
             return self._finish(session, reply="当前无法完成信息核对，请由专业人员进一步复核。", waiting_for="manual_review")
-        return self._route_paper_tree(session, result)
+        return self._route_icd10_tree(session, result)
 
-    def _answer_paper_tree(self, session: PipelineSession, message: str) -> OrchestrationOutcome:
-        bridge = self._paper_tree_sessions.get(session.session_id)
+    def _answer_icd10_tree(self, session: PipelineSession, message: str) -> OrchestrationOutcome:
+        bridge = self._icd10_tree_sessions.get(session.session_id)
         if bridge is None or session.l2_session_id is None:
             session.route = "MANUAL_REVIEW"
             return self._finish(session, reply="上次核对的进度不可用，请由专业人员继续。", waiting_for="manual_review")
@@ -629,25 +515,26 @@ class FiveLayerOrchestrator:
             return self._finish(session, reply=session.stopped_reason, terminal=True)
         except Exception:
             session.route = "MANUAL_REVIEW"
-            session.internal_flags.append("paper_tree_followup_failure")
+            session.internal_flags.append("icd10_tree_followup_failure")
             return self._finish(session, reply="补充信息暂时无法完成核对，请由专业人员继续。", waiting_for="manual_review")
         session.clinical_intake = self.l2.build_clinical_intake(session.l2_session_id)
-        return self._route_paper_tree(session, result)
+        return self._route_icd10_tree(session, result)
 
-    def _route_paper_tree(self, session: PipelineSession, result: dict[str, Any]) -> OrchestrationOutcome:
+    def _route_icd10_tree(self, session: PipelineSession, result: dict[str, Any]) -> OrchestrationOutcome:
         status = result.get("status")
-        if status == "awaiting_patient":
-            if "paper_tree_followup_pending" not in session.internal_flags:
-                session.internal_flags.append("paper_tree_followup_pending")
-                if session.l2_session_id is not None:
-                    self.l2.confirm_profile(session.l2_session_id, "revise")
-            session.route = "RETURN_TO_L2"
-            session.expected_input = "free_text"
-            return self._finish(session, reply=result["follow_up"]["question"], waiting_for="free_text")
         if status == "l2_rejected":
             session.route = "RETURN_TO_L2"
             return self._finish(session, reply="这条信息尚未完成安全核验，请稍后再试。", waiting_for="free_text")
-        session.internal_flags = [f for f in session.internal_flags if f != "paper_tree_followup_pending"]
+        session.l3_raw = {"candidate_generation_method": "icd10_tree", "model_result": result}
+        if status == "awaiting_patient":
+            if "icd10_tree_followup_pending" not in session.internal_flags:
+                session.internal_flags.append("icd10_tree_followup_pending")
+            if session.l2_session_id is not None:
+                session.clinical_intake = self.l2.confirm_profile(session.l2_session_id, "revise")
+            session.route = "RETURN_TO_L2"
+            session.expected_input = "free_text"
+            return self._finish(session, reply=result["pending"]["question"], waiting_for="free_text")
+        session.internal_flags = [f for f in session.internal_flags if f != "icd10_tree_followup_pending"]
         if status == "patient_declined_or_paused":
             state = self.l2.get_session_snapshot(session.l2_session_id) if session.l2_session_id else None
             if state and state.confirmation_status == "paused":
@@ -656,11 +543,40 @@ class FiveLayerOrchestrator:
             session.route = "MANUAL_REVIEW"
             return self._finish(session, reply="好的，不再追问这一问题，后续可由专业人员协助。", waiting_for="manual_review")
         session.route = "MANUAL_REVIEW"
-        session.l3_raw = {"candidate_generation_method": "paper_dtree_followup", "model_result": result}
-        session.internal_flags.append("paper_tree_" + ("completed" if status == "success" else "unresolved"))
-        # Candidate strings are not a validated DiagnosticReport and must not
-        # be sent to treatment as a confirmed diagnosis.
+        session.internal_flags.append("icd10_tree_" + ("completed" if status == "completed" else "unresolved"))
+        # ICD-10 candidates and their evidence are handed to manual review.
         return self._finish(session, reply="信息已记录，接下来需要专业人员进一步核对。", waiting_for="manual_review")
+
+    def submit_icd10_review(
+        self, session_id: str, review: ICD10ClinicalReview,
+    ) -> OrchestrationOutcome:
+        """Trusted application entry point for clinical review, separate from patient messages."""
+        from layers.layer3.diagnosis.icd10_report import build_icd10_report
+        from layers.layer3.output_validator import L3OutputValidator
+
+        session = self.store.get(session_id)
+        result = session.l3_raw or {}
+        if (session.route != "MANUAL_REVIEW" or session.clinical_intake is None
+                or result.get("candidate_generation_method") != "icd10_tree"
+                or result["model_result"].get("status") != "completed"):
+            raise ValueError("只有已完成 ICD-10 候选生成、正在等待人工复核的会话可提交")
+        passport = session.l1_passport or {}
+        if (passport.get("risk_level", 3) >= 3 or passport.get("crisis_flag")
+                or passport.get("safety_flag") == "block"
+                or (passport.get("execution") or {}).get("route") != "l2"
+                or (passport.get("execution") or {}).get("terminal") is not False
+                or (passport.get("guard") or {}).get("status") != "pass"
+                or (passport.get("guard") or {}).get("can_call_l2") is not True):
+            raise ValueError("当前 L1 安全状态不允许进入 L4")
+
+        review = ICD10ClinicalReview.model_validate(review)
+        tree_result = result["model_result"]
+        profile = self.l2_to_l3.serialize_profile(session.clinical_intake)
+        raw = build_icd10_report(tree_result, review, profile)
+        raw["l3_validation"] = L3OutputValidator().validate(raw, icd10_result=tree_result)
+        report = DiagnosticReport.model_validate(raw)
+        L3ToL4Gate().assert_valid(report)
+        return self._start_l4(session, report)
 
     def _apply_confirmation(
         self,
@@ -717,6 +633,7 @@ class FiveLayerOrchestrator:
                 flags=passport.get("flags", []),
             ),
         ))
+        session.diagnostic_report = report
         session.route = "L4"
         return self._finish(
             session,
@@ -767,21 +684,6 @@ class FiveLayerOrchestrator:
             reply=outcome.reply,
             waiting_for="patient_message",
         )
-
-    @staticmethod
-    def _l3_missing_requirement(
-        missing: list[dict],
-    ) -> tuple[ExpectedDialogueInput, str]:
-        if not missing:
-            return "free_text", "请再补充与当前困扰有关的具体表现。"
-        item = missing[0]
-        field = str(item.get("field") or "")
-        allowed: set[str] = set(DIAGNOSTIC_EXPECTATIONS)
-        expected: ExpectedDialogueInput = (
-            field if field in allowed else "free_text"  # type: ignore[assignment]
-        )
-        question = str(item.get("suggested_question") or "请补充这方面的信息。")
-        return expected, question
 
     def _stop_l2_model_failure(self, session: PipelineSession, reply: str) -> OrchestrationOutcome:
         session.route = "STOPPED"

@@ -76,9 +76,7 @@ class PipelineSession(BaseModel):
     clinical_intake: ClinicalIntake | None = None
     diagnostic_report: DiagnosticReport | None = None
     l3_raw: dict[str, Any] | None = None
-    pending_l3_dimensions: list[dict[str, Any]] = Field(default_factory=list)
     pending_l5_review: dict[str, Any] | None = None
-    l3_to_l2_loop_count: int = 0
     patient_confirmation: PatientConfirmation | None = None
     stopped_reason: str = ""
     internal_flags: list[str] = Field(default_factory=list)

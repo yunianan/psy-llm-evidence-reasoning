@@ -1,19 +1,20 @@
 # Layer3 诊断知识访问
 
+> 历史记录。文中的旧 L3 诊断及实验入口已退役。当前会话使用 [ICD-10 诊断与临床复核](../README.md#icd-10-人工复核与-l4-放行)。
+
 2026-11-01：旧候选树已从默认 L3 解耦。`APICLINICRReasoner` 现在只委托显式注入的
 `candidate_generator`，即使注入知识提供者也不会自动启动旧树。未注入时沿用
 `CLINICRModelUnavailable` / HTTP 503，明确提示生成器未接入；不回退自由生成。
-历史树的 API 后端为 `LegacyDSM5TreeReasoner`，仅供显式历史入口和工程回归。
-新独立论文框架 `paper_dtree` 不读取此知识协议，也不自动进入 L3 下游。
-其病例原文、二值问题及诊断集合与现有项目契约不同，见 [框架说明](../paper_dtree/README.md)。
+2026-11-04：旧树执行器、A1 和 G1 回放入口已移除。本文后面的旧树提示词和回放机制属于历史设计记录。
+CLINICR 仍读取静态鉴别判据，用于解释显式生成器提供的候选记录。
+主会话使用独立的 [WHO ICD-10 引擎](../../ICD10决策树/README.md)。
 
 **当前状态：诊断知识未连接，等待用户后续通过 GraphRAG 接入。**
 
 默认 `get_default_knowledge_provider()` 返回 `UnconnectedDiagnosticKnowledgeProvider`。
 它不读取 MentalKG 或失眠补充的诊断内容，访问时抛出
 `DiagnosticKnowledgeNotConnected`。默认候选生成和独立终验在请求 LLM 前停止，
-由现有 `CLINICRModelUnavailable` 错误通道返回；HTTP `/diagnose` 返回 503 并提示
-“诊断知识尚未接入”。初始化应用和查询疾病目录仍可使用。
+旧 CLINICR 的内部调用通过 `CLINICRModelUnavailable` 报告知识未接入。旧 `POST /diagnose` 与 `GET /diagnostic-catalog` 已移除。
 
 ```text
 MentalKG 原始 JSON ── MentalKGSource                 独立保留
@@ -30,7 +31,7 @@ Layer3 → 未连接的知识提供者 → 提示诊断知识尚未接入
 | `shared/diagnostic_knowledge.py` | 知识访问协议、未连接的运行时默认值，以及供离线工具和测试显式使用的 JSON 适配器 |
 | `shared/disorder_catalog.py` | 标签、别名、中文展示、症状词表及治疗映射；不再组装诊断标准或鉴别知识包 |
 
-标签和症状词表仍由原始数据源提供，供 L2 症状识别、Schema 候选范围和展示使用。
+MentalKG 标签仍供旧 DSM 接口的候选范围和展示使用。L2 症状抽取、写入和画像确认统一使用 `layers/layer2/symptom_vocabulary.py` 中的 WHO ICD-10 来源词表。
 诊断条件、鉴别说明和事件定义不在目录模块导入时加载；这不建立 L3 的图遍历、
 诊断知识提示词或病例检索连接。
 

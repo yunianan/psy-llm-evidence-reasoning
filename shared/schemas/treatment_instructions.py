@@ -20,7 +20,9 @@ class RoleInstruction(InstructionModel):
 class DiagnosticAnchor(InstructionModel):
     """L3 生成的会话级锚点；L4 只消费，不重新推导。"""
 
+    diagnostic_standard: Literal["WHO ICD-10"] = "WHO ICD-10"
     primary: str = ""
+    primary_label: str = ""
     comorbidities: list[str] = []
     excluded: list[str] = []
     core_beliefs: list[str] = []
@@ -28,9 +30,9 @@ class DiagnosticAnchor(InstructionModel):
     plugin_triggers: list[dict[str, Any]] = []
     strategy_adjustments: dict[str, Any] = {}
     contraindications: list[str] = []
-    confidence: float = 0.0
-    candidate_confidence: float = 0.0
-    verifier_score: float = 0.0
+    confidence: float | None = None
+    candidate_confidence: float | None = 0.0
+    verifier_score: float | None = None
     therapy_type: str = ""
     verifier_decision: str = ""
     diagnosis_details: dict[str, Any] = Field(default_factory=dict)

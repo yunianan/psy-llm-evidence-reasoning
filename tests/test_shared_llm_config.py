@@ -5,7 +5,6 @@ from types import SimpleNamespace
 import pytest
 
 from shared import llm_client
-from layers.layer3.llm.client import APICLINICRReasoner, APIRewardModelVerifier
 from layers.layer3.instructions.turn_planner import APITreatmentPlanner
 from layers.layer4.config import Settings
 
@@ -56,21 +55,13 @@ def test_shared_sdk_receives_matching_key_url_model(monkeypatch, aliyun):
 def test_all_default_models_follow_shared_model_and_preserve_overrides(monkeypatch):
     monkeypatch.setenv("LLM_MODEL", "shared-model")
     monkeypatch.setenv("LLM_BASE_URL", "https://aliyun.example/v1")
-    assert APICLINICRReasoner().model == "shared-model"
-    assert APIRewardModelVerifier().model == "shared-model"
     assert APITreatmentPlanner().model == "shared-model"
     assert Settings().llm_model == "shared-model"
     assert Settings().llm_base_url == "https://aliyun.example/v1"
-    monkeypatch.setenv("L3_REASONER_MODEL", "reasoner")
-    monkeypatch.setenv("L3_VERIFIER_MODEL", "verifier")
-    assert APITreatmentPlanner().model == "reasoner"
     monkeypatch.setenv("L3_INSTRUCTION_MODEL", "planner")
     monkeypatch.setenv("L4_LLM_MODEL", "generator")
     monkeypatch.setenv("L4_LLM_BASE_URL", "https://separate.example/v1")
-    assert APICLINICRReasoner().model == "reasoner"
-    assert APIRewardModelVerifier().model == "verifier"
     assert APITreatmentPlanner().model == "planner"
-    assert APICLINICRReasoner(model="explicit").model == "explicit"
     assert Settings().llm_model == "generator"
     assert Settings().llm_base_url == "https://separate.example/v1"
 

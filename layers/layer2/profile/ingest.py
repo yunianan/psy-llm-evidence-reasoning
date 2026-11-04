@@ -13,26 +13,9 @@ from layers.layer2.schemas import (
 )
 
 
-from shared.disorder_catalog import SYMPTOMS
+from layers.layer2.symptom_vocabulary import ICD10_SYMPTOM_LABELS
 from shared.clinical_contract import ClinicalFact, STRUCTURED_FIELD_NAMES
 from shared.temporal import parse_duration_records
-
-ALLOWED_SYMPTOMS = {
-    "depressed_mood",
-    "anhedonia",
-    "appetite_or_weight_change",
-    "insomnia",
-    "fatigue",
-    "psychomotor_change",
-    "worthlessness",
-    "concentration_difficulty",
-    "anxiety",
-    "trauma_related",
-    "obsession_compulsion",
-    "elevated_mood",
-    "passive_si",
-}
-ALLOWED_SYMPTOMS.update(SYMPTOMS)
 
 ALLOWED_STRUCTURED_FIELDS = set(STRUCTURED_FIELD_NAMES) - {"scale_consent", "scale_answer_score", "confirmation_decision"}
 
@@ -82,7 +65,7 @@ class ProfileIngestor:
     ) -> list[str]:
         evidence_ids: list[str] = []
         for candidate in analysis.symptoms:
-            if candidate.value not in ALLOWED_SYMPTOMS:
+            if candidate.value not in ICD10_SYMPTOM_LABELS:
                 continue
             node = self._evidence(
                 state, candidate, patient_text, message_id,
@@ -325,7 +308,7 @@ class ProfileIngestor:
         target = correction.target_path
         if target.startswith("symptoms."):
             symptom = target.split(".", 1)[1]
-            if symptom not in ALLOWED_SYMPTOMS:
+            if symptom not in ICD10_SYMPTOM_LABELS and symptom not in state.symptoms:
                 return None
             existing = state.symptoms.pop(symptom, None)
             return list(existing.sources) if existing else []

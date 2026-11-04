@@ -4,7 +4,6 @@
 """
 
 import os
-import json
 from pathlib import Path
 import sys
 
@@ -18,34 +17,6 @@ HELP = (
 
 class StartupError(ValueError):
     """可以直接展示、不会包含密钥的配置错误。"""
-
-
-def _safe_runtime_debug(error: BaseException) -> str | None:
-    """只暴露白名单阶段和异常类型，不输出请求、患者原话或凭据。"""
-    current: BaseException | None = error
-    seen: set[int] = set()
-    while current is not None and id(current) not in seen:
-        seen.add(id(current))
-        if type(current).__name__ in {"CLINICRModelUnavailable", "CLINICRAPIError"}:
-            message = str(current)
-            stage = "L3.CLINICR"
-            for step in ("1", "2", "3"):
-                if f"Step {step}" in message:
-                    stage = f"L3.CLINICR.Step{step}"
-                    break
-            cause = current.__cause__ or current.__context__
-            detail = {
-                "stage": stage,
-                "exception": type(cause).__name__ if cause is not None else type(current).__name__,
-            }
-            category = (
-                "API_ERROR"
-                if type(current).__name__ == "CLINICRAPIError"
-                else "MODEL_OUTPUT_INVALID"
-            )
-            return f"{category} {json.dumps(detail, ensure_ascii=False)}"
-        current = current.__cause__ or current.__context__
-    return None
 
 
 def configure_api() -> None:
@@ -183,7 +154,7 @@ def main() -> int:
     if sys.version_info < (3, 11):
         print("请在 VS Code 中选择 Python 3.11 或更高版本的解释器。")
         return 1
-    print("五层心理评估系统 · 本地终端")
+    print("五层心理评估系统 · WHO ICD-10 · 本地终端")
     print("将调用真实 API，消息会发送到配置的模型服务并可能产生费用；建议先用虚构案例体验。")
     try:
         configure_api()
@@ -201,9 +172,6 @@ def main() -> int:
         return 1
     except Exception as exc:
         # API 异常可能携带请求原文或凭据，不直接输出任意异常内容。
-        safe_debug = _safe_runtime_debug(exc)
-        if safe_debug:
-            print(f"[开发调试] {safe_debug}")
         print(f"运行中止：{type(exc).__name__}。请检查 API 配置或保留此错误类型供排查。")
         return 1
     return 0

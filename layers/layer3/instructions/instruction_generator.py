@@ -53,7 +53,8 @@ def allowed_techniques(anchor: DiagnosticAnchor) -> dict[str, str]:
         allowed = dict(SUPPORT_TECHNIQUES)
     if adjustment.get("care_priority", "psychotherapy") != "psychotherapy":
         allowed = dict(SUPPORT_TECHNIQUES)
-    if any("暴露" in text for text in anchor.contraindications):
+    if (any("暴露" in text for text in anchor.contraindications)
+            or adjustment.get("exposure_policy") == "prohibited_until_stabilized"):
         for code in ("trauma_processing", "exposure_response_prevention", "emdr"):
             allowed.pop(code, None)
     return allowed
@@ -68,6 +69,8 @@ class InstructionGenerator:
         therapy = report["recommended_therapy"]
         cognitive = deepcopy(profile.get("cognitive_patterns") or [])
         anchor = DiagnosticAnchor(
+            diagnostic_standard=report["diagnostic_standard"],
+            primary_label=primary["label"],
             primary=primary["disorder"],
             comorbidities=[item["disorder"] for item in diagnosis.get("secondary", [])],
             excluded=[item["disorder"] for item in diagnosis.get("ruled_out", [])],
@@ -110,6 +113,10 @@ def validate_session_instructions(report: dict) -> None:
     if anchor.diagnosis_details != report["diagnosis"]:
         raise ValueError("诊断锚点与诊断报告不一致")
     diagnosis = report["diagnosis"]
+    if anchor.diagnostic_standard != report.get("diagnostic_standard"):
+        raise ValueError("诊断锚点与报告采用的诊断标准不一致")
+    if anchor.primary_label != diagnosis["primary"]["label"]:
+        raise ValueError("ICD-10 诊断锚点与报告名称不一致")
     if (anchor.primary != diagnosis["primary"]["disorder"]
             or anchor.comorbidities != [item["disorder"] for item in diagnosis.get("secondary", [])]
             or anchor.excluded != [item["disorder"] for item in diagnosis.get("ruled_out", [])]):

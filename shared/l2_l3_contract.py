@@ -43,7 +43,7 @@ L2_L3_REQUIRED_DIAGNOSTIC_FIELDS: tuple[RequiredDiagnosticField, ...] = (
     RequiredDiagnosticField(
         field="substance_or_medical_cause",
         missing_label="物质、药物或躯体疾病影响",
-        purpose="补充 DSM 排除物质、药物或躯体疾病所致症状需要的信息",
+        purpose="核对症状是否由物质、药物或躯体疾病引起",
         suggested_question=(
             "这些变化是否可能与饮酒、其他物质、正在使用的药物，"
             "或者身体疾病有关？"

@@ -1,17 +1,26 @@
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from layers.layer4.schemas.instructions import DiagnosticAnchor
 from shared.schemas.treatment_instructions import TreatmentInstructions
 
 
-class DSMCriterionEvidence(BaseModel):
-    code: str
-    name: str
-    status: Literal["met", "not_met", "unknown"]
-    met: bool
-    evidence_refs: list[str] = Field(default_factory=list)
+class ICD10EvidenceQuote(BaseModel):
+    message_id: str = Field(min_length=1)
+    quote: str = Field(min_length=1)
+    source_role: Literal["patient", "collateral", "clinical_record"]
+
+
+class ICD10CriterionEvidence(BaseModel):
+    node_id: str
+    answer: Literal["yes", "no", "unknown"]
+    source: dict[str, Any]
+    question: str = ""
+    original_clause: str = ""
+    evidence: list[ICD10EvidenceQuote] = Field(default_factory=list)
+    calculation: dict[str, Any] | None = None
+    confidence: float | None = Field(default=None, ge=0, le=1)
 
 
 class DiagnosticDisplay(BaseModel):
@@ -25,17 +34,17 @@ class DiagnosticDisplay(BaseModel):
 
 class PrimaryDiagnosis(DiagnosticDisplay):
     disorder: str
-    confidence: float = 0.0
+    confidence: float | None = 0.0
     severity: str = ""
     evidence: str = ""
-    dsm5_criteria_met: list[str] = []
-    dsm5_criteria_detail: list[DSMCriterionEvidence] = Field(default_factory=list)
+    criteria_evidence: list[ICD10CriterionEvidence] = Field(default_factory=list)
 
 
 class SecondaryDiagnosis(DiagnosticDisplay):
     disorder: str
-    confidence: float = 0.0
+    confidence: float | None = 0.0
     evidence: str = ""
+    criteria_evidence: list[ICD10CriterionEvidence] = Field(default_factory=list)
 
 
 class RuledOutDiagnosis(DiagnosticDisplay):
@@ -44,17 +53,9 @@ class RuledOutDiagnosis(DiagnosticDisplay):
     evidence_ref: str = ""
 
 
-class UnderObservationDiagnosis(DiagnosticDisplay):
-    disorder: str
-    confidence: float = 0.0
-    reason: str = ""
-    missing_dimensions: list[dict] = Field(default_factory=list)
-
-
 class Diagnosis(BaseModel):
     primary: PrimaryDiagnosis | None = None
     secondary: list[SecondaryDiagnosis] = []
-    under_observation: list[UnderObservationDiagnosis] = Field(default_factory=list)
     ruled_out: list[RuledOutDiagnosis] = []
 
 
@@ -66,47 +67,18 @@ class RecommendedTherapy(BaseModel):
     contraindications: list[str] = []
 
 
-class TherapyRouting(BaseModel):
-    primary: str = ""
-    addon: list[str] = []
-    plugin_triggers: list[dict[str, Any]] = Field(default_factory=list)
-    strategy_adjustments: dict[str, Any] = Field(default_factory=dict)
-    l4_substage_priority: list[str] = []
+class ICD10ClinicalReview(BaseModel):
+    """Input from the trusted clinical-review caller for one tree run."""
 
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
-class StructuredLabels(BaseModel):
-    therapy_routing: TherapyRouting = TherapyRouting()
-    wording_constraint: str = ""
-    risk_monitoring: list[str] = []
-
-
-class EvidenceRefIn(BaseModel):
-    type: str = ""
-    disorder: str = ""
-    criteria_met: str = ""
-    source_doc: str = ""
-    threshold: str = ""
-    therapy: str = ""
-    source: str = ""
-    criterion_code: str = ""
-    criterion_name: str = ""
-    status: str = ""
-    evidence_refs: list[str] = Field(default_factory=list)
-
-
-class MissingDimension(BaseModel):
-    field: str
-    purpose: str = ""
-    suggested_question: str = ""
-
-
-class VerifierCheck(BaseModel):
-    check_id: str
-    status: Literal["pass", "fail"]
-    score: float
-    weight: float
-    reasons: list[str] = Field(default_factory=list)
-    evidence_refs: list[str] = Field(default_factory=list)
+    tree_session_id: str = Field(min_length=1)
+    reviewer_id: str = Field(min_length=1)
+    primary_code: str = Field(min_length=1)
+    secondary_codes: list[str] = Field(default_factory=list)
+    rationale: str = Field(min_length=1)
+    severity_level: int = Field(ge=1, le=3, strict=True)
+    therapy: RecommendedTherapy
 
 
 class L3ValidationCheck(BaseModel):
@@ -124,42 +96,21 @@ class L3ValidationReceipt(BaseModel):
 
 
 class DiagnosticReport(BaseModel):
-    """接口三：L3 → L4 DiagnosticReport（诊断报告）。未知字段忽略，真实 L3 完整 JSON 可解析。"""
+    """接口三。将经复核的 WHO ICD-10 诊断与治疗指令交给 L4。"""
 
-    diagnostic_standard: Literal["DSM-5"] = "DSM-5"
-    supported_disorders: list[str] = Field(default_factory=list)
-    diagnostic_catalog: list[dict[str, Any]] = Field(default_factory=list)
-    considered_disorders: list[str] = Field(default_factory=list)
-    candidates: list[dict[str, Any]] = Field(default_factory=list)
-    checked: list[dict[str, Any]] = Field(default_factory=list)
-    candidate_generation_method: str = "external_reasoner"
-    tree_trace: list[dict[str, Any]] = Field(default_factory=list)
-    candidate_coverage: dict[str, str] = Field(default_factory=dict)
-    candidate_missing_dimensions: list[dict[str, str]] = Field(default_factory=list)
-    diagnostic_readiness: dict[str, Any] = Field(default_factory=dict)
-    information_collection_plan: dict[str, Any] = Field(default_factory=dict)
-    duration_evidence: list[dict[str, Any]] = Field(default_factory=list)
-    temporal_audit: list[dict[str, Any]] = Field(default_factory=list)
+    diagnostic_standard: Literal["WHO ICD-10"]
+    icd10_catalog_id: str = ""
+    icd10_review: ICD10ClinicalReview | None = None
+    candidate_generation_method: Literal["icd10_tree"] = "icd10_tree"
     layer_id: str = "L3"
     timestamp: str = ""
     diagnosis: Diagnosis = Diagnosis()
-    provisional_diagnosis: PrimaryDiagnosis | None = None
-    verifier_score: float = 0.0
+    verifier_score: None = None
     verifier_decision: str = ""
-    candidate_confidence: float = 0.0
+    candidate_confidence: float | None = 0.0
     verifier_routing: str = ""
-    verifier_checks: list[VerifierCheck] = Field(default_factory=list)
-    verifier_fail_reasons: list[str] = Field(default_factory=list)
     recommended_therapy: RecommendedTherapy = RecommendedTherapy()
     severity_level: int = 1
-    clinical_notes_for_L4: str = ""
-    summary: str = ""
-    structured_labels: StructuredLabels = StructuredLabels()
-    evidence_refs: list[EvidenceRefIn] = []
-    confidence: float = 0.0
-    flags: list[str] = []
-    instruction_to_next: str = ""
-    missing_dimensions: list[MissingDimension] = []
     l3_validation: L3ValidationReceipt | None = None
     instructions: dict[str, Any] = Field(default_factory=dict)
 

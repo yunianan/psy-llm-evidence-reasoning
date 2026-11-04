@@ -5,7 +5,6 @@ from datetime import datetime, timezone
 import pytest
 
 from layers.layer2 import L2AssessmentService
-from layers.layer3.api import diagnose as real_diagnose
 from layers.layer4.config import Settings
 from layers.layer4.llm.mock import MockBackend
 from layers.layer4.review.l5_adapter import L5Reviewer
@@ -13,7 +12,6 @@ from layers.layer4.service import L4Service
 from orchestration import FiveLayerOrchestrator
 from patient_presentation import DeveloperProfileRenderer
 from tests.l2_test_double import ControlledL2Model
-from tests.l3_test_double import controlled_clinicr
 from tests.instruction_test_double import ControlledTreatmentModel
 from layers.layer3.instructions.turn_planner import TurnInstructionPlanner
 
@@ -135,23 +133,11 @@ def _l4_service() -> L4Service:
     )
 
 
-def _orchestrator(
-    tmp_path,
-    *,
-    max_loops: int = 3,
-    l3_diagnose=None,
-) -> FiveLayerOrchestrator:
-    if l3_diagnose is None:
-        l3_engine, _, _ = controlled_clinicr()
-        l3_diagnose = lambda profile, safety_context=None: real_diagnose(
-            profile, safety_context, clinicr=l3_engine
-        )
+def _orchestrator(tmp_path) -> FiveLayerOrchestrator:
     return FiveLayerOrchestrator(
         l2_service=L2AssessmentService(model=ControlledL2Model()),
         l4_service=_l4_service(),
         profile_renderer=DeveloperProfileRenderer(tmp_path / "developer-only"),
-        l3_diagnose=l3_diagnose,
-        max_l3_to_l2_loops=max_loops,
         instruction_planner=TurnInstructionPlanner(ControlledTreatmentModel()),
     )
 
@@ -207,7 +193,7 @@ def _complete_l2(orchestrator: FiveLayerOrchestrator, session_id: str):
     return outcome
 
 
-def test_automatic_l1_to_l3_then_confirmation_and_l4(monkeypatch, tmp_path):
+def test_l2_confirmation_and_developer_profile_are_separate(monkeypatch, tmp_path):
     monkeypatch.setattr("orchestration.orchestrator.safety_detect", _safe_passport)
     orchestrator = _orchestrator(tmp_path)
     created = orchestrator.create_session("top-e2e")
@@ -221,7 +207,7 @@ def test_automatic_l1_to_l3_then_confirmation_and_l4(monkeypatch, tmp_path):
     patient_payload = json.dumps(awaiting.model_dump(mode="json"), ensure_ascii=False)
     for internal in (
         "developer_profile", "evidence_id", "verifier_score", "candidate_confidence",
-        "DSM", "D013",
+        "WHO ICD-10", "F40.2",
     ):
         assert internal not in patient_payload
 
@@ -230,25 +216,8 @@ def test_automatic_l1_to_l3_then_confirmation_and_l4(monkeypatch, tmp_path):
     developer_html = developer_path.read_text(encoding="utf-8")
     assert "仅限开发者调试" in developer_html
     assert "verifier_score" not in developer_html
-    assert "D013" not in developer_html
+    assert "F40.2" not in developer_html
     assert "最近三周我每天都很低落" in developer_html
-
-    confirmed = orchestrator.confirm_patient_profile("top-e2e", "continue")
-    assert confirmed.route == "L4"
-    assert confirmed.waiting_for == "patient_message"
-    developer_path = orchestrator.get_developer_profile_path("top-e2e")
-    assert developer_path is not None
-    developer_html = developer_path.read_text(encoding="utf-8")
-    assert "verifier_score" in developer_html
-    assert "D013" in developer_html
-
-    treatment = orchestrator.handle_message(
-        "top-e2e", "我想先从今天完成一点工作开始。"
-    )
-    assert treatment.route == "L4"
-    assert treatment.terminal is False
-    assert "小行动" in treatment.reply
-
 
 def test_every_patient_message_hits_l1_and_crisis_stops_pipeline(monkeypatch, tmp_path):
     calls: list[str] = []
@@ -559,40 +528,3 @@ def test_patient_can_revise_or_pause(
     assert orchestrator.get_session_snapshot(
         f"confirm-{decision}"
     ).l4_session_id is None
-
-
-def test_l3_return_to_l2_is_executable_and_loop_limit_routes_manual_review(
-    monkeypatch, tmp_path
-):
-    monkeypatch.setattr("orchestration.orchestrator.safety_detect", _safe_passport)
-    l3_engine, _, _ = controlled_clinicr()
-    blocked = real_diagnose({"PHQ9": 20}, clinicr=l3_engine)
-    orchestrator = _orchestrator(
-        tmp_path,
-        max_loops=2,
-        l3_diagnose=lambda profile, safety_context=None: blocked,
-    )
-    orchestrator.create_session("loop-b")
-
-    awaiting = _complete_l2(orchestrator, "loop-b")
-    assert awaiting.route == "AWAITING_PATIENT_CONFIRMATION"
-    first_return = orchestrator.confirm_patient_profile("loop-b", "continue")
-    assert first_return.route == "RETURN_TO_L2"
-    assert first_return.waiting_for == "symptom_duration_days"
-    assert orchestrator.get_session_snapshot("loop-b").l4_session_id is None
-
-    awaiting_again = orchestrator.handle_message(
-        "loop-b", "低落和没兴趣已经持续三周。"
-    )
-    assert awaiting_again.route == "AWAITING_PATIENT_CONFIRMATION"
-    second_return = orchestrator.confirm_patient_profile("loop-b", "continue")
-    assert second_return.route == "RETURN_TO_L2"
-
-    awaiting_third = orchestrator.handle_message(
-        "loop-b", "低落和没兴趣已经持续三周。"
-    )
-    assert awaiting_third.route == "AWAITING_PATIENT_CONFIRMATION"
-    manual = orchestrator.confirm_patient_profile("loop-b", "continue")
-    assert manual.route == "MANUAL_REVIEW"
-    assert manual.waiting_for == "manual_review"
-    assert orchestrator.get_session_snapshot("loop-b").l4_session_id is None

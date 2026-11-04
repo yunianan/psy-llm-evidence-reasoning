@@ -1,7 +1,9 @@
 from typing import Any
 
 from layers.layer4.schemas.l3_report import DiagnosticReport
-from shared.report_integrity import REQUIRED_L3_CHECKS, l3_report_fingerprint
+from shared.report_integrity import (
+    ICD10_OUTPUT_POLICY, REQUIRED_L3_CHECKS, l3_report_fingerprint,
+)
 
 
 class L3ToL4ValidationError(ValueError):
@@ -18,12 +20,15 @@ class L3ToL4Gate:
 
     def validate(self, report: DiagnosticReport) -> dict[str, Any]:
         violations: list[dict[str, str]] = []
-        if report.verifier_routing not in {"pass", "conditional"}:
+        if report.verifier_routing != "pass":
             self._add(
                 violations, "V3-ROUTING", f"verifier_routing={report.verifier_routing}不允许进入L4"
             )
         if report.diagnosis.primary is None:
             self._add(violations, "V3-PRIMARY-REQUIRED", "缺少主诊断")
+
+        if report.icd10_review is None or report.verifier_decision != "clinician_confirmed":
+            self._add(violations, "V3-ICD10-REVIEW-REQUIRED", "缺少 ICD-10 临床复核确认")
 
         receipt = report.l3_validation
         if receipt is None:
@@ -32,10 +37,14 @@ class L3ToL4Gate:
         if not receipt.passed or receipt.route != "allow_l4":
             self._add(violations, "V3-VALIDATION-FAILED", "L3输出校验未通过")
 
+        if receipt.policy_version != ICD10_OUTPUT_POLICY:
+            self._add(violations, "V3-ICD10-VALIDATION-POLICY", "ICD-10 报告须使用对应放行规则")
+
+        required = REQUIRED_L3_CHECKS
         check_status = {item.rule_id: item.status for item in receipt.checks}
-        missing_checks = sorted(REQUIRED_L3_CHECKS - set(check_status))
+        missing_checks = sorted(required - set(check_status))
         failed_checks = sorted(
-            rule_id for rule_id in REQUIRED_L3_CHECKS
+            rule_id for rule_id in required
             if check_status.get(rule_id) != "pass"
         )
         if missing_checks:

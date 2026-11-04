@@ -179,121 +179,20 @@ print("=" * 60)
 print("L3: DiagnosticReport（接口三）")
 print("=" * 60)
 
-from layers.layer3.api import diagnose
-from tests.l3_test_double import controlled_clinicr
-
-profile = {
-    "PHQ9": 16, "GAD7": 9, "MDQ": 3, "PCL5": 18, "ISI": 14,
-    "Y_BOCS": 0, "ADNM": 0,
-    "PHQ9_items": {
-        "item1": 3, "item2": 3, "item3": 2, "item4": 2, "item5": 0,
-        "item6": 2, "item7": 0, "item8": 0, "item9": 0,
-    },
-    "key_symptoms_extracted": [{
-        "symptom": "depressed_mood",
-        "sources": ["patient_utterance_L008"],
-    }],
-    "symptom_duration_days": 21,
-    "functional_impairment": True,
-    "mania_or_hypomania_history": False,
-    "substance_or_medical_cause": False,
-    "psychotic_symptoms": False,
-    "differential_diagnoses_assessed": ["D009", "D020"],
-    "evidence_conflicts": [],
-    "evidence_nodes": [
-        {
-            "evidence_id": f"ev-{field}",
-            "target_path": f"diagnostic_context.{field}",
-        }
-        for field in (
-            "symptom_duration_days",
-            "functional_impairment",
-            "mania_or_hypomania_history",
-            "substance_or_medical_cause",
-            "psychotic_symptoms",
-        )
-    ],
-}
-safety_ctx = {
-    "risk_level": 1,
-    "sensitive_topics": ["trauma"],
-    "l1_flags": ["monitor_suicidal_ideation", "avoid_trauma_probing"],
-}
-
-DR_KEYS = [
-    "layer_id", "timestamp", "diagnosis", "verifier_score", "verifier_routing",
-    "candidate_confidence",
-    "l3_validation",
-    "verifier_checks", "verifier_fail_reasons",
-    "recommended_therapy", "severity_level", "clinical_notes_for_L4", "summary",
-    "structured_labels", "evidence_refs", "confidence", "flags", "instruction_to_next",
-]
-l3_engine, _, _ = controlled_clinicr()
-report = diagnose(profile, safety_ctx, clinicr=l3_engine)
-require_keys("L3 输出", report, DR_KEYS)
-check("L3 layer_id == L3", report["layer_id"] == "L3")
-
-primary = report["diagnosis"]["primary"]
-check("L3 primary 含 disorder/confidence/severity/dsm5_criteria_met",
-      {"disorder", "confidence", "severity", "dsm5_criteria_met"} <= set(primary))
-check("L3 verifier_routing 枚举", report["verifier_routing"] in (
-    "pass", "conditional", "reject", "return_to_l2", "manual_review"
-))
-check("L3 Verifier 独立执行四项推理质量复核", len(report["verifier_checks"]) == 4,
-      f"got {len(report['verifier_checks'])}")
-check("L3 Verifier 分数不是复制候选置信度",
-      report["verifier_score"] != report["candidate_confidence"],
-      f"both={report['verifier_score']}")
-check("L3 输出业务校验已在L3内通过",
-      report["l3_validation"]["passed"] is True
-      and report["l3_validation"]["route"] == "allow_l4")
-check("L3 recommended_therapy 含三步疗法决策结果",
-      {"primary", "addon", "plugin_triggers", "strategy_adjustments", "contraindications"}
-      <= set(report["recommended_therapy"]))
-check("L3 插件最多2个且均携带触发记录",
-      len(report["recommended_therapy"]["addon"]) <= 2
-      and report["recommended_therapy"]["addon"] == [
-          item["plugin"] for item in report["recommended_therapy"]["plugin_triggers"]
-      ])
-check("L3 Step 3 输出严重程度与可执行微调指令",
-      bool(report["recommended_therapy"]["strategy_adjustments"].get("severity_band"))
-      and isinstance(
-          report["recommended_therapy"]["strategy_adjustments"].get("instructions"),
-          list,
-      ))
-check("L3 structured_labels 含 therapy_routing/wording_constraint/risk_monitoring",
-      {"therapy_routing", "wording_constraint", "risk_monitoring"} <= set(report["structured_labels"]))
-check("L3 wording_constraint 为'初步印象'", "初步印象" in report["structured_labels"]["wording_constraint"])
-
-met = primary["dsm5_criteria_met"]
-check("V3-1: primary.confidence >= 0.5", primary["confidence"] >= 0.5, f"got {primary['confidence']}")
-check("V3-2: MDD dsm5_criteria_met >= 5", len(met) >= 5, f"got {len(met)}: {met}")
-detail_by_code = {item["code"]: item for item in primary["dsm5_criteria_detail"]}
-check("L3 每个满足的DSM-5条目都有逐条证据绑定",
-      all(code in detail_by_code and detail_by_code[code]["evidence_refs"] for code in met))
-secondary = {s["disorder"] for s in report["diagnosis"]["secondary"]}
-ruled_out = {r["disorder"] for r in report["diagnosis"]["ruled_out"]}
-check("V3-3: ruled_out 不在 primary/secondary",
-      ruled_out.isdisjoint({primary["disorder"]} | secondary))
-
 from layers.layer4.schemas.l3_report import DiagnosticReport
 from layers.layer4.validation import L3ToL4Gate
 
-parsed = DiagnosticReport.model_validate(report)
-check("L3 输出可被 L4 DiagnosticReport schema 解析", parsed.diagnosis.primary.disorder == "D013")
-check("L3→L4生产入口守卫允许合规报告", L3ToL4Gate().validate(parsed)["passed"])
-check("L4 anchor: therapy_type 取自 recommended_therapy.primary",
-      parsed.to_anchor().therapy_type == report["recommended_therapy"]["primary"])
-check("L4 anchor 分开保留候选支持度和终验质量",
-      parsed.to_anchor().candidate_confidence == report["candidate_confidence"]
-      and parsed.to_anchor().verifier_score == report["verifier_score"])
-check("L4 anchor 保留插件触发依据和Step 3微调",
-      parsed.to_anchor().plugin_triggers
-      == report["recommended_therapy"]["plugin_triggers"]
-      and parsed.to_anchor().strategy_adjustments
-      == report["recommended_therapy"]["strategy_adjustments"]
-      and parsed.to_anchor().contraindications
-      == report["recommended_therapy"]["contraindications"])
+sample = REPO_ROOT / "examples" / "sample_diagnostic_report.json"
+parsed = DiagnosticReport.model_validate_json(sample.read_text(encoding="utf-8"))
+check("L3→L4 生产入口允许通过 ICD-10 复核的报告", L3ToL4Gate().validate(parsed)["passed"])
+anchor = parsed.to_anchor()
+check("L4 锚点保留 ICD-10 诊断和候选支持度",
+      anchor.primary == parsed.diagnosis.primary.disorder
+      and anchor.candidate_confidence == parsed.candidate_confidence)
+check("L4 锚点保留复核批准的治疗计划",
+      anchor.therapy_type == parsed.recommended_therapy.primary
+      and anchor.plugin_triggers == parsed.recommended_therapy.plugin_triggers
+      and anchor.strategy_adjustments == parsed.recommended_therapy.strategy_adjustments)
 
 print("=" * 60)
 print("L5: ContextualSafetyContext 输入 → 文档输出格式（接口四）")
@@ -348,7 +247,7 @@ ReviewResult(
 check("L5 输出可被 L4 ReviewResult schema 解析", True)
 
 print("=" * 60)
-print("端到端：L1 → L3 → L4（含 L5 审核回环）")
+print("L4 治疗与 L5 审核回环")
 print("=" * 60)
 
 from layers.layer4.config import Settings

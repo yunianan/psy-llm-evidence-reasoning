@@ -28,8 +28,6 @@ SECTIONS = {
     ],
     "L2：评估、量表与患者画像": ["shared.clinical_contract", "shared.clinical_profile", "layers.layer2.schemas.models"],
     "L3：诊断、疗法选择与治疗指令": [
-        "layers.layer3.diagnosis.schemas",
-        "layers.layer3.api",
         "layers.layer3.instructions.turn_planner",
         "shared.schemas.treatment_instructions",
     ],
@@ -53,7 +51,7 @@ SECTIONS = {
 
 INTERFACE_MODELS = {
     "SafetyPassport", "SafetyModelUnavailable", "DialogueResult", "ClinicalIntake",
-    "DiagnoseRequest", "DiagnoseResponse", "TreatmentInstructions", "DiagnosticReport",
+    "TreatmentInstructions", "DiagnosticReport",
     "SessionRequest", "TurnRequest", "TurnOutcome", "L5Context", "ReviewResult",
     "SessionCreated", "RewriteRequest", "OrchestrationOutcome", "PatientConfirmation",
 }

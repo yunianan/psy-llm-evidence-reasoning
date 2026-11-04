@@ -6,8 +6,6 @@ import re
 from pathlib import Path
 from typing import Any
 
-from shared.disorder_catalog import grouped_catalog
-
 from orchestration.schemas import PipelineSession
 
 
@@ -35,7 +33,6 @@ class DeveloperProfileRenderer:
             "session_id": session.session_id,
             "route": session.route,
             "expected_input": session.expected_input,
-            "l3_to_l2_loop_count": session.l3_to_l2_loop_count,
             "updated_at": session.updated_at,
             "stopped_reason": session.stopped_reason,
         }
@@ -50,6 +47,11 @@ class DeveloperProfileRenderer:
         }
         intake_data = intake.model_dump(mode="json") if intake else {}
         report_data = report.model_dump(mode="json") if report else {}
+        icd10 = (session.l3_raw or {}).get("model_result", {})
+        review_material = {
+            key: icd10[key] for key in ("standard", "session_id", "catalog_id", "status", "candidates")
+            if key in icd10
+        } if icd10.get("standard") == "WHO ICD-10" else {}
 
         return f"""<!doctype html>
 <html lang="zh-CN">
@@ -79,9 +81,8 @@ details summary {{ cursor: pointer; font-weight: 700; }}
 {self._card("编排状态", overview)}
 {self._card("L1 安全通行证", l1)}
 {self._card("L2 患者画像", intake_data, wide=True)}
-{self._card("候选诊断范围：24项 / 9个展示类别", grouped_catalog(), wide=True) if report else ""}
-{self._card("L3 诊断与 Verifier", report_data, wide=True)}
-{self._card("L3→L2 待补充维度", session.pending_l3_dimensions, wide=True)}
+{self._card("L3 ICD-10 候选与复核材料", review_material, wide=True) if review_material else ""}
+{self._card("L3 诊断与放行校验", report_data, wide=True)}
 </div>
 </main></body></html>"""
 

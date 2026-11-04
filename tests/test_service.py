@@ -13,7 +13,7 @@ from layers.layer4.schemas.instructions import (
     SafetyPassport,
     TurnInstruction,
 )
-from layers.layer4.schemas.l3_report import DiagnosticReport, MissingDimension
+from layers.layer4.schemas.l3_report import DiagnosticReport
 from layers.layer4.service import L4Service, SessionRequest, TurnRequest
 from tests.instruction_test_double import controlled_turn
 
@@ -66,9 +66,6 @@ def test_create_session_blocks_report_that_must_return_to_l2():
     report = _report().model_copy(update={
         "verifier_routing": "return_to_l2",
         "diagnosis": _report().diagnosis.model_copy(update={"primary": None}),
-        "missing_dimensions": [
-            MissingDimension(field="symptom_duration_days", purpose="确认持续时间")
-        ],
     })
 
     with pytest.raises(ValueError, match="return_to_l2"):

@@ -125,7 +125,6 @@ def feed(monkeypatch, messages):
 
 
 def test_aliyun_interactive_configuration_reaches_all_adapters(monkeypatch, tmp_path):
-    from layers.layer3.llm.client import APICLINICRReasoner, APIRewardModelVerifier
     from shared.llm_client import get_api_key, get_base_url, get_model
 
     monkeypatch.delenv("DEEPSEEK_BASE_URL")
@@ -135,8 +134,6 @@ def test_aliyun_interactive_configuration_reaches_all_adapters(monkeypatch, tmp_
     assert get_base_url() == url
     assert get_model() == "deepseek-v3.2"
     assert get_api_key() == "aliyun-test-key"
-    assert APICLINICRReasoner().model == "deepseek-v3.2"
-    assert APIRewardModelVerifier().model == "deepseek-v3.2"
     pipeline = entry.create_pipeline()
     assert pipeline.l4.config.llm_base_url == url
     assert pipeline.l4.config.llm_model == "deepseek-v3.2"
@@ -234,42 +231,6 @@ def test_cancel_during_startup_is_clean(monkeypatch, capsys, error):
     monkeypatch.setattr("builtins.input", cancel)
     assert entry.main() == 0
     assert "已退出" in capsys.readouterr().out
-
-
-def test_main_reports_safe_clinicr_stage_without_arbitrary_error_text(monkeypatch, capsys):
-    from layers.layer3.llm import CLINICRModelUnavailable
-
-    unsafe_cause = ValueError("患者原话和sk-secret不得显示")
-    clinicr_error = CLINICRModelUnavailable(
-        "CLINICR Step 1 API不可用或输出不合法：JSONDecodeError"
-    )
-    clinicr_error.__cause__ = unsafe_cause
-    monkeypatch.setattr(entry, "configure_api", lambda: None)
-    monkeypatch.setattr(entry, "create_pipeline", lambda: object())
-    monkeypatch.setattr(entry, "run_session", lambda _: (_ for _ in ()).throw(clinicr_error))
-
-    assert entry.main() == 1
-    output = capsys.readouterr().out
-    assert '"stage": "L3.CLINICR.Step1"' in output
-    assert '"exception": "ValueError"' in output
-    assert "患者原话" not in output
-    assert "sk-secret" not in output
-
-
-def test_main_labels_clinicr_api_error_separately(monkeypatch, capsys):
-    from layers.layer3.llm import CLINICRAPIError
-
-    api_error = CLINICRAPIError("CLINICR Step 1 API错误：APIError")
-    api_error.__cause__ = RuntimeError("provider-secret")
-    monkeypatch.setattr(entry, "configure_api", lambda: None)
-    monkeypatch.setattr(entry, "create_pipeline", lambda: object())
-    monkeypatch.setattr(entry, "run_session", lambda _: (_ for _ in ()).throw(api_error))
-
-    assert entry.main() == 1
-    output = capsys.readouterr().out
-    assert '[开发调试] API_ERROR {"stage": "L3.CLINICR.Step1"' in output
-    assert "运行中止：CLINICRAPIError" in output
-    assert "provider-secret" not in output
 
 
 def test_unexpected_error_does_not_echo_request_or_credentials(monkeypatch, capsys):

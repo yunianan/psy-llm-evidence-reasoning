@@ -1,5 +1,4 @@
 import json
-from shared.disorder_catalog import disorder_metadata
 
 from layers.layer4.llm.base import Message
 from layers.layer4.schemas.instructions import (
@@ -34,11 +33,16 @@ def assemble_prompt(
     adjustment_text = "；".join(
         anchor.strategy_adjustments.get("instructions", [])
     ) or "无"
+    diagnosis_name = anchor.primary_label
+    verification = (
+        f"候选证据支持度：{anchor.candidate_confidence}\n"
+        f"复核判定：{anchor.verifier_decision}"
+    )
     system_parts = [_SYSTEM_INTRO]
     system_parts.append(f"【角色定义】(L1)\n{role.identity}\n风格：{role.style}\n边界：{'；'.join(role.boundaries)}")
     system_parts.append(
         "【诊断锚点】(L2)\n"
-        f"主诊断：{disorder_metadata(anchor.primary)['display_name']}（{anchor.primary}）\n"
+        f"主诊断：{diagnosis_name}（{anchor.diagnostic_standard} {anchor.primary}）\n"
         f"基础疗法：{anchor.therapy_type}\n"
         f"诊断与鉴别排除详情：{json.dumps(anchor.diagnosis_details, ensure_ascii=False)}\n"
         f"量表：{json.dumps(anchor.scale_scores, ensure_ascii=False)}\n"
@@ -53,9 +57,7 @@ def assemble_prompt(
         f"插件触发依据：{plugin_trigger_text}\n"
         f"治疗方案微调：{adjustment_text}\n"
         f"禁忌与转介：{'；'.join(anchor.contraindications) if anchor.contraindications else '无'}\n"
-        f"候选诊断支持度：{anchor.candidate_confidence}\n"
-        f"独立终验证据质量（CLINICR）：{anchor.verifier_score}\n"
-        f"终验判定：{anchor.verifier_decision}；反馈措辞：{anchor.wording_constraint}"
+        f"{verification}；反馈措辞：{anchor.wording_constraint}"
     )
     bans = "\n".join(f"- {b}" for b in boundary.absolute_bans) or "- 无"
     system_parts.append(

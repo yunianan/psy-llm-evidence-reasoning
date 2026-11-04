@@ -1,113 +1,581 @@
 {
-  "layer_id": "L3",
-  "timestamp": "2026-07-28T14:52:00Z",
-  "diagnosis": {
-    "primary": {
-      "disorder": "D013",
-      "confidence": 0.87,
-      "severity": "moderate",
-      "dsm5_criteria_met": [
-        "A1",
-        "A2",
-        "A3",
-        "A4",
-        "A5"
+  "diagnostic_standard": "WHO ICD-10",
+  "icd10_catalog_id": "WHO-ICD10-14-v2-dialogue",
+  "icd10_review": {
+    "tree_session_id": "789e830544df4813b5a5958c0d26166e",
+    "reviewer_id": "fixture-reviewer",
+    "primary_code": "F40.2",
+    "secondary_codes": [],
+    "rationale": "受控工程测试复核",
+    "severity_level": 2,
+    "therapy": {
+      "primary": "CBT",
+      "addon": [
+        "CBT-I"
       ],
-      "dsm5_criteria_detail": [
+      "plugin_triggers": [
         {
-          "code": "A1",
-          "name": "心境抑郁",
-          "status": "met",
-          "met": true,
-          "evidence_refs": [
-            "PHQ9_item2=3"
-          ]
-        },
-        {
-          "code": "A2",
-          "name": "兴趣减退",
-          "status": "met",
-          "met": true,
-          "evidence_refs": [
-            "PHQ9_item1=3"
-          ]
-        },
-        {
-          "code": "A3",
-          "name": "食欲/体重改变",
-          "status": "met",
-          "met": true,
-          "evidence_refs": [
-            "PHQ9_item5=2"
-          ]
-        },
-        {
-          "code": "A4",
-          "name": "睡眠障碍",
-          "status": "met",
-          "met": true,
-          "evidence_refs": [
-            "PHQ9_item3=3",
-            "patient_utterance_sleep"
-          ]
-        },
-        {
-          "code": "A5",
-          "name": "精神运动性改变",
-          "status": "met",
-          "met": true,
-          "evidence_refs": [
-            "PHQ9_item8=2"
+          "plugin": "CBT-I",
+          "priority": "high",
+          "conditions": [
+            "ISI=16≥15",
+            "chronic_months=4≥3",
+            "insomnia_chief_complaint=true"
           ]
         }
       ],
-      "name": "Major Depressive Disorder",
-      "label": "重性抑郁障碍",
-      "display_group": "depressive",
-      "display_group_label": "抑郁相关",
-      "display_name": "抑郁相关 · 重性抑郁障碍",
-      "knowledge_source": "MentalKG/DSM-5"
-    },
-    "secondary": [
-      {
-        "disorder": "Insomnia",
-        "confidence": 0.65,
-        "evidence": "ISI=14接近重度阈值，入睡困难+早醒",
-        "name": "Insomnia Disorder",
-        "label": "失眠障碍",
-        "display_group": "sleep",
-        "display_group_label": "睡眠相关",
-        "display_name": "睡眠相关 · 失眠障碍",
-        "knowledge_source": "knowledge/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia"
-      }
-    ],
-    "ruled_out": [
-      {
-        "disorder": "D009",
-        "reason": "MDQ=3<7阈值，无轻躁狂/躁狂发作史",
-        "evidence_ref": "MDQ筛查指南",
-        "name": "Bipolar II Disorder",
-        "label": "双相Ⅱ型障碍",
-        "display_group": "bipolar",
-        "display_group_label": "双相相关",
-        "display_name": "双相相关 · 双相Ⅱ型障碍",
-        "knowledge_source": "MentalKG/DSM-5"
+      "strategy_adjustments": {
+        "severity_band": "moderate",
+        "motivation_band": "intermediate",
+        "motivation_total": 10,
+        "technical_density": "standard",
+        "supportive_response": "standard",
+        "safety_monitoring": "standard",
+        "intervention_focus": [
+          "standard_cbt_seven_steps",
+          "activated_plugins"
+        ],
+        "challenge_interventions": "standard_timing",
+        "exposure_policy": "standard",
+        "care_priority": "psychotherapy",
+        "care_priorities": [
+          "psychotherapy"
+        ],
+        "instructions": [
+          "使用标准CBT七步流程并整合已激活插件"
+        ],
+        "suppressed_plugins": []
       },
-      {
-        "disorder": "D018",
-        "reason": "PCL-5 skipped per L1 safety flag",
-        "evidence_ref": "L1 SafetyPassport",
-        "name": "Posttraumatic Stress Disorder",
-        "label": "创伤后应激障碍",
-        "display_group": "stress",
-        "display_group_label": "创伤与应激相关",
-        "display_name": "创伤与应激相关 · 创伤后应激障碍",
-        "knowledge_source": "MentalKG/DSM-5"
-      }
-    ]
+      "contraindications": [
+        "避免深度创伤暴露（per L1敏感话题标记）",
+        "不推荐EMDR（无PTSD证据）"
+      ]
+    }
   },
-  "verifier_score": 0.87,
-  "candidate_confidence": 0.87,
+  "candidate_generation_method": "icd10_tree",
+  "layer_id": "L3",
+  "timestamp": "2026-11-04T14:40:34.225207+00:00",
+  "diagnosis": {
+    "primary": {
+      "name": "特定恐怖症",
+      "label": "特定恐怖症",
+      "display_group": "",
+      "display_group_label": "",
+      "display_name": "特定恐怖症",
+      "knowledge_source": "WHO ICD-10",
+      "disorder": "F40.2",
+      "confidence": 0.63,
+      "severity": "",
+      "evidence": "",
+      "criteria_evidence": [
+        {
+          "node_id": "specific.fear",
+          "answer": "yes",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 93,
+            "pdf_page": 107,
+            "section": "F40.2",
+            "clause": "A(1)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "是否显著害怕某特定对象或情境，且该对象不属于广场或社交恐怖情境？",
+          "original_clause": "marked fear of a specific object or situation not included in agoraphobia (F40.0) or social phobia (F40.1);",
+          "evidence": [
+            {
+              "message_id": "m2",
+              "quote": "我看到蜘蛛就很害怕。",
+              "source_role": "patient"
+            }
+          ],
+          "calculation": null,
+          "confidence": 0.81
+        },
+        {
+          "node_id": "specific.symptom_1",
+          "answer": "yes",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(1)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "自本障碍开始后，在同一恐惧情境中的同一次反应里，是否有心悸、心跳沉重或心率加快？",
+          "original_clause": "palpitations or pounding heart, or accelerated heart rate.",
+          "evidence": [
+            {
+              "message_id": "m1",
+              "quote": "我怕蜘蛛，近几个月也经常睡不好。",
+              "source_role": "patient"
+            }
+          ],
+          "calculation": null,
+          "confidence": 0.81
+        },
+        {
+          "node_id": "specific.symptom_2",
+          "answer": "yes",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(2)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "自本障碍开始后，在同一恐惧情境中的同一次反应里，是否有出汗？",
+          "original_clause": "sweating.",
+          "evidence": [
+            {
+              "message_id": "m1",
+              "quote": "我怕蜘蛛，近几个月也经常睡不好。",
+              "source_role": "patient"
+            }
+          ],
+          "calculation": null,
+          "confidence": 0.81
+        },
+        {
+          "node_id": "specific.symptom_3",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(3)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_4",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(4)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_5",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(5)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_6",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(6)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_7",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(7)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_8",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(8)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_9",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(9)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_10",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(10)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_11",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(11)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_12",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B(12)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_13",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 92,
+            "pdf_page": 106,
+            "section": "F40.0",
+            "clause": "B(13)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.symptom_14",
+          "answer": "unknown",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 92,
+            "pdf_page": 106,
+            "section": "F40.0",
+            "clause": "B(14)",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "",
+          "original_clause": "",
+          "evidence": [],
+          "calculation": null,
+          "confidence": null
+        },
+        {
+          "node_id": "specific.calculation_1",
+          "answer": "yes",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B cross-reference from F40.2 B",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "程序判断：本条所列独立条目是否至少2项为是？",
+          "original_clause": "At least two symptoms of anxiety in the feared situation must have been present together, on at least one occasion since the onset of the disorder, and one of the symptoms must have been from items (1) to (4) listed below:",
+          "evidence": [],
+          "calculation": {
+            "threshold": 2,
+            "yes": 2,
+            "no": 0,
+            "unknown": 12,
+            "inputs": [
+              {
+                "node_id": "specific.symptom_1",
+                "answer": "yes",
+                "confidence": 0.81
+              },
+              {
+                "node_id": "specific.symptom_2",
+                "answer": "yes",
+                "confidence": 0.81
+              },
+              {
+                "node_id": "specific.symptom_3",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_4",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_5",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_6",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_7",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_8",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_9",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_10",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_11",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_12",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_13",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_14",
+                "answer": "unknown",
+                "confidence": null
+              }
+            ]
+          },
+          "confidence": 0.81
+        },
+        {
+          "node_id": "specific.calculation_2",
+          "answer": "yes",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 91,
+            "pdf_page": 105,
+            "section": "F40.0",
+            "clause": "B cross-reference from F40.2 B",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "程序判断：本条所列独立条目是否至少1项为是？",
+          "original_clause": "At least two symptoms of anxiety in the feared situation must have been present together, on at least one occasion since the onset of the disorder, and one of the symptoms must have been from items (1) to (4) listed below:",
+          "evidence": [],
+          "calculation": {
+            "threshold": 1,
+            "yes": 2,
+            "no": 0,
+            "unknown": 2,
+            "inputs": [
+              {
+                "node_id": "specific.symptom_1",
+                "answer": "yes",
+                "confidence": 0.81
+              },
+              {
+                "node_id": "specific.symptom_2",
+                "answer": "yes",
+                "confidence": 0.81
+              },
+              {
+                "node_id": "specific.symptom_3",
+                "answer": "unknown",
+                "confidence": null
+              },
+              {
+                "node_id": "specific.symptom_4",
+                "answer": "unknown",
+                "confidence": null
+              }
+            ]
+          },
+          "confidence": 0.81
+        },
+        {
+          "node_id": "specific.distress",
+          "answer": "yes",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 93,
+            "pdf_page": 107,
+            "section": "F40.2",
+            "clause": "C part 1",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "症状或回避是否造成显著情绪痛苦？",
+          "original_clause": "Significant emotional distress is caused by the symptoms or by the avoidance",
+          "evidence": [
+            {
+              "message_id": "m3",
+              "quote": "我因此很痛苦，不敢进储物间。",
+              "source_role": "patient"
+            }
+          ],
+          "calculation": null,
+          "confidence": 0.63
+        },
+        {
+          "node_id": "specific.insight",
+          "answer": "yes",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 93,
+            "pdf_page": 107,
+            "section": "F40.2",
+            "clause": "C part 2",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "患者是否认识到这些恐惧或回避是过度或不合理的？",
+          "original_clause": "the individual recognizes that these are excessive or unreasonable.",
+          "evidence": [
+            {
+              "message_id": "m1",
+              "quote": "我怕蜘蛛，近几个月也经常睡不好。",
+              "source_role": "patient"
+            }
+          ],
+          "calculation": null,
+          "confidence": 0.81
+        },
+        {
+          "node_id": "specific.restricted",
+          "answer": "yes",
+          "source": {
+            "document_id": "WHO_DCR10_1993",
+            "printed_page": 94,
+            "pdf_page": 108,
+            "section": "F40.2",
+            "clause": "D",
+            "pdf": "sources/WHO_DCR10_1993.pdf",
+            "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+          },
+          "question": "症状是否局限于恐惧情境或对该情境的设想？",
+          "original_clause": "Symptoms are restricted to the feared situation or contemplation of the feared situation.",
+          "evidence": [
+            {
+              "message_id": "m1",
+              "quote": "我怕蜘蛛，近几个月也经常睡不好。",
+              "source_role": "patient"
+            }
+          ],
+          "calculation": null,
+          "confidence": 0.81
+        }
+      ]
+    },
+    "secondary": [],
+    "ruled_out": []
+  },
+  "verifier_score": null,
+  "verifier_decision": "clinician_confirmed",
+  "candidate_confidence": 0.63,
   "verifier_routing": "pass",
   "recommended_therapy": {
     "primary": "CBT",
@@ -152,85 +620,7 @@
       "不推荐EMDR（无PTSD证据）"
     ]
   },
-  "severity_level": 1,
-  "clinical_notes_for_L4": "患者核心认知模式推断为负性自动化思维（'我什么都做不好'）+回避行为（不愿出门、不愿社交）。L4治疗焦点：(1)行为激活——打破回避循环，重建日常活动节奏；(2)认知重构——识别和挑战负性自动化思维；(3)睡眠卫生+CBT-I技术（刺激控制+睡眠限制）。需温和监测自杀意念变化，若从被动转为主动，立即升级至L1安全协议。",
-  "summary": "初步印象为中度MDD（置信度0.87，Verifier=0.87），共病失眠障碍（置信度0.65）。排除双相II型（MDQ=3）和PTSD（PCL-5跳过+临床怀疑度低）。推荐CBT联合CBT-I。",
-  "structured_labels": {
-    "therapy_routing": {
-      "primary": "CBT",
-      "addon": [
-        "CBT-I"
-      ],
-      "plugin_triggers": [
-        {
-          "plugin": "CBT-I",
-          "priority": "high",
-          "conditions": [
-            "ISI=16≥15",
-            "chronic_months=4≥3",
-            "insomnia_chief_complaint=true"
-          ]
-        }
-      ],
-      "strategy_adjustments": {
-        "severity_band": "moderate",
-        "motivation_band": "intermediate",
-        "motivation_total": 10,
-        "technical_density": "standard",
-        "supportive_response": "standard",
-        "safety_monitoring": "standard",
-        "intervention_focus": [
-          "standard_cbt_seven_steps",
-          "activated_plugins"
-        ],
-        "challenge_interventions": "standard_timing",
-        "exposure_policy": "standard",
-        "care_priority": "psychotherapy",
-        "care_priorities": [
-          "psychotherapy"
-        ],
-        "instructions": [
-          "使用标准CBT七步流程并整合已激活插件"
-        ],
-        "suppressed_plugins": []
-      },
-      "l4_substage_priority": [
-        "behavioral_activation",
-        "cognitive_restructuring",
-        "sleep_hygiene"
-      ]
-    },
-    "wording_constraint": "使用'初步印象'措辞，禁止'确诊'",
-    "risk_monitoring": [
-      "passive_si_to_active_si_escalation"
-    ]
-  },
-  "evidence_refs": [
-    {
-      "type": "DSM-5",
-      "disorder": "D013",
-      "criteria_met": "A1-A5 (5/9 >= 5)",
-      "source_doc": "DSM-5_TR_zh_v1.0"
-    },
-    {
-      "type": "scale",
-      "disorder": "D013",
-      "source": "PHQ-9",
-      "threshold": ">=15中重度"
-    },
-    {
-      "type": "guideline",
-      "therapy": "CBT_for_MDD",
-      "source": "APA_2019; NICE_NG222"
-    }
-  ],
-  "confidence": 0.87,
-  "flags": [
-    "passive_si_monitor",
-    "trauma_sensitive",
-    "insomnia_comorbid"
-  ],
-  "instruction_to_next": "CBT对话应聚焦行为激活和认知重构，避免涉及创伤暴露练习。L4-L2需温和反馈诊断，征求患者确认。L4-L3按行为激活→认知重构→睡眠卫生顺序推进。",
+  "severity_level": 2,
   "l3_validation": {
     "passed": true,
     "route": "allow_l4",
@@ -243,22 +633,27 @@
       {
         "rule_id": "V3-CANDIDATE-CONFIDENCE",
         "status": "pass",
-        "detail": "候选诊断支持度=0.87，最低门槛=0.5"
+        "detail": "候选诊断支持度=0.63，最低门槛=0.5"
       },
       {
         "rule_id": "V3-PRIMARY-NOT-RULED-OUT",
         "status": "pass",
-        "detail": "主诊断=D013，排除诊断=['D009', 'D018']"
+        "detail": "主诊断=F40.2，排除诊断=[]"
+      },
+      {
+        "rule_id": "V3-ICD10-CLINICAL-REVIEW",
+        "status": "pass",
+        "detail": "复核必须对应当前已完成的 ICD-10 树及确认结论"
       },
       {
         "rule_id": "V3-CRITERIA-EVIDENCE",
         "status": "pass",
-        "detail": "缺少逐条证据的DSM条目=[]"
+        "detail": "与 ICD-10 路径、WHO 出处和原话证据一致"
       },
       {
         "rule_id": "V3-THERAPY-MATCH",
         "status": "pass",
-        "detail": "主诊断=D013，疗法=CBT，允许值=['CBT', 'CBT+BA']"
+        "detail": "ICD-10 编码和受支持的治疗计划须与复核一致"
       },
       {
         "rule_id": "V3-PLUGIN-ROUTING",
@@ -268,7 +663,7 @@
       {
         "rule_id": "V3-THERAPY-ADJUSTMENT",
         "status": "pass",
-        "detail": "Step 3必须输出严重程度分组和可供L4执行的微调指令"
+        "detail": "复核计划必须提供严重程度分组和可供 L4 执行的微调指令"
       },
       {
         "rule_id": "V3-CONTRAINDICATION-OVERRIDE",
@@ -276,10 +671,9 @@
         "detail": "暴露禁用=False，暴露插件=[]，成瘾优先=False"
       }
     ],
-    "payload_hash": "67765aa9aaf5a525da2bac86fba383c52fe2a2fca992910c9c589b88b58a1f36",
-    "policy_version": "L3_OUTPUT_V1"
+    "payload_hash": "d9834df25669531104ce5824a84a93d8975a39f15e1bb11527c6ec37fb7af857",
+    "policy_version": "L3_OUTPUT_ICD10_V1"
   },
-  "verifier_decision": "confirmed",
   "instructions": {
     "L1": {
       "identity": "你是一名受过 CBT 训练的心理治疗师",
@@ -295,14 +689,11 @@
       ]
     },
     "L2": {
-      "primary": "D013",
-      "comorbidities": [
-        "Insomnia"
-      ],
-      "excluded": [
-        "D009",
-        "D018"
-      ],
+      "diagnostic_standard": "WHO ICD-10",
+      "primary": "F40.2",
+      "primary_label": "特定恐怖症",
+      "comorbidities": [],
+      "excluded": [],
       "core_beliefs": [],
       "plugins": [
         "CBT-I"
@@ -344,119 +735,533 @@
         "避免深度创伤暴露（per L1敏感话题标记）",
         "不推荐EMDR（无PTSD证据）"
       ],
-      "confidence": 0.87,
-      "candidate_confidence": 0.87,
-      "verifier_score": 0.87,
+      "confidence": null,
+      "candidate_confidence": 0.63,
+      "verifier_score": null,
       "therapy_type": "CBT",
-      "verifier_decision": "confirmed",
+      "verifier_decision": "clinician_confirmed",
       "diagnosis_details": {
         "primary": {
-          "disorder": "D013",
-          "confidence": 0.87,
-          "severity": "moderate",
-          "dsm5_criteria_met": [
-            "A1",
-            "A2",
-            "A3",
-            "A4",
-            "A5"
-          ],
-          "dsm5_criteria_detail": [
+          "name": "特定恐怖症",
+          "label": "特定恐怖症",
+          "display_group": "",
+          "display_group_label": "",
+          "display_name": "特定恐怖症",
+          "knowledge_source": "WHO ICD-10",
+          "disorder": "F40.2",
+          "confidence": 0.63,
+          "severity": "",
+          "evidence": "",
+          "criteria_evidence": [
             {
-              "code": "A1",
-              "name": "心境抑郁",
-              "status": "met",
-              "met": true,
-              "evidence_refs": [
-                "PHQ9_item2=3"
-              ]
+              "node_id": "specific.fear",
+              "answer": "yes",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 93,
+                "pdf_page": 107,
+                "section": "F40.2",
+                "clause": "A(1)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "是否显著害怕某特定对象或情境，且该对象不属于广场或社交恐怖情境？",
+              "original_clause": "marked fear of a specific object or situation not included in agoraphobia (F40.0) or social phobia (F40.1);",
+              "evidence": [
+                {
+                  "message_id": "m2",
+                  "quote": "我看到蜘蛛就很害怕。",
+                  "source_role": "patient"
+                }
+              ],
+              "calculation": null,
+              "confidence": 0.81
             },
             {
-              "code": "A2",
-              "name": "兴趣减退",
-              "status": "met",
-              "met": true,
-              "evidence_refs": [
-                "PHQ9_item1=3"
-              ]
+              "node_id": "specific.symptom_1",
+              "answer": "yes",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(1)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "自本障碍开始后，在同一恐惧情境中的同一次反应里，是否有心悸、心跳沉重或心率加快？",
+              "original_clause": "palpitations or pounding heart, or accelerated heart rate.",
+              "evidence": [
+                {
+                  "message_id": "m1",
+                  "quote": "我怕蜘蛛，近几个月也经常睡不好。",
+                  "source_role": "patient"
+                }
+              ],
+              "calculation": null,
+              "confidence": 0.81
             },
             {
-              "code": "A3",
-              "name": "食欲/体重改变",
-              "status": "met",
-              "met": true,
-              "evidence_refs": [
-                "PHQ9_item5=2"
-              ]
+              "node_id": "specific.symptom_2",
+              "answer": "yes",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(2)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "自本障碍开始后，在同一恐惧情境中的同一次反应里，是否有出汗？",
+              "original_clause": "sweating.",
+              "evidence": [
+                {
+                  "message_id": "m1",
+                  "quote": "我怕蜘蛛，近几个月也经常睡不好。",
+                  "source_role": "patient"
+                }
+              ],
+              "calculation": null,
+              "confidence": 0.81
             },
             {
-              "code": "A4",
-              "name": "睡眠障碍",
-              "status": "met",
-              "met": true,
-              "evidence_refs": [
-                "PHQ9_item3=3",
-                "patient_utterance_sleep"
-              ]
+              "node_id": "specific.symptom_3",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(3)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
             },
             {
-              "code": "A5",
-              "name": "精神运动性改变",
-              "status": "met",
-              "met": true,
-              "evidence_refs": [
-                "PHQ9_item8=2"
-              ]
+              "node_id": "specific.symptom_4",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(4)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_5",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(5)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_6",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(6)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_7",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(7)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_8",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(8)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_9",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(9)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_10",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(10)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_11",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(11)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_12",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B(12)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_13",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 92,
+                "pdf_page": 106,
+                "section": "F40.0",
+                "clause": "B(13)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.symptom_14",
+              "answer": "unknown",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 92,
+                "pdf_page": 106,
+                "section": "F40.0",
+                "clause": "B(14)",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "",
+              "original_clause": "",
+              "evidence": [],
+              "calculation": null,
+              "confidence": null
+            },
+            {
+              "node_id": "specific.calculation_1",
+              "answer": "yes",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B cross-reference from F40.2 B",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "程序判断：本条所列独立条目是否至少2项为是？",
+              "original_clause": "At least two symptoms of anxiety in the feared situation must have been present together, on at least one occasion since the onset of the disorder, and one of the symptoms must have been from items (1) to (4) listed below:",
+              "evidence": [],
+              "calculation": {
+                "threshold": 2,
+                "yes": 2,
+                "no": 0,
+                "unknown": 12,
+                "inputs": [
+                  {
+                    "node_id": "specific.symptom_1",
+                    "answer": "yes",
+                    "confidence": 0.81
+                  },
+                  {
+                    "node_id": "specific.symptom_2",
+                    "answer": "yes",
+                    "confidence": 0.81
+                  },
+                  {
+                    "node_id": "specific.symptom_3",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_4",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_5",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_6",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_7",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_8",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_9",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_10",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_11",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_12",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_13",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_14",
+                    "answer": "unknown",
+                    "confidence": null
+                  }
+                ]
+              },
+              "confidence": 0.81
+            },
+            {
+              "node_id": "specific.calculation_2",
+              "answer": "yes",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 91,
+                "pdf_page": 105,
+                "section": "F40.0",
+                "clause": "B cross-reference from F40.2 B",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "程序判断：本条所列独立条目是否至少1项为是？",
+              "original_clause": "At least two symptoms of anxiety in the feared situation must have been present together, on at least one occasion since the onset of the disorder, and one of the symptoms must have been from items (1) to (4) listed below:",
+              "evidence": [],
+              "calculation": {
+                "threshold": 1,
+                "yes": 2,
+                "no": 0,
+                "unknown": 2,
+                "inputs": [
+                  {
+                    "node_id": "specific.symptom_1",
+                    "answer": "yes",
+                    "confidence": 0.81
+                  },
+                  {
+                    "node_id": "specific.symptom_2",
+                    "answer": "yes",
+                    "confidence": 0.81
+                  },
+                  {
+                    "node_id": "specific.symptom_3",
+                    "answer": "unknown",
+                    "confidence": null
+                  },
+                  {
+                    "node_id": "specific.symptom_4",
+                    "answer": "unknown",
+                    "confidence": null
+                  }
+                ]
+              },
+              "confidence": 0.81
+            },
+            {
+              "node_id": "specific.distress",
+              "answer": "yes",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 93,
+                "pdf_page": 107,
+                "section": "F40.2",
+                "clause": "C part 1",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "症状或回避是否造成显著情绪痛苦？",
+              "original_clause": "Significant emotional distress is caused by the symptoms or by the avoidance",
+              "evidence": [
+                {
+                  "message_id": "m3",
+                  "quote": "我因此很痛苦，不敢进储物间。",
+                  "source_role": "patient"
+                }
+              ],
+              "calculation": null,
+              "confidence": 0.63
+            },
+            {
+              "node_id": "specific.insight",
+              "answer": "yes",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 93,
+                "pdf_page": 107,
+                "section": "F40.2",
+                "clause": "C part 2",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "患者是否认识到这些恐惧或回避是过度或不合理的？",
+              "original_clause": "the individual recognizes that these are excessive or unreasonable.",
+              "evidence": [
+                {
+                  "message_id": "m1",
+                  "quote": "我怕蜘蛛，近几个月也经常睡不好。",
+                  "source_role": "patient"
+                }
+              ],
+              "calculation": null,
+              "confidence": 0.81
+            },
+            {
+              "node_id": "specific.restricted",
+              "answer": "yes",
+              "source": {
+                "document_id": "WHO_DCR10_1993",
+                "printed_page": 94,
+                "pdf_page": 108,
+                "section": "F40.2",
+                "clause": "D",
+                "pdf": "sources/WHO_DCR10_1993.pdf",
+                "text_status": "human_transcription_or_text_extraction; local_question_is_a_paraphrase"
+              },
+              "question": "症状是否局限于恐惧情境或对该情境的设想？",
+              "original_clause": "Symptoms are restricted to the feared situation or contemplation of the feared situation.",
+              "evidence": [
+                {
+                  "message_id": "m1",
+                  "quote": "我怕蜘蛛，近几个月也经常睡不好。",
+                  "source_role": "patient"
+                }
+              ],
+              "calculation": null,
+              "confidence": 0.81
             }
-          ],
-          "name": "Major Depressive Disorder",
-          "label": "重性抑郁障碍",
-          "display_group": "depressive",
-          "display_group_label": "抑郁相关",
-          "display_name": "抑郁相关 · 重性抑郁障碍",
-          "knowledge_source": "MentalKG/DSM-5"
+          ]
         },
-        "secondary": [
-          {
-            "disorder": "Insomnia",
-            "confidence": 0.65,
-            "evidence": "ISI=14接近重度阈值，入睡困难+早醒",
-            "name": "Insomnia Disorder",
-            "label": "失眠障碍",
-            "display_group": "sleep",
-            "display_group_label": "睡眠相关",
-            "display_name": "睡眠相关 · 失眠障碍",
-            "knowledge_source": "knowledge/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia"
-          }
-        ],
-        "ruled_out": [
-          {
-            "disorder": "D009",
-            "reason": "MDQ=3<7阈值，无轻躁狂/躁狂发作史",
-            "evidence_ref": "MDQ筛查指南",
-            "name": "Bipolar II Disorder",
-            "label": "双相Ⅱ型障碍",
-            "display_group": "bipolar",
-            "display_group_label": "双相相关",
-            "display_name": "双相相关 · 双相Ⅱ型障碍",
-            "knowledge_source": "MentalKG/DSM-5"
-          },
-          {
-            "disorder": "D018",
-            "reason": "PCL-5 skipped per L1 safety flag",
-            "evidence_ref": "L1 SafetyPassport",
-            "name": "Posttraumatic Stress Disorder",
-            "label": "创伤后应激障碍",
-            "display_group": "stress",
-            "display_group_label": "创伤与应激相关",
-            "display_name": "创伤与应激相关 · 创伤后应激障碍",
-            "knowledge_source": "MentalKG/DSM-5"
-          }
-        ]
+        "secondary": [],
+        "ruled_out": []
       },
       "scale_scores": {},
       "cognitive_patterns": [],
       "triggering_situations": [],
+      "key_narratives": [],
       "patient_goals": [],
       "allowed_techniques": {
         "reflection": "开放式提问与共情反映",
@@ -487,304 +1292,5 @@
       ],
       "safety_trigger": "表达主动自伤、自杀或伤人意图时立即停止普通治疗并触发 L1 安全协议；不得自行解除 L1 限制"
     }
-  },
-  "diagnostic_standard": "DSM-5",
-  "supported_disorders": [
-    "D001",
-    "D002",
-    "D003",
-    "D004",
-    "D005",
-    "D006",
-    "D007",
-    "D008",
-    "D009",
-    "D010",
-    "D011",
-    "D012",
-    "D013",
-    "D014",
-    "D015",
-    "D016",
-    "D017",
-    "D018",
-    "D019",
-    "D020",
-    "D021",
-    "D022",
-    "D023",
-    "Insomnia"
-  ],
-  "diagnostic_catalog": [
-    {
-      "group": "attention",
-      "label": "注意缺陷与多动相关",
-      "disorders": [
-        {
-          "disorder": "D001",
-          "name": "Attention-Deficit/Hyperactivity Disorder (Combined Presentation)",
-          "label": "注意缺陷/多动障碍（混合表现）",
-          "display_group": "attention",
-          "display_group_label": "注意缺陷与多动相关",
-          "display_name": "注意缺陷与多动相关 · 注意缺陷/多动障碍（混合表现）",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D002",
-          "name": "Attention-Deficit/Hyperactivity Disorder (Predominantly Inattentive Presentation)",
-          "label": "注意缺陷/多动障碍（注意缺陷为主）",
-          "display_group": "attention",
-          "display_group_label": "注意缺陷与多动相关",
-          "display_name": "注意缺陷与多动相关 · 注意缺陷/多动障碍（注意缺陷为主）",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D003",
-          "name": "Attention-Deficit/Hyperactivity Disorder (Predominantly Hyperactive/Impulsive Presentation)",
-          "label": "注意缺陷/多动障碍（多动冲动为主）",
-          "display_group": "attention",
-          "display_group_label": "注意缺陷与多动相关",
-          "display_name": "注意缺陷与多动相关 · 注意缺陷/多动障碍（多动冲动为主）",
-          "knowledge_source": "MentalKG/DSM-5"
-        }
-      ]
-    },
-    {
-      "group": "psychotic",
-      "label": "精神病性及相关障碍",
-      "disorders": [
-        {
-          "disorder": "D004",
-          "name": "Delusional Disorder",
-          "label": "妄想障碍",
-          "display_group": "psychotic",
-          "display_group_label": "精神病性及相关障碍",
-          "display_name": "精神病性及相关障碍 · 妄想障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D005",
-          "name": "Schizophrenia",
-          "label": "精神分裂症",
-          "display_group": "psychotic",
-          "display_group_label": "精神病性及相关障碍",
-          "display_name": "精神病性及相关障碍 · 精神分裂症",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D006",
-          "name": "Schizoaffective Disorder (Bipolar Type)",
-          "label": "分裂情感性障碍（双相型）",
-          "display_group": "psychotic",
-          "display_group_label": "精神病性及相关障碍",
-          "display_name": "精神病性及相关障碍 · 分裂情感性障碍（双相型）",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D007",
-          "name": "Schizoaffective Disorder (Depressive Type)",
-          "label": "分裂情感性障碍（抑郁型）",
-          "display_group": "psychotic",
-          "display_group_label": "精神病性及相关障碍",
-          "display_name": "精神病性及相关障碍 · 分裂情感性障碍（抑郁型）",
-          "knowledge_source": "MentalKG/DSM-5"
-        }
-      ]
-    },
-    {
-      "group": "bipolar",
-      "label": "双相相关",
-      "disorders": [
-        {
-          "disorder": "D008",
-          "name": "Bipolar I Disorder",
-          "label": "双相Ⅰ型障碍",
-          "display_group": "bipolar",
-          "display_group_label": "双相相关",
-          "display_name": "双相相关 · 双相Ⅰ型障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D009",
-          "name": "Bipolar II Disorder",
-          "label": "双相Ⅱ型障碍",
-          "display_group": "bipolar",
-          "display_group_label": "双相相关",
-          "display_name": "双相相关 · 双相Ⅱ型障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D010",
-          "name": "Bipolar I Disorder with Psychotic Features",
-          "label": "双相Ⅰ型障碍伴精神病性特征",
-          "display_group": "bipolar",
-          "display_group_label": "双相相关",
-          "display_name": "双相相关 · 双相Ⅰ型障碍伴精神病性特征",
-          "knowledge_source": "MentalKG/DSM-5"
-        }
-      ]
-    },
-    {
-      "group": "anxiety",
-      "label": "焦虑相关",
-      "disorders": [
-        {
-          "disorder": "D011",
-          "name": "Generalized Anxiety Disorder",
-          "label": "广泛性焦虑障碍",
-          "display_group": "anxiety",
-          "display_group_label": "焦虑相关",
-          "display_name": "焦虑相关 · 广泛性焦虑障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D012",
-          "name": "Specific Phobia",
-          "label": "特定恐怖症",
-          "display_group": "anxiety",
-          "display_group_label": "焦虑相关",
-          "display_name": "焦虑相关 · 特定恐怖症",
-          "knowledge_source": "MentalKG/DSM-5"
-        }
-      ]
-    },
-    {
-      "group": "sleep",
-      "label": "睡眠相关",
-      "disorders": [
-        {
-          "disorder": "Insomnia",
-          "name": "Insomnia Disorder",
-          "label": "失眠障碍",
-          "display_group": "sleep",
-          "display_group_label": "睡眠相关",
-          "display_name": "睡眠相关 · 失眠障碍",
-          "knowledge_source": "knowledge/dsm5_supplement/EN/diagnostic_criteria.json#/Insomnia"
-        }
-      ]
-    },
-    {
-      "group": "depressive",
-      "label": "抑郁相关",
-      "disorders": [
-        {
-          "disorder": "D013",
-          "name": "Major Depressive Disorder",
-          "label": "重性抑郁障碍",
-          "display_group": "depressive",
-          "display_group_label": "抑郁相关",
-          "display_name": "抑郁相关 · 重性抑郁障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D014",
-          "name": "Persistent Depressive Disorder",
-          "label": "持续性抑郁障碍",
-          "display_group": "depressive",
-          "display_group_label": "抑郁相关",
-          "display_name": "抑郁相关 · 持续性抑郁障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D015",
-          "name": "Major Depressive Disorder with Psychotic Features",
-          "label": "重性抑郁障碍伴精神病性特征",
-          "display_group": "depressive",
-          "display_group_label": "抑郁相关",
-          "display_name": "抑郁相关 · 重性抑郁障碍伴精神病性特征",
-          "knowledge_source": "MentalKG/DSM-5"
-        }
-      ]
-    },
-    {
-      "group": "obsessive",
-      "label": "强迫及相关障碍",
-      "disorders": [
-        {
-          "disorder": "D016",
-          "name": "Obsessive-Compulsive Disorder",
-          "label": "强迫症",
-          "display_group": "obsessive",
-          "display_group_label": "强迫及相关障碍",
-          "display_name": "强迫及相关障碍 · 强迫症",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D017",
-          "name": "Body Dysmorphic Disorder",
-          "label": "躯体变形障碍",
-          "display_group": "obsessive",
-          "display_group_label": "强迫及相关障碍",
-          "display_name": "强迫及相关障碍 · 躯体变形障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        }
-      ]
-    },
-    {
-      "group": "stress",
-      "label": "创伤与应激相关",
-      "disorders": [
-        {
-          "disorder": "D018",
-          "name": "Posttraumatic Stress Disorder",
-          "label": "创伤后应激障碍",
-          "display_group": "stress",
-          "display_group_label": "创伤与应激相关",
-          "display_name": "创伤与应激相关 · 创伤后应激障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D019",
-          "name": "Acute Stress Disorder",
-          "label": "急性应激障碍",
-          "display_group": "stress",
-          "display_group_label": "创伤与应激相关",
-          "display_name": "创伤与应激相关 · 急性应激障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D020",
-          "name": "Adjustment Disorder",
-          "label": "适应障碍",
-          "display_group": "stress",
-          "display_group_label": "创伤与应激相关",
-          "display_name": "创伤与应激相关 · 适应障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        }
-      ]
-    },
-    {
-      "group": "eating",
-      "label": "进食相关",
-      "disorders": [
-        {
-          "disorder": "D021",
-          "name": "Anorexia Nervosa",
-          "label": "神经性厌食",
-          "display_group": "eating",
-          "display_group_label": "进食相关",
-          "display_name": "进食相关 · 神经性厌食",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D022",
-          "name": "Bulimia Nervosa",
-          "label": "神经性贪食",
-          "display_group": "eating",
-          "display_group_label": "进食相关",
-          "display_name": "进食相关 · 神经性贪食",
-          "knowledge_source": "MentalKG/DSM-5"
-        },
-        {
-          "disorder": "D023",
-          "name": "Binge-Eating Disorder",
-          "label": "暴食障碍",
-          "display_group": "eating",
-          "display_group_label": "进食相关",
-          "display_name": "进食相关 · 暴食障碍",
-          "knowledge_source": "MentalKG/DSM-5"
-        }
-      ]
-    }
-  ]
+  }
 }

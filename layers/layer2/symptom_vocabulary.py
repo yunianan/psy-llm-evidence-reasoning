@@ -1,0 +1,106 @@
+"""Patient-reported terms derived from the local WHO ICD-10 entry catalog.
+
+The keys are local profile identifiers. The source column refers to nodes in
+icd10_tree/catalog.py, or to the WHO CDDG clause shown explicitly.
+Labels describe observations; ICD-10 thresholds are evaluated in L3.
+"""
+
+ICD10_SYMPTOM_TERMS = {
+    # Mood, sleep and safety
+    "depressed_mood": ("情绪低落", "depression.core_1"),
+    "anhedonia": ("兴趣或愉悦感下降", "depression.core_2"),
+    "fatigue": ("精力下降或容易疲劳", "depression.core_3"),
+    "worthlessness": ("自信或自尊下降、感到无能", "depression.additional_1"),
+    "self_blame_or_guilt": ("自责或内疚", "depression.additional_2"),
+    "passive_si": ("觉得活着没意思或希望自己不再醒来", "depression.additional_3"),
+    "suicidal_thoughts_or_behavior": ("明确提及自杀想法或行为", "depression.additional_3"),
+    "concentration_difficulty": ("难以集中或维持注意、思考困难或犹豫不决", "depression.additional_4"),
+    "psychomotor_change": ("动作明显变慢或精神运动性激越", "depression.additional_5"),
+    "insomnia": ("入睡困难、难以维持睡眠或睡后不能恢复", "insomnia.complaint"),
+    "other_sleep_disturbance": ("其他睡眠紊乱，如睡眠过多", "depression.additional_6"),
+    "appetite_or_weight_change": ("食欲或体重变化", "depression.additional_7"),
+    "elevated_mood": ("情绪明显高涨或异常兴奋", "WHO_CDDG_1992 F30.1 PDF p.127"),
+    "frequent_crying": ("经常哭泣", "dysthymia.s5"),
+    "hopelessness": ("无望或绝望感", "dysthymia.s7"),
+    "difficulty_coping": ("感到难以应付日常责任", "dysthymia.s8"),
+    "pessimism_or_rumination": ("对未来悲观或反复想过去的事", "dysthymia.s9"),
+    "social_withdrawal": ("社交退缩", "dysthymia.s10"),
+    "reduced_speech": ("言语减少", "dysthymia.s11"),
+
+    # Worry, panic and fear. Shared physical symptoms use one profile key.
+    "anxiety": ("紧张、担忧或不祥预感", "entry.gad"),
+    "panic_episode": ("一次明确的强烈恐惧或不适", "panic.episode"),
+    "palpitations": ("心悸、心跳沉重或心跳加快", "gad.symptom_1"),
+    "sweating": ("出汗", "gad.symptom_2"),
+    "trembling": ("发抖或颤动", "gad.symptom_3"),
+    "dry_mouth": ("口干", "gad.symptom_4"),
+    "breathing_difficulty": ("呼吸困难", "gad.symptom_5"),
+    "choking_sensation": ("窒息感", "gad.symptom_6"),
+    "chest_discomfort": ("胸痛或胸部不适", "gad.symptom_7"),
+    "nausea_or_abdominal_discomfort": ("恶心或腹部不适", "gad.symptom_8"),
+    "dizziness_or_faintness": ("头晕、站立不稳或晕厥感", "gad.symptom_9"),
+    "derealization_or_depersonalization": ("周围变得不真实或与自身分离的感觉", "gad.symptom_10"),
+    "fear_of_losing_control": ("害怕失控、发疯或昏倒", "gad.symptom_11"),
+    "fear_of_dying": ("发作时害怕死亡", "gad.symptom_12"),
+    "hot_flushes_or_chills": ("潮热或寒战", "gad.symptom_13"),
+    "numbness_or_tingling": ("麻木或刺痛感", "gad.symptom_14"),
+    "muscle_tension": ("肌肉紧张、酸痛", "gad.symptom_15"),
+    "restlessness": ("坐立不安或难以放松", "gad.symptom_16"),
+    "swallowing_difficulty": ("喉头堵塞感或吞咽困难", "gad.symptom_18"),
+    "exaggerated_startle": ("容易受惊或惊跳反应过强", "gad.symptom_19"),
+    "irritability": ("易激惹或容易发怒", "gad.symptom_21"),
+    "social_fear": ("害怕成为注意焦点或在社交场合尴尬受辱", "social.fear"),
+    "social_avoidance": ("因害怕尴尬受辱或被关注而回避社交", "social.avoid"),
+    "blushing": ("害怕的社交情境中脸红", "social.specific_1"),
+    "fear_of_vomiting": ("社交情境中害怕呕吐", "social.specific_2"),
+    "urgency_or_fear_of_incontinence": ("社交情境中尿便急迫或害怕大小便失控", "social.specific_3"),
+    "specific_fear": ("害怕某种具体对象或情境", "specific.fear"),
+    "specific_avoidance": ("因害怕而回避某种具体对象或情境", "specific.avoid"),
+
+    # Stress-related experiences, compulsions and psychotic experiences
+    "trauma_related": ("闪回、反复梦见或在相关情境中重新体验创伤", "ptsd.reliving"),
+    "trauma_avoidance": ("回避与创伤有关的人、地点或情境", "ptsd.avoidance"),
+    "trauma_amnesia": ("记不起创伤暴露期间的部分重要内容", "ptsd.amnesia"),
+    "hypervigilance": ("警觉过度", "ptsd.arousal_4"),
+    "stress_related_distress": ("患者描述生活应激后出现的情绪或行为困扰", "adjustment.symptoms"),
+    "obsession_compulsion": ("反复且令人不快的想法、冲动或行为", "ocd.repetitive"),
+    "hallucination": ("听到、看到或感到他人未感知的事物", "depression.psychosis"),
+    "unusual_fixed_belief": ("患者原话明确描述的难以动摇的异常信念", "delusional.delusion"),
+
+    # Attention, activity and impulsivity
+    "careless_errors": ("漏看细节或因粗心犯错", "hyperkinetic.inattention_1"),
+    "not_listening": ("似乎没听进去别人讲话", "hyperkinetic.inattention_3"),
+    "difficulty_following_through": ("难以按指令做完任务", "hyperkinetic.inattention_4"),
+    "difficulty_organizing": ("难以组织任务或活动", "hyperkinetic.inattention_5"),
+    "avoids_sustained_mental_effort": ("回避需要持续用脑的任务", "hyperkinetic.inattention_6"),
+    "losing_things": ("丢失任务或活动所需物品", "hyperkinetic.inattention_7"),
+    "distractibility": ("容易被外界刺激分心", "hyperkinetic.inattention_8"),
+    "forgetfulness": ("日常健忘", "hyperkinetic.inattention_9"),
+    "fidgeting": ("手脚不停或坐着扭动", "hyperkinetic.hyperactivity_1"),
+    "leaving_seat": ("在需要坐着的情境离座", "hyperkinetic.hyperactivity_2"),
+    "excessive_running_or_climbing": ("在不适当场合过度跑爬", "hyperkinetic.hyperactivity_3"),
+    "difficulty_playing_quietly": ("难以安静游戏或休闲", "hyperkinetic.hyperactivity_4"),
+    "excessive_motor_activity": ("活动量过多且难以随情境调整", "hyperkinetic.hyperactivity_5"),
+    "blurting_answers": ("问题没问完就抢答", "hyperkinetic.impulsivity_1"),
+    "difficulty_waiting_turn": ("难以等待或排队", "hyperkinetic.impulsivity_2"),
+    "interrupting_or_intruding": ("打断或侵扰别人", "hyperkinetic.impulsivity_3"),
+    "excessive_talking": ("说话过多，难以按情境收住", "hyperkinetic.impulsivity_4"),
+
+    # Alcohol-related manifestations and directly reported patterns
+    "alcohol_craving": ("强烈饮酒欲望", "alcohol.dependence_1"),
+    "impaired_alcohol_control": ("难以控制饮酒的开始、结束或饮量", "alcohol.dependence_2"),
+    "drinking_to_relieve_withdrawal": ("为缓解减停饮酒后的不适而饮酒", "alcohol.dependence_3"),
+    "alcohol_tolerance": ("需要比过去更多的酒才有相同效果", "alcohol.dependence_4"),
+    "alcohol_preoccupation": ("饮酒占据生活，挤占其他活动或兴趣", "alcohol.dependence_5"),
+    "alcohol_use_despite_harm": ("知道饮酒已造成损害仍继续饮酒", "alcohol.dependence_6"),
+    "disinhibited_behavior": ("酒后行为失去平时的克制", "alcohol.intox_beh_1"),
+    "aggressive_behavior": ("酒后有攻击行为", "alcohol.intox_beh_3"),
+    "mood_instability": ("酒后心境不稳定", "alcohol.intox_beh_4"),
+    "unsteady_gait": ("走路不稳", "alcohol.intox_sign_1"),
+    "slurred_speech": ("说话含糊", "alcohol.intox_sign_3"),
+    "headache": ("头痛", "alcohol.withdrawal_6"),
+    "difficulty_learning_new_information": ("难以记住新接触的信息", "alcohol.amnesic_recent"),
+    "difficulty_recalling_past": ("难以回忆既往经历", "alcohol.amnesic_past"),
+}
+
+ICD10_SYMPTOM_LABELS = {key: label for key, (label, _) in ICD10_SYMPTOM_TERMS.items()}

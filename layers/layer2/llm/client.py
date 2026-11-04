@@ -3,14 +3,13 @@ from __future__ import annotations
 import json
 import logging
 import os
-import re
 from typing import Any, Protocol
 
 from pydantic import ValidationError
 
-from shared.llm_client import ask_llm, ask_llm_stream, get_base_url, get_model
+from shared.llm_client import ask_llm, ask_llm_stream, get_base_url, get_model, parse_json_object
 
-from shared.disorder_catalog import symptom_catalog
+from layers.layer2.symptom_vocabulary import ICD10_SYMPTOM_LABELS
 
 from layers.layer2.schemas import SemanticAnalysis, StageDecision
 from .mi_response_prompt import build_mi_response_prompt, validate_mi_response_output
@@ -62,17 +61,6 @@ class L2Model(Protocol):
         ...
 
 
-def _parse_json_object(raw: str) -> dict[str, Any]:
-    text = raw.strip()
-    fenced = re.fullmatch(r"```(?:json)?\s*(.*?)\s*```", text, re.DOTALL | re.IGNORECASE)
-    if fenced:
-        text = fenced.group(1).strip()
-    value = json.loads(text)
-    if not isinstance(value, dict):
-        raise ValueError("模型输出必须是 JSON 对象")
-    return value
-
-
 class APIL2Model:
     """生产 L2 模型边界：每轮一次语义分析、一次 MI 回复生成。"""
 
@@ -85,11 +73,9 @@ class APIL2Model:
 
 input_type 只能是：free_narrative, focus_selection, scale_consent, scale_answer,
 goal_statement, motivation_rating, profile_confirmation, correction, refusal, pause, off_topic。
-症状 value 只能使用：depressed_mood, anhedonia, appetite_or_weight_change,
-insomnia, fatigue, psychomotor_change, worthlessness, concentration_difficulty,
-anxiety, trauma_related, obsession_compulsion, elevated_mood, passive_si。
-还允许使用以下 MentalKG 原始症状ID作为 value：{json.dumps(symptom_catalog(), ensure_ascii=False)}。
-已有通用标签能够准确表达时保留通用标签；新增症状使用原始ID。
+症状 value 只能使用以下基于 WHO ICD-10 条目的本地词表键：{json.dumps(ICD10_SYMPTOM_LABELS, ensure_ascii=False)}。
+词表只用于记录患者实际报告的表现。对同一表现选择最贴切的一项，避免把近义描述重复计入。病程、情境和严重程度按原话记录，不要求达到诊断阈值。
+如果没有合适的症状键，将有原话支持的内容记入 key_narratives；不要硬套标签。
 attributes 可记录患者明确提供的症状频率、病程、起病时间和情境，必须有原话支持，不推断诊断。
 病程保留患者原文字符串，包括约数、模糊说法、相对时间和反复模式；不自行把月份估算为天数。
 symptom_duration_days是旧兼容字段名，其value可填写病程原文，程序会按共享区间策略解析。
@@ -143,7 +129,7 @@ scale_results.<量表名>。replace 表示先撤销旧值，再由本轮其他�
 
         try:
             stage = "L2.analyze.json_parse"
-            value = _parse_json_object(raw)
+            value = parse_json_object(raw)
             stage = "L2.analyze.schema_validation"
             return SemanticAnalysis.model_validate(value)
         except Exception as exc:
@@ -170,7 +156,7 @@ scale_results.<量表名>。replace 表示先撤销旧值，再由本轮其他�
 
         try:
             stage = "L2.analyze.repair_json_parse"
-            repaired_value = _parse_json_object(repaired)
+            repaired_value = parse_json_object(repaired)
             stage = "L2.analyze.repair_schema_validation"
             return SemanticAnalysis.model_validate(repaired_value)
         except Exception as exc:
@@ -221,7 +207,7 @@ JSON Schema：{output_schema}
             raw = ask_llm(prompt, **options)
             stage = "L2.generate.json_parse"
             parse_success = False
-            value = _parse_json_object(raw)
+            value = parse_json_object(raw)
             parse_success = True
             stage = "L2.generate.schema_validation"
             reply = validate_mi_response_output(value, decision, context)

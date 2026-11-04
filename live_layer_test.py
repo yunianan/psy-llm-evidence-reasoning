@@ -1,8 +1,8 @@
-"""逐层调用真实 LLM 的独立手工测试入口。1
+"""逐层调用真实 LLM 的独立手工测试入口。
 
 
 在 VS Code 中右击本文件，选择“在终端中运行 Python 文件”；也可以运行：
-    python live_layer_test.py l3
+    python live_layer_test.py l2
 
 本文件只为目标层提供固定的虚构上游输入，不串行执行前置层。
 """
@@ -10,7 +10,6 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
@@ -94,7 +93,6 @@ def _show_safe_exception_chain(error: BaseException) -> None:
     seen: set[int] = set()
     level = 0
     safe_messages = {
-        "CLINICRModelUnavailable",
         "L2ModelUnavailable",
         "L2ModelOutputInvalid",
         "L3ToL4ValidationError",
@@ -291,284 +289,11 @@ def test_l2() -> None:
     print("L2 测试由用户中止，未到达 L2→L3 出口。")
 
 
-def _fictional_l3_profile() -> dict[str, Any]:
-    """虚构且证据标识完整的 L2→L3 输入，不经过 L1/L2。"""
-    return {
-        "PHQ9": 17,
-        "PHQ9_items": {
-            "item1": 3,
-            "item2": 3,
-            "item3": 2,
-            "item4": 3,
-            "item5": 2,
-            "item6": 2,
-            "item7": 1,
-            "item8": 1,
-            "item9": 0,
-        },
-        "GAD7": 6,
-        "MDQ": 2,
-        "PCL5": 8,
-        "ISI": 12,
-        "Y_BOCS": 2,
-        "symptom_duration_days": 45,
-        "functional_impairment": True,
-        "mania_or_hypomania_history": False,
-        "substance_or_medical_cause": False,
-        "psychotic_symptoms": False,
-        "differential_diagnoses_assessed": ["D009", "D020"],
-        "evidence_conflicts": [],
-        "key_symptoms_extracted": [
-            {
-                "symptom": "depressed_mood",
-                "sources": ["PHQ9_item2=3", "ev-mood"],
-                "patient_quotes": ["这一个多月几乎每天都很低落"],
-                "attributes": {"duration_days": 45},
-            },
-            {
-                "symptom": "anhedonia",
-                "sources": ["PHQ9_item1=3", "ev-interest"],
-                "patient_quotes": ["以前喜欢的篮球现在完全不想碰"],
-                "attributes": {},
-            },
-            {
-                "symptom": "fatigue",
-                "sources": ["PHQ9_item4=3", "ev-fatigue"],
-                "patient_quotes": ["每天都觉得没力气"],
-                "attributes": {},
-            },
-            {
-                "symptom": "insomnia",
-                "sources": ["PHQ9_item3=2", "ISI=12", "ev-sleep"],
-                "patient_quotes": ["晚上经常要一个多小时才能睡着"],
-                "attributes": {},
-            },
-            {
-                "symptom": "worthlessness",
-                "sources": ["PHQ9_item6=2", "ev-worth"],
-                "patient_quotes": ["我总觉得自己什么都做不好"],
-                "attributes": {},
-            },
-        ],
-        "emotions": [
-            {
-                "value": "低落和无助",
-                "sources": ["ev-mood"],
-                "patient_quotes": ["这一个多月几乎每天都很低落"],
-            }
-        ],
-        "cognitive_patterns": [
-            {
-                "value": "我什么都做不好",
-                "sources": ["ev-worth"],
-                "patient_quotes": ["我总觉得自己什么都做不好"],
-            }
-        ],
-        "key_narratives": [
-            {
-                "value": "症状持续约45天",
-                "sources": ["ev-duration"],
-                "patient_quotes": ["这一个多月"],
-            }
-        ],
-        "functional_impairments": [
-            {
-                "value": "工作效率显著下降",
-                "sources": ["ev-function"],
-                "patient_quotes": ["工作任务经常拖到最后也做不完"],
-            }
-        ],
-        "patient_goals": ["恢复精力并改善工作状态"],
-        "motivation": {
-            "importance": 8,
-            "confidence": 6,
-            "readiness": 7,
-            "sources": ["ev-goal"],
-        },
-        "evidence_nodes": [
-            {
-                "evidence_id": evidence_id,
-                "source_type": "patient_message",
-                "message_id": "fictional-message-1",
-                "turn_index": 1,
-                "quote": quote,
-                "target_path": target,
-                "created_by": "llm_candidate_rule_verified",
-                "parent_ids": [],
-            }
-            for evidence_id, quote, target in (
-                ("ev-mood", "这一个多月几乎每天都很低落", "symptoms.depressed_mood"),
-                ("ev-interest", "以前喜欢的篮球现在完全不想碰", "symptoms.anhedonia"),
-                ("ev-fatigue", "每天都觉得没力气", "symptoms.fatigue"),
-                ("ev-sleep", "晚上经常要一个多小时才能睡着", "symptoms.insomnia"),
-                ("ev-worth", "我总觉得自己什么都做不好", "symptoms.worthlessness"),
-                ("ev-duration", "这一个多月", "diagnostic_context.symptom_duration_days"),
-                ("ev-function", "工作任务经常拖到最后也做不完", "diagnostic_context.functional_impairment"),
-                ("ev-mania", "我从来没有连续几天异常兴奋或少睡也不累", "diagnostic_context.mania_or_hypomania_history"),
-                ("ev-substance", "这些变化不是在饮酒或用药后出现的", "diagnostic_context.substance_or_medical_cause"),
-                ("ev-psychotic", "没有听到别人听不到的声音，也没有感觉被监视", "diagnostic_context.psychotic_symptoms"),
-                ("ev-goal", "我希望恢复精力并改善工作状态", "patient_goals"),
-            )
-        ],
-    }
-
-
-def test_l3() -> None:
-    """只运行完整 L3：CLINICR、疗法选择和会话级指令编码。"""
-    from layers.layer3.api import build_input_contract_report, diagnose
-
-    profile = _fictional_l3_profile()
-    blocked = build_input_contract_report(profile)
-    if blocked is not None:
-        missing = blocked.get("missing_dimensions", [])
-        fields = ", ".join(item["field"] for item in missing)
-        raise RuntimeError(f"L3 固定画像未通过输入契约：{fields}")
-    print("\n[L3 固定虚构患者画像]\n" + _json(profile))
-    started = time.perf_counter()
-    report = _run_timed(
-        "L3 完整诊断",
-        lambda: diagnose(
-            profile,
-            {
-                "risk_level": 0,
-                "sensitive_topics": [],
-                "flags": [],
-                "l1_flags": [],
-            },
-        ),
-    )
-    elapsed = time.perf_counter() - started
-    print("\n[L3 出口：DiagnosticReport 已生成]\n" + _json(report))
-    print(f"\n[L3 运行摘要] 耗时约 {elapsed:.2f}s；路由：{report.get('verifier_routing', 'unknown')}")
-
-
 def _fictional_report():
-    """构造通过 L3→L4 接口守卫的虚构报告，不调用 L3。"""
     from layers.layer4.schemas.l3_report import DiagnosticReport
-    from shared.report_integrity import REQUIRED_L3_CHECKS, l3_report_fingerprint
-    from shared.schemas.treatment_instructions import TreatmentInstructions
 
-    instructions = TreatmentInstructions.model_validate(
-        {
-            "L1": {
-                "identity": "你是一名受过 CBT 训练的心理治疗师",
-                "style": "温暖、共情、协作、结构化",
-                "boundaries": ["开药", "确诊", "诊断新疾病", "预测未来"],
-            },
-            "L2": {
-                "primary": "D013",
-                "comorbidities": [],
-                "excluded": ["D009", "D018"],
-                "core_beliefs": ["我什么都做不好"],
-                "plugins": [],
-                "plugin_triggers": [],
-                "strategy_adjustments": {
-                    "severity_band": "moderate",
-                    "motivation_band": "intermediate",
-                    "technical_density": "standard",
-                    "supportive_response": "standard",
-                    "safety_monitoring": "standard",
-                    "intervention_focus": ["standard_cbt_seven_steps"],
-                    "challenge_interventions": "standard_timing",
-                    "exposure_policy": "standard",
-                    "care_priority": "psychotherapy",
-                    "care_priorities": ["psychotherapy"],
-                    "instructions": ["使用标准 CBT 七步流程"],
-                    "suppressed_plugins": [],
-                },
-                "contraindications": [],
-                "confidence": 0.86,
-                "candidate_confidence": 0.78,
-                "verifier_score": 0.86,
-                "therapy_type": "CBT+BA",
-                "verifier_decision": "confirmed",
-                "diagnosis_details": {"primary": {"disorder": "D013"}},
-                "scale_scores": {"PHQ-9": 17},
-                "cognitive_patterns": [],
-                "triggering_situations": [],
-                "key_narratives": [],
-                "patient_goals": ["恢复精力并改善工作状态"],
-                "allowed_techniques": {
-                    "reflection": "开放式提问与共情反映",
-                    "feedback": "温和反馈与共同确认",
-                    "behavioral_activation": "行为激活",
-                },
-                "wording_constraint": "使用初步印象措辞，禁止确诊",
-            },
-            "L3": None,
-            "L4": {
-                "absolute_bans": ["开药", "确诊", "诊断新疾病", "预测未来"],
-                "safety_trigger": "出现自杀意图或计划时立即转交 L1 安全协议",
-            },
-        }
-    )
-    report = DiagnosticReport.model_validate(
-        {
-            "layer_id": "L3",
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "diagnosis": {
-                "primary": {
-                    "disorder": "D013",
-                    "confidence": 0.78,
-                    "severity": "moderate_severe",
-                    "evidence": "虚构量表与叙述证据",
-                    "dsm5_criteria_met": ["A1", "A2", "A4", "A6", "A7"],
-                    "dsm5_criteria_detail": [
-                        {
-                            "code": code,
-                            "name": name,
-                            "status": "met",
-                            "met": True,
-                            "evidence_refs": refs,
-                        }
-                        for code, name, refs in (
-                            ("A1", "情绪低落", ["PHQ9_item2=3"]),
-                            ("A2", "兴趣减退", ["PHQ9_item1=3"]),
-                            ("A4", "睡眠障碍", ["PHQ9_item3=2"]),
-                            ("A6", "疲劳", ["PHQ9_item4=3"]),
-                            ("A7", "无价值感", ["PHQ9_item6=2"]),
-                        )
-                    ],
-                },
-                "secondary": [],
-                "under_observation": [],
-                "ruled_out": [
-                    {"disorder": "D009", "reason": "无躁狂或轻躁狂史", "evidence_ref": "MDQ=2"},
-                    {"disorder": "D018", "reason": "无核心创伤症候群", "evidence_ref": "PCL5=8"},
-                ],
-            },
-            "verifier_score": 0.86,
-            "verifier_decision": "confirmed",
-            "candidate_confidence": 0.78,
-            "verifier_routing": "pass",
-            "recommended_therapy": {
-                "primary": "CBT+BA",
-                "addon": [],
-                "plugin_triggers": [],
-                "strategy_adjustments": instructions.L2.strategy_adjustments,
-                "contraindications": [],
-            },
-            "severity_level": 2,
-            "summary": "虚构测试病例：MDD 初步印象，建议 CBT 联合行为激活。",
-            "evidence_refs": [],
-            "confidence": 0.86,
-            "flags": [],
-            "instruction_to_next": "由 L4 按本轮动态指令生成回复。",
-            "instructions": instructions.model_dump(mode="json"),
-            "l3_validation": {
-                "passed": True,
-                "route": "allow_l4",
-                "checks": [
-                    {"rule_id": rule, "status": "pass", "detail": "独立测试固定凭证"}
-                    for rule in sorted(REQUIRED_L3_CHECKS)
-                ],
-                "payload_hash": "pending",
-                "policy_version": "L3_OUTPUT_V1",
-            },
-        }
-    )
-    report.l3_validation.payload_hash = l3_report_fingerprint(report)
-    return report
+    path = Path(__file__).resolve().parent / "examples" / "sample_diagnostic_report.json"
+    return DiagnosticReport.model_validate_json(path.read_text(encoding="utf-8"))
 
 
 def _first_turn(instructions, session_id: str, user_message: str):
@@ -673,7 +398,6 @@ def test_l5() -> None:
 TESTS: dict[str, tuple[str, Callable[[], None]]] = {
     "1": ("L1 安全层", test_l1),
     "2": ("L2 评估层", test_l2),
-    "3": ("L3 诊断层", test_l3),
     "4": ("L4 治疗层", test_l4),
     "5": ("L5 审核层", test_l5),
 }
@@ -693,7 +417,7 @@ def _execute(choice: str) -> bool:
     if choice in {"0", "exit", "quit", "q"}:
         return False
     if choice not in TESTS:
-        print("无效选择，请输入 1–5。")
+        print("无效选择，请输入 1、2、4 或 5。")
         return True
     name, test = TESTS[choice]
     print(f"\n=== {name}：独立真实 LLM 测试 ===")
@@ -712,7 +436,7 @@ def main() -> int:
     parser.add_argument(
         "layer",
         nargs="?",
-        choices=["l1", "l2", "l3", "l4", "l5"],
+        choices=["l1", "l2", "l4", "l5"],
         help="直接运行指定层；省略时显示交互菜单",
     )
     args = parser.parse_args()

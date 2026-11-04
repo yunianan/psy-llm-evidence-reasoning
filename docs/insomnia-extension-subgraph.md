@@ -1,5 +1,7 @@
 # MentalKG 的失眠扩展子图
 
+> 历史记录。文中的旧 L3 诊断及实验入口已退役。当前会话使用 [ICD-10 诊断与临床复核](../README.md#icd-10-人工复核与-l4-放行)。
+
 子图位于工作区 `external/MentalBench/resources/dsm5_supplement/extension_graph.json`。
 它从同目录 `EN/` 下现有 JSON 构建，以原 MentalKG 的 D011、D013 为外部挂接点。
 原图谱文件与失眠标准文件均保持原样。

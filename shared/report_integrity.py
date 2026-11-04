@@ -3,6 +3,9 @@ import json
 from typing import Any
 
 
+ICD10_STANDARD = "WHO ICD-10"
+ICD10_OUTPUT_POLICY = "L3_OUTPUT_ICD10_V1"
+
 REQUIRED_L3_CHECKS = {
     "V3-CANDIDATE-CONFIDENCE",
     "V3-PRIMARY-NOT-RULED-OUT",
@@ -12,6 +15,7 @@ REQUIRED_L3_CHECKS = {
     "V3-THERAPY-ADJUSTMENT",
     "V3-CONTRAINDICATION-OVERRIDE",
     "V3-TREATMENT-INSTRUCTIONS",
+    "V3-ICD10-CLINICAL-REVIEW",
 }
 
 
@@ -49,6 +53,11 @@ def l3_report_fingerprint(report: Any) -> str:
         "verifier_routing": source.get("verifier_routing", ""),
         "recommended_therapy": source.get("recommended_therapy"),
         "instructions": source.get("instructions"),
+        "diagnostic_standard": source.get("diagnostic_standard"),
+        "icd10_catalog_id": source.get("icd10_catalog_id"),
+        "icd10_review": source.get("icd10_review"),
+        "severity_level": source.get("severity_level"),
+        "verifier_decision": source.get("verifier_decision"),
     }
     encoded = json.dumps(
         _compact(payload), ensure_ascii=False, sort_keys=True, separators=(",", ":")

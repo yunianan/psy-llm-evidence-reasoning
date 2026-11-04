@@ -24,7 +24,7 @@ def test_model_failure_stops_session_including_confirmation(monkeypatch, tmp_pat
         raise client.L2ModelUnavailable("sensitive-error-text")
 
     monkeypatch.setattr(pipeline.l2.model, phase, unavailable)
-    monkeypatch.setattr(pipeline, "l3_diagnose", lambda *a, **kw: pytest.fail("不可进入 L3"))
+    monkeypatch.setattr(pipeline, "icd10_tree_factory", lambda *a, **kw: pytest.fail("不可进入 L3"))
     before = pipeline.l2.get_session_snapshot(sid) if confirming else None
     result = pipeline.handle_message(sid, "信息准确，可以继续。" if confirming else "最近很低落。")
     assert result.route == "STOPPED"
@@ -205,6 +205,9 @@ def test_semantic_prompt_uses_live_schema_and_explicitly_defines_three_failed_fi
         separators=(",", ":"),
     )
     assert compact_schema in prompt
+    assert "WHO ICD-10" in prompt
+    assert '"careless_errors": "漏看细节或因粗心犯错"' in prompt
+    assert "MentalKG" not in prompt and '"S001"' not in prompt
     assert '["PHQ-9", "ISI"]' in prompt
     assert '"field":"functional_impairment"' in prompt
     assert '["需要确认睡眠情况", "需要确认食欲变化"]' in prompt

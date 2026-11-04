@@ -195,7 +195,7 @@ def test_plugin_guidance_sent_only_for_activated_plugin(service):
     assert turn.plugin_guidance in service.backend.calls[-1][1].content
 
 
-@pytest.mark.parametrize("field,value", [("primary", "D018"), ("candidate_confidence", .01), ("verifier_score", .01), ("plugins", ["EMDR"])])
+@pytest.mark.parametrize("field,value", [("primary", "F41.1"), ("candidate_confidence", .01), ("verifier_score", .01), ("plugins", ["EMDR"])])
 def test_l3_static_validation_detects_inconsistent_anchor(raw, field, value):
     raw["instructions"]["L2"][field] = value
     receipt = L3OutputValidator().validate(raw)
@@ -255,24 +255,28 @@ def test_action_text_cannot_override_boundaries(service, goal):
 
 
 def test_top_pipeline_replans_each_round_without_rediagnosis(monkeypatch, tmp_path):
-    from tests.test_top_level_orchestrator import _safe_passport, _orchestrator, _complete_l2
-    monkeypatch.setattr("orchestration.orchestrator.safety_detect", _safe_passport)
-    pipeline = _orchestrator(tmp_path)
-    pipeline.create_session("pipeline")
-    _complete_l2(pipeline, "pipeline")
-    pipeline.confirm_patient_profile("pipeline", "continue")
+    from tests.test_icd10_orchestrator import PENDING, review_for, start_session
+
+    pipeline, sid, _ = start_session(monkeypatch, tmp_path)
+    pipeline.confirm_patient_profile(sid, "continue")
+    for _, text in PENDING.values():
+        pipeline.handle_message(sid, text)
+    tree = pipeline.get_session_snapshot(sid).l3_raw["model_result"]
+    pipeline.submit_icd10_review(sid, review_for(tree["session_id"]))
+
     def unexpected_diagnosis(*args, **kwargs):
-        raise AssertionError("治疗每轮不应重跑 CLINICR")
-    pipeline.l3_diagnose = unexpected_diagnosis
-    assert "小行动" in pipeline.handle_message("pipeline", "我很在意工作").reply
-    assert "小行动" in pipeline.handle_message("pipeline", "今天的邮件让我想起上次失败").reply
+        raise AssertionError("治疗每轮不应重新运行诊断树")
+
+    pipeline.icd10_tree_factory = unexpected_diagnosis
+    assert "小行动" in pipeline.handle_message(sid, "我很在意工作").reply
+    assert "小行动" in pipeline.handle_message(sid, "今天的邮件让我想起上次失败").reply
     calls = pipeline.instruction_planner.model.calls
     assert len(calls) == 2
     assert calls[1]["progress"][0]["user_message"] == "我很在意工作"
-    sd = pipeline.l4.store.get("pipeline")
+    sd = pipeline.l4.store.get(sid)
     assert len(sd.l3_history) == 2
     assert sd.l3_history[0].goal != sd.l3_history[1].goal
-    crisis = pipeline.handle_message("pipeline", "立即危机")
+    crisis = pipeline.handle_message(sid, "立即危机")
     assert crisis.terminal
     assert len(calls) == 2
 

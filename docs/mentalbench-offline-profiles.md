@@ -1,5 +1,9 @@
 # MentalBench 离线适配至 L2→L3 格式
 
+> 历史记录。文中的旧 L3 诊断及实验入口已退役。当前会话使用 [ICD-10 诊断与临床复核](../README.md#icd-10-人工复核与-l4-放行)。
+
+2026-11-04：项目内的 MentalBench 离线评测工具已退役。以下保留为历史协议与数据说明。
+
 此工具将本地 MentalBench 英文病例正文转换为现有 `ClinicalIntake` 和 L2→L3 `profile` 格式，供第三层实验准备输入，不经过患者对话。原始 MentalBench 和 MentalKG 文件只读。
 
 2026-10-15 已完成一次完整导出：24,750 条，转换失败 0 条。Type 1 为 1,725 条、Type 2 为 3,450 条、Type 3 为 6,525 条、Type 4 为 13,050 条；三个生成模型各 8,250 条。输出统计见导出目录的 `conversion_report.json`。

@@ -228,7 +228,7 @@ def build_mi_response_prompt(decision: StageDecision, context: dict[str, Any]) -
 3. 患者刚提到睡眠、低落或焦虑时，先了解具体体验、持续时间、触发情境和功能影响，不立即邀请做量表。
 4. 不机械复述整句话；反映可以概括情绪、意义、矛盾或影响，但不得添加患者没有表达的事实。
 5. 每轮最多提出一个主要问题，通常回复 2—4 句。患者拒绝交流时确认其自主选择并降低压力。
-6. 禁止诊断、DSM 判断、疗法选择、药物建议、病因结论、未经证实的观察或系统无法履行的承诺。
+6. 禁止诊断、判定是否符合诊断标准、疗法选择、药物建议、病因结论、未经证实的观察或系统无法履行的承诺。
 7. 只能使用 context.patient_message 和 context.validated_facts 中的事实。
 8. 必须执行 context.active_safety_controls。avoid_trauma_probing 表示不得追问创伤细节；skip_scale:* 表示不得提议或询问对应量表；monitor_suicidal_ideation 只允许温和监测，不得覆盖 L1 的安全决定。
 9. 如果 required_question 非空，必须在 reply 中原样包含它，不得改写题意、时间范围和选项。

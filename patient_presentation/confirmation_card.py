@@ -1,22 +1,9 @@
 """生成患者可见、已脱敏的画像确认卡。"""
 
 from layers.layer2.schemas import ClinicalIntake
+from layers.layer2.symptom_vocabulary import ICD10_SYMPTOM_LABELS
 from orchestration.schemas import PatientConfirmation
 
-
-SYMPTOM_LABELS = {
-    "depressed_mood": "情绪低落",
-    "anhedonia": "兴趣下降",
-    "insomnia": "睡眠困难",
-    "fatigue": "精力不足",
-    "worthlessness": "自我否定或自责",
-    "concentration_difficulty": "注意力困难",
-    "anxiety": "焦虑和担忧",
-    "trauma_related": "创伤相关困扰",
-    "obsession_compulsion": "反复想法或行为",
-    "elevated_mood": "情绪或精力异常升高",
-    "passive_si": "消极求生想法",
-}
 
 THRESHOLD_LABELS = {
     "minimal": "很轻",
@@ -36,7 +23,7 @@ def build_patient_confirmation(
     intake: ClinicalIntake,
 ) -> PatientConfirmation:
     symptoms = [
-        SYMPTOM_LABELS.get(item.symptom, "一项已描述的困扰")
+        ICD10_SYMPTOM_LABELS.get(item.symptom, "一项已描述的困扰")
         for item in intake.key_symptoms_extracted
     ]
     profile_summary: list[str] = []
