@@ -4,7 +4,7 @@
 
 各层当前 Schema、字段类型、必填项、默认值和约束见 [L1–L5 Schema 参考](docs/layer-schema-reference.md)。该文档从实际代码生成，Schema 改动后必须同步生成，并由自动化测试检查一致性。
 
-`main.py` 的诊断阶段使用 [WHO ICD-10 十四入口决策树](icd10_tree/catalog.py)。
+`main.py` 的诊断阶段使用 [WHO ICD-10 十三入口决策树](icd10_tree/catalog.py)。
 编排器将 L2 确认后的完整画像与患者原话交给 ICD-10 树，候选携带编码、证据支持度、原文出处和患者证据，进入人工复核。L2 使用基于 WHO ICD-10 本地条目的症状词表整理患者原话，症状标签用于画像，诊断判据由 L3 单独核对。树引擎随仓库提供，出处记录保留参考扫描件的页码和校验值。WHO 出版物见 [1993 年研究诊断标准](https://www.who.int/publications/i/item/9241544554) 和 [1992 年临床描述与诊断指南](https://www.who.int/publications-detail-redirect/9241544228)。
 
 旧流程的候选处理与终验规则见 [CLINICR 内部诊断流程](docs/clinicr-reuse-notes.md)。

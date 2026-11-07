@@ -36,8 +36,8 @@ class ScriptedJudge:
                 "evidence": [{"message_id": match["message_id"], "quote": match["text"]}]}
 
 
-def start_session(monkeypatch, tmp_path):
-    judge = ScriptedJudge()
+def start_session(monkeypatch, tmp_path, judge=None):
+    judge = judge or ScriptedJudge()
     monkeypatch.setattr(icd10_followup, "APIJudge", lambda **config: judge)
     monkeypatch.setattr("orchestration.orchestrator.safety_detect", _safe_passport)
     orch = _orchestrator(tmp_path)
@@ -56,8 +56,9 @@ def test_icd10_followups_reuse_original_message_ids_and_route_candidate_to_revie
     orch, sid, judge = start_session(monkeypatch, tmp_path)
     first = orch.confirm_patient_profile(sid, "continue")
     assert first.route == "RETURN_TO_L2" and first.reply == PENDING["specific.fear"][0]
-    assert len(judge.calls[:14]) == len(set(judge.calls[:14])) == 14
-    assert all(key.startswith("entry.") for key in judge.calls[:14])
+    screens = [key for key in judge.calls if key.startswith("entry.")]
+    assert len(screens) == len(set(screens)) == 13
+    assert judge.calls[:len(screens)] == screens and "entry.alcohol" not in screens
     intake = judge.profiles[0]
     assert intake["patient_confirmation"] == "confirmed"
     assert intake["information_sufficiency"] == "sufficient"
@@ -160,6 +161,41 @@ def test_icd10_review_issues_validated_report_and_opens_l4(monkeypatch, tmp_path
     assert not L3ToL4Gate().validate(DiagnosticReport.model_validate(tampered))["passed"]
     receipt = L3OutputValidator().validate(tampered, icd10_result=raw_result)
     assert any(c["rule_id"] == "V3-CRITERIA-EVIDENCE" and c["status"] == "fail" for c in receipt["checks"])
+
+
+def test_panic_episode_evidence_survives_follow_up_and_review(monkeypatch, tmp_path):
+    attack = "周一突然心悸、出汗、呼吸困难和胸痛，几分钟达到高峰。"
+    duration = "周一那次持续了十分钟。"
+
+    def judge(node, messages, *, clinical_profile):
+        key = node["id"]
+        if key == "panic.episode_groups":
+            refs = [{"message_id": m["message_id"], "quote": m["text"]}
+                    for m in messages if m["text"] in {attack, duration}]
+            return {"episodes": [{"evidence": refs}] if refs else [], "complete": False}
+        texts = {m["text"] for m in messages}
+        if key == "panic.peak" and duration not in texts:
+            return {"answer": "unknown", "rationale": "fixture", "follow_up": "周一那次持续了多久？",
+                    "evidence": [], "confidence": None}
+        positive = not key.startswith("entry.") or key == "entry.panic"
+        if key.startswith("panic.symptom_"):
+            positive = int(key.rsplit("_", 1)[1]) in {1, 2, 5, 7}
+            assert attack in texts and texts <= {attack, duration}
+        return {"answer": "yes" if positive else "no", "rationale": "fixture", "follow_up": "",
+                "confidence": .81, "evidence": [{"message_id": messages[0]["message_id"],
+                                                  "quote": messages[0]["text"]}]}
+
+    orch, sid, _ = start_session(monkeypatch, tmp_path, judge)
+    assert orch.confirm_patient_profile(sid, "continue").route == "RETURN_TO_L2"
+    assert orch.handle_message(sid, attack).reply == "周一那次持续了多久？"
+    assert orch.handle_message(sid, duration).route == "MANUAL_REVIEW"
+    result = orch.get_session_snapshot(sid).l3_raw["model_result"]
+    review = review_for(result["session_id"], primary_code="F41.0")
+    assert orch.submit_icd10_review(sid, review).route == "L4"
+    report = orch.get_session_snapshot(sid).diagnostic_report
+    criteria = {node.node_id: node for node in report.diagnosis.primary.criteria_evidence}
+    assert criteria["panic.same_episode"].calculation["matched_episode_id"] == 1
+    assert criteria["panic.symptom_1"].source["clause"] == "B(4)(a)"
 
 
 def test_icd10_release_rejects_low_support_and_unusable_review_plan(monkeypatch, tmp_path):

@@ -26,6 +26,8 @@ class APIJudge:
         choice=raw['choices'][0]
         if choice.get('finish_reason')!='stop': raise ValueError('Incomplete model response')
         judgment=json.loads(choice['message']['content'])
+        if node.get('assessment_kind') == 'episode_grouping':
+            return judgment  # Session checks the partition and its verbatim evidence.
         if not isinstance(judgment,dict) or 'confidence' not in judgment or (
             judgment.get('answer') in {'yes','no'} and judgment['confidence'] is None
         ):
@@ -39,6 +41,11 @@ class ManualJudge:
         print('\n'+node['id']+' '+node['question'])
         print('ICD-10: '+node['original_clause'])
         print('source: '+json.dumps(node['source'],ensure_ascii=False))
+        if node.get('assessment_kind') == 'episode_grouping' or 'episode_id' in node:
+            for message in messages:
+                print(message['message_id']+': '+message['text'])
+        if node.get('assessment_kind') == 'episode_grouping':
+            return json.loads(input('按发作分组 JSON（episodes: [{evidence: [{message_id, quote}]}], complete: true/false）: '))
         answer=input('判断 yes / no / unknown: ').strip()
         evidence=[]
         if answer in {'yes','no'}:

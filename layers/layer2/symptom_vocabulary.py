@@ -1,7 +1,7 @@
 """Patient-reported terms derived from the local WHO ICD-10 entry catalog.
 
 The keys are local profile identifiers. The source column refers to nodes in
-icd10_tree/catalog.py, or to the WHO CDDG clause shown explicitly.
+icd10_tree/catalog.py, or directly to a WHO ICD-10 source clause.
 Labels describe observations; ICD-10 thresholds are evaluated in L3.
 """
 
@@ -87,20 +87,20 @@ ICD10_SYMPTOM_TERMS = {
     "excessive_talking": ("说话过多，难以按情境收住", "hyperkinetic.impulsivity_4"),
 
     # Alcohol-related manifestations and directly reported patterns
-    "alcohol_craving": ("强烈饮酒欲望", "alcohol.dependence_1"),
-    "impaired_alcohol_control": ("难以控制饮酒的开始、结束或饮量", "alcohol.dependence_2"),
-    "drinking_to_relieve_withdrawal": ("为缓解减停饮酒后的不适而饮酒", "alcohol.dependence_3"),
-    "alcohol_tolerance": ("需要比过去更多的酒才有相同效果", "alcohol.dependence_4"),
-    "alcohol_preoccupation": ("饮酒占据生活，挤占其他活动或兴趣", "alcohol.dependence_5"),
-    "alcohol_use_despite_harm": ("知道饮酒已造成损害仍继续饮酒", "alcohol.dependence_6"),
-    "disinhibited_behavior": ("酒后行为失去平时的克制", "alcohol.intox_beh_1"),
-    "aggressive_behavior": ("酒后有攻击行为", "alcohol.intox_beh_3"),
-    "mood_instability": ("酒后心境不稳定", "alcohol.intox_beh_4"),
-    "unsteady_gait": ("走路不稳", "alcohol.intox_sign_1"),
-    "slurred_speech": ("说话含糊", "alcohol.intox_sign_3"),
-    "headache": ("头痛", "alcohol.withdrawal_6"),
-    "difficulty_learning_new_information": ("难以记住新接触的信息", "alcohol.amnesic_recent"),
-    "difficulty_recalling_past": ("难以回忆既往经历", "alcohol.amnesic_past"),
+    "alcohol_craving": ("强烈饮酒欲望", "WHO_DCR10_1993 F1x.2 A(1) PDF p.71"),
+    "impaired_alcohol_control": ("难以控制饮酒的开始、结束或饮量", "WHO_DCR10_1993 F1x.2 A(2) PDF p.71"),
+    "drinking_to_relieve_withdrawal": ("为缓解减停饮酒后的不适而饮酒", "WHO_DCR10_1993 F1x.2 A(3) PDF p.71"),
+    "alcohol_tolerance": ("需要比过去更多的酒才有相同效果", "WHO_DCR10_1993 F1x.2 A(4) PDF p.71"),
+    "alcohol_preoccupation": ("饮酒占据生活，挤占其他活动或兴趣", "WHO_DCR10_1993 F1x.2 A(5) PDF p.71"),
+    "alcohol_use_despite_harm": ("知道饮酒已造成损害仍继续饮酒", "WHO_DCR10_1993 F1x.2 A(6) PDF p.71"),
+    "disinhibited_behavior": ("酒后行为失去平时的克制", "WHO_DCR10_1993 F10.0 B(1) PDF p.63"),
+    "aggressive_behavior": ("酒后有攻击行为", "WHO_DCR10_1993 F10.0 B(3) PDF p.63"),
+    "mood_instability": ("酒后心境不稳定", "WHO_DCR10_1993 F10.0 B(4) PDF p.64"),
+    "unsteady_gait": ("走路不稳", "WHO_DCR10_1993 F10.0 C(1) PDF p.64"),
+    "slurred_speech": ("说话含糊", "WHO_DCR10_1993 F10.0 C(3) PDF p.64"),
+    "headache": ("头痛", "WHO_DCR10_1993 F10.3 B(6) PDF p.73"),
+    "difficulty_learning_new_information": ("难以记住新接触的信息", "WHO_DCR10_1993 F1x.6 A(1) PDF p.76"),
+    "difficulty_recalling_past": ("难以回忆既往经历", "WHO_DCR10_1993 F1x.6 A(2) PDF p.76"),
 }
 
 ICD10_SYMPTOM_LABELS = {key: label for key, (label, _) in ICD10_SYMPTOM_TERMS.items()}

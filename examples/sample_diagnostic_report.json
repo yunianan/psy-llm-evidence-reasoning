@@ -1,6 +1,6 @@
 {
   "diagnostic_standard": "WHO ICD-10",
-  "icd10_catalog_id": "WHO-ICD10-14-v2-dialogue",
+  "icd10_catalog_id": "WHO-ICD10-13-v5",
   "icd10_review": {
     "tree_session_id": "789e830544df4813b5a5958c0d26166e",
     "reviewer_id": "fixture-reviewer",
@@ -671,7 +671,7 @@
         "detail": "暴露禁用=False，暴露插件=[]，成瘾优先=False"
       }
     ],
-    "payload_hash": "d9834df25669531104ce5824a84a93d8975a39f15e1bb11527c6ec37fb7af857",
+    "payload_hash": "905b322d71463c00612793f875fc1366eff83997172554072cd1b1b9cbb9b848",
     "policy_version": "L3_OUTPUT_ICD10_V1"
   },
   "instructions": {

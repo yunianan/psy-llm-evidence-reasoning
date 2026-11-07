@@ -29,7 +29,10 @@ class ICD10FollowUpSession:
 
     @staticmethod
     def _task_id(pending):
-        return f"icd10:{pending['node_id']}"
+        task_id = f"icd10:{pending['node_id']}"
+        if "episode_id" in pending:
+            task_id += f":episode:{pending['episode_id']}"
+        return task_id
 
     def _route_question(self, result):
         if result["status"] != "awaiting_patient":
@@ -96,7 +99,7 @@ class ICD10FollowUpSession:
 
         self.intake = self.l2.build_clinical_intake(self.session_id).model_dump(mode="json")
         result = self.session.answer(patient_text, self._judge_with_profile, message_id=message_id)
-        if self.session.state["decisions"][pending["node_id"]]["answer"] != "unknown":
+        if result["status"] != "unresolved":
             state = self.l2.get_session_snapshot(self.session_id)
             task = next(t for t in state.follow_up_tasks if t.task_id == task_id
                         and evidence.evidence_id in t.answer_evidence_refs)

@@ -38,6 +38,7 @@ class Author:
         return self.node(tree+'.'+key, question, page, section, clause, original, clinical=True)
 
 
+
 ANXIETY = [
  ('心悸、心跳沉重或心率加快', 'palpitations or pounding heart, or accelerated heart rate'),
  ('出汗', 'sweating'), ('发抖或颤动', 'trembling or shaking'),
@@ -76,6 +77,8 @@ def build_catalog():
     a.entry('panic','惊恐障碍','是否有反复突然的强烈恐惧或不适发作，值得进一步核对？',94,'F41.0 A',
         'The individual experiences recurrent panic attacks that are not consistently associated with a specific situation or object and that often occur spontaneously (i.e. the episodes are unpredictable).')
     p=anxiety_items(a,'panic',94,'F41.0','在同一次所评估的惊恐发作中')
+    for item, letter in zip(p, 'abcdefghijklmn'):
+        a.nodes[item['ref']]['source']['clause'] = f'B(4)({letter})'
     # The items on the second page share the same criterion, with exact pages.
     for i in range(5,15): a.nodes[f'panic.symptom_{i}']['source'].update(printed_page=95,pdf_page=109)
     pa=a.node('panic.recurrent','发作是否反复出现、并非总与特定情境或物体相关且常自发发生？',94,'F41.0','A sentence 1',
@@ -88,7 +91,16 @@ def build_catalog():
         ('peak','是否在几分钟内达到高峰，且至少持续数分钟？','it reaches a maximum within a few minutes and lasts at least some minutes;')],1)]
     pc=a.exclude('panic','cause','根据患者陈述及现有资料，是否发作不是身体疾病、器质性精神障碍或其他精神障碍导致的？',95,'F41.0','C',
         'Panic attacks are not due to a physical disorder, organic mental disorder (F00-F09), or other mental disorders such as schizophrenia and related disorders (F20-F29), mood [affective] disorders (F30-F39), or somatoform disorders (F45.-).')
-    a.target('panic','F41.0','惊恐障碍',ALL(pa,pb,*pf,K(4,p),K(1,p[:4]),pc),note='未指定可选的第五位中度/重度编码；症状计数必须来自同一次发作。')
+    group = a.node('panic.episode_groups','按原话区分各次发作，逐次记录可明确归属的引文。',94,'F41.0',
+        'B lead-in (local evidence grouping)', 'A panic attack is characterized by all of the following:')
+    a.nodes[group['ref']]['assessment_kind'] = 'episode_grouping'
+    for item in pf + p:
+        a.nodes[item['ref']]['episode_grouping_node'] = group['ref']
+    single = a.node('panic.same_episode','程序判断：是否至少有一次发作同时满足 B(1) 至 B(4)？',94,'F41.0',
+        'B lead-in', 'A panic attack is characterized by all of the following:')
+    a.nodes[single['ref']].update(episode_scope=group['ref'], calculation=ALL(*pf,K(4,p),K(1,p[:4])))
+    a.target('panic','F41.0','惊恐障碍',ALL(pa,pb,single,pc),
+        note='先将有明确归属的原话按发作分组，逐次核对 B(1) 至 B(4)。任一批通过即可满足 B；仍须符合 A 和 C。未指定可选的第五位中度/重度编码。')
 
     # Social/specific phobias reference F40.0 B. Those 14 items are repeated only
     # as independent questions, with the shared original source preserved.
@@ -127,9 +139,8 @@ def build_catalog():
 
     build_depression(a)
     build_other(a)
-    build_alcohol(a)
     materialize_calculations(a)
-    return {'id':'WHO-ICD10-14-v2-dialogue','standard':'WHO ICD-10',
+    return {'id':'WHO-ICD10-13-v5','standard':'WHO ICD-10',
             'evidence_policy':'dialogue_supported_v2','documents': document_manifest(),
             'entries':a.entries,'nodes':a.nodes,'targets':a.targets,
             'comparison':{'status':'not_implemented','candidate_deletion':False},
@@ -140,7 +151,11 @@ def materialize_calculations(a):
     """Every numeric rule has its own original threshold clause and trace node."""
     memo={}
     def visit(expr,tree):
-        if 'ref' in expr: return expr
+        if 'ref' in expr:
+            node=a.nodes[expr['ref']]
+            if 'calculation' in node and 'at_least' not in node['calculation']:
+                node['calculation']=visit(node['calculation'],tree)
+            return expr
         if 'at_least' in expr:
             k=expr['at_least']; refs=[x['ref'] for x in expr['of']]
             signature=json.dumps(expr,sort_keys=True)
@@ -180,10 +195,6 @@ def threshold_source(tree,k,refs):
             6:'At least six of the following symptoms of inattention have persisted for at least 6 months, to a degree that is maladaptive and inconsistent with the developmental level of the child:',
             3:'At least three of the following symptoms of hyperactivity have persisted for at least 6 months, to a degree that is maladaptive and inconsistent with the developmental level of the child:',
             1:'At least one of the following symptoms of impulsivity has persisted for at least 6 months, to a degree that is maladaptive and inconsistent with the developmental level of the child:'}[k]
-    if tree=='alcohol':
-        if 'dependence' in refs[0]: return 57,'F1x.2','A lead-in','Three or more of the following manifestations should have occurred together for at least 1 month or, if persisting for periods of less than 1 month, should have occurred together repeatedly within a 12-month period:'
-        if 'withdrawal' in refs[0]: return 59,'F10.3','B lead-in','Any three of the following signs must be present:'
-        return (49 if 'beh' in refs[0] else 50),'F10.0','B lead-in' if 'beh' in refs[0] else 'C lead-in','There must be dysfunctional behaviour, as evidenced by at least one of the following:' if 'beh' in refs[0] else 'At least one of the following signs must be present:'
     raise ValueError((tree,k,refs))
 
 def document_manifest():
@@ -288,14 +299,17 @@ def build_other(a):
          'The individual manifests symptoms or behaviour disturbance of the types found in any of the affective disorders (F30-F39) (except for delusions and hallucinations), any disorders in F40-F48 (neurotic, stress-related, and somatoform disorders) and conduct disorders (F91.-)'),
         ('not_other','根据患者陈述及现有资料，是否尚未达到某一个体障碍的完整标准？',100,'B exclusion','the criteria for an individual disorder are not fulfilled.')]]
     a.nodes['adjustment.not_other']['assessment_kind']='differential_or_complex'
-    course=a.node('adjustment.course','应激及其后果结束后，症状是否明确没有持续超过6个月？若应激尚未结束或尚未观察满该时段，回答信息不足。',101,'F43.2','C',
+    course=a.node('adjustment.course','应激或其仍在持续的后果何时结束？症状何时消退，目前是否仍在持续？若证据已确认症状在应激或其后果结束后未持续超过6个月，判是，无需等满6个月；若明确超过6个月，判否。仍在观察、日期不明或记录矛盾时，判信息不足。',101,'F43.2','C',
         'Except in prolonged depressive reaction (F43.21), the symptoms do not persist for more than 6 months after the cessation of the stress or its consequences. However, this should not prevent a provisional diagnosis being made if this criterion is not yet fulfilled.')
-    prolonged=a.node('adjustment.prolonged','是否为应对长期应激情境的轻度抑郁状态，且持续不超过2年？',101,'F43.21','definition',
+    prolonged=a.node('adjustment.prolonged','是否有证据支持长期暴露于应激情境、由此出现轻度抑郁状态，且抑郁病程不超过2年？任一条件明确不满足则判否，关键证据缺失或矛盾则判信息不足。',101,'F43.21','definition',
         'A mild depressive state occurring in response to a prolonged exposure to a stressful situation but of a duration not exceeding 2 years.')
-    a.target('adjustment','F43.2','适应障碍',ALL(*ad,ANY(course,prolonged)),note='未输出可选的各第五位亚型；纵向病程尚未可观察时另保留原文允许的暂定状态。')
-    # The engine exposes the provisional route without converting unknown C to yes.
-    a.targets[-1]['provisional_when']=ALL(*ad)
-    a.targets[-1]['provisional_if_unknown']=['adjustment.course','adjustment.prolonged']
+    observation=a.node('adjustment.course_observation_pending',
+        '是否同时满足两点？第一，症状仍在持续。第二，应激或其后果仍在持续，或明确于6个月内结束。只有两点均有证据才判是；关键时间信息缺失或记录矛盾时判信息不足。',101,'F43.2','C (local observation check)',
+        a.nodes[course['ref']]['original_clause'])
+    a.target('adjustment','F43.2','适应障碍',ALL(*ad,ANY(course,prolonged)),
+        note='A、B 成立后，普通病程或延长型例外成立均可生成 F43.2 候选。普通病程未知且明确仍在观察窗口时，另记病程暂定。')
+    a.targets[-1].update(provisional_when=ALL(*ad,observation),provisional_if_unknown=[course['ref']],
+                         provisional_observation_node=observation['ref'])
 
     a.entry('ocd','强迫性障碍','是否有反复侵入的思维、意象或重复仪式行为？',97,'F42 A',
         'Either obsessions or compulsions (or both) are present on most days for a period of at least 2 weeks.')
@@ -358,25 +372,25 @@ def build_hyperkinetic(a):
     a.entry('hyperkinetic','多动性障碍（ADHD工作入口）','是否存在注意困难、过度活动或冲动的持续表现？',155,'F90 note',
         'The research diagnosis of hyperkinetic disorder requires the definite presence of abnormal levels of inattention, hyperactivity, and restlessness that are pervasive across situations and persistent over time')
     groups=[('inattention',155,'G1',6,[
-        ('不注意细节或粗心犯错','often fails to give close attention to details, or makes careless errors in schoolwork, work, or other activities'),
-        ('难维持任务或游戏注意','often fails to sustain attention in tasks or play activities'),
-        ('似乎不听别人讲话','often appears not to listen to what is being said to him or her'),
-        ('不能遵从指令或完成作业家务工作，且不是因对立或不理解指令','often fails to follow through on instructions or to finish schoolwork, chores, or duties in the workplace (not because of oppositional behaviour or failure to understand instructions)'),
-        ('组织任务或活动困难','is often impaired in organizing tasks and activities'),
-        ('回避或强烈不喜欢需持续用脑的任务','often avoids or strongly dislikes tasks, such as homework, that require sustained mental effort'),
-        ('丢失任务活动所需物品','often loses things necessary for certain tasks or activities, such as school assignments, pencils, books, toys, or tools'),
-        ('易被外界刺激分心','is often easily distracted by external stimuli'),('日常健忘','is often forgetful in the course of daily activities')]),
+        ('经常不注意细节或粗心犯错','often fails to give close attention to details, or makes careless errors in schoolwork, work, or other activities'),
+        ('经常难以在任务或游戏中保持注意力','often fails to sustain attention in tasks or play activities'),
+        ('经常似乎没在听别人讲话','often appears not to listen to what is being said to him or her'),
+        ('经常不能遵从指令或完成作业、家务或工作，且不是因对立或不理解指令','often fails to follow through on instructions or to finish schoolwork, chores, or duties in the workplace (not because of oppositional behaviour or failure to understand instructions)'),
+        ('经常难以组织任务或活动','is often impaired in organizing tasks and activities'),
+        ('经常回避或强烈不喜欢需持续用脑的任务','often avoids or strongly dislikes tasks, such as homework, that require sustained mental effort'),
+        ('经常丢失任务或活动所需物品','often loses things necessary for certain tasks or activities, such as school assignments, pencils, books, toys, or tools'),
+        ('经常因外界刺激而轻易分心','is often easily distracted by external stimuli'),('在日常活动中经常忘事','is often forgetful in the course of daily activities')]),
         ('hyperactivity',155,'G2',3,[
-        ('手脚不停或坐着扭动','often fidgets with hands or feet or squirms on seat'),
+        ('经常手脚动个不停或坐着扭动','often fidgets with hands or feet or squirms on seat'),
         ('在应保持坐位的课堂或其他情境离座','leaves seat in classroom or in other situations in which remaining seated is expected'),
-        ('在不适当场合过度跑爬；青少年或成人可仅有坐立不安感','often runs about or climbs excessively in situations in which it is inappropriate (in adolescents or adults, only feelings of restlessness may be present)'),
-        ('游戏过于吵闹或难以安静休闲','is often unduly noisy in playing or has difficulty engaging quietly in leisure activities'),
+        ('经常在不适当场合过度跑动或攀爬；青少年或成人可仅有坐立不安感','often runs about or climbs excessively in situations in which it is inappropriate (in adolescents or adults, only feelings of restlessness may be present)'),
+        ('游戏时经常过于吵闹或难以安静地进行休闲活动','is often unduly noisy in playing or has difficulty engaging quietly in leisure activities'),
         ('持续过度运动，基本不随社交情境或要求改变','exhibits a persistent pattern of excessive motor activity that is not substantially modified by social context or demands')]),
         ('impulsivity',156,'G3',1,[
-        ('问题没问完就抢答','often blurts out answers before questions have been completed'),
-        ('不能排队或等待游戏/群体活动轮次','often fails to wait in lines or await turns in games or group situations'),
-        ('打断或侵扰别人','often interrupts or intrudes on others (e.g. butts into others\' conversations or games)'),
-        ('话多且不能适当回应社交限制','often talks excessively without appropriate response to social constraints')])]
+        ('经常在问题没问完时抢答','often blurts out answers before questions have been completed'),
+        ('经常不能排队等候或在游戏、群体活动中等到轮到自己','often fails to wait in lines or await turns in games or group situations'),
+        ('经常打断或侵扰别人','often interrupts or intrudes on others (e.g. butts into others\' conversations or games)'),
+        ('经常说话过多且不能适当回应社交限制','often talks excessively without appropriate response to social constraints')])]
     gates=[]
     for group,page,clause,k,items in groups:
         qualifier=a.node(f'hyperkinetic.{group}_duration',f'{clause}这组症状是否持续至少6个月，达到不适应且与发育水平不一致的程度？',page,'F90',clause+' lead-in',
@@ -418,86 +432,3 @@ def build_delusional(a):
         ('cause','根据患者陈述及现有资料，是否无F00至F09器质性精神障碍或物质所致精神病性障碍的证据？','F',
          'There must be no evidence of primary or secondary organic mental disorder as listed under F00-F09, or of a psychotic disorder due to psychoactive substance use (F1x.5).',True)]]
     a.target('delusional','F22.0','妄想障碍',ALL(*de))
-
-
-def build_alcohol(a):
-    a.entry('alcohol','酒精使用相关问题','是否存在近期饮酒、持续饮酒相关损害、失控或减停酒后的症状，值得进入酒精路径？',48,'F10',
-        'Mental and behavioural disorders due to use of alcohol')
-    alcohol=a.node('alcohol.exposure','是否有证据确认所涉及物质为酒精？',48,'F10','substance identification','Mental and behavioural disorders due to use of alcohol')
-    # Intoxication: general plus alcohol-specific dysfunctional behaviour/signs.
-    intox=a.node('alcohol.intox_dose','是否有明确证据近期饮酒量足以与急性中毒相符？',48,'F1x.0','G1',
-        'There must be clear evidence of recent use of a psychoactive substance (or substances) at sufficiently high dose levels to be consistent with intoxication.')
-    significant=a.node('alcohol.intox_significance','症状是否符合酒精作用且严重到产生临床重要的意识、认知、知觉、情感或行为变化？',49,'F1x.0','G2',
-        'There must be symptoms or signs of intoxication compatible with the known actions of the particular substance (or substances), as specified below, and of sufficient severity to produce disturbances in the level of consciousness, cognition, perception, affect, or behaviour that are of clinical importance.')
-    ie=a.exclude('alcohol','intox_cause','根据患者陈述及现有资料，是否症状不能由无关身体疾病解释，也不能由其他精神或行为障碍更好解释？',49,'F1x.0','G3',
-        'The symptoms or signs present cannot be accounted for by a medical disorder unrelated to substance use, and not better accounted for by another mental or behavioural disorder.')
-    beh=[('脱抑制','disinhibition'),('好争辩','argumentativeness'),('攻击行为','aggression'),('心境不稳定','lability of mood'),('注意受损','impaired attention'),('判断力受损','impaired judgement'),('个人功能受干扰','interference with personal functioning')]
-    ib=[a.node(f'alcohol.intox_beh_{i}',f'本次饮酒中毒时是否出现{zh}？',49 if i<4 else 50,'F10.0',f'B({i})',en+'.') for i,(zh,en) in enumerate(beh,1)]
-    signs=[('步态不稳','unsteady gait'),('站立困难','difficulty in standing'),('言语含糊','slurred speech'),('眼球震颤','nystagmus'),('意识水平下降','decreased level of consciousness (e.g. sopor, coma)'),('面部潮红','flushed face'),('结膜充血','conjunctival injection')]
-    ist=[a.node(f'alcohol.intox_sign_{i}',f'本次饮酒中毒时是否有事实支持{zh}？',50,'F10.0',f'C({i})',en+'.') for i,(zh,en) in enumerate(signs,1)]
-    a.target('alcohol','F10.0','酒精急性中毒',ALL(alcohol,intox,significant,ie,K(1,ib),K(1,ist)),note='不自动指定并发症第五位编码。')
-    # Dependence: 3 of 6 CO-OCCUR for one month or repeatedly in 12 months.
-    dep=[('强烈饮酒欲望或强迫感','a strong desire or sense of compulsion to take the substance'),
-         ('控制饮酒开始、结束或饮量能力受损','impaired capacity to control substance-taking behaviour in terms of its onset, termination, or levels of use, as evidenced by: the substance being often taken in larger amounts or over a longer period than intended; or by a persistent desire or unsuccessful efforts to reduce or control substance use'),
-         ('减停饮酒发生生理戒断或为缓解/避免戒断而饮酒','a physiological withdrawal state (see F1x.3 and F1x.4) when substance use is reduced or ceased, as evidenced by the characteristic withdrawal syndrome for the substance, or by use of the same (or closely related) substance with the intention of relieving or avoiding withdrawal symptoms'),
-         ('耐受增加，即明显增量才能达到效果或同量效果明显下降','evidence of tolerance to the effects of the substance, such that there is a need for significantly increased amounts of the substance to achieve intoxication or the desired effect, or a markedly diminished effect with continued use of the same amount of the substance'),
-         ('饮酒占据生活，减少其他兴趣或大量时间用于获得、饮用及恢复','preoccupation with substance use, as manifested by important alternative pleasures or interests being given up or reduced because of substance use; or a great deal of time being spent in activities necessary to obtain, take, or recover from the effects of the substance'),
-         ('已知或应知明确危害仍持续饮酒','persistent substance use despite clear evidence of harmful consequences (see F1x.1), as evidenced by continued use when the individual is actually aware, or may be expected to be aware, of the nature and extent of harm')]
-    ds=[a.node(f'alcohol.dependence_{i}',f'在所评估的同一依赖时段，是否有{zh}？',57,'F1x.2',f'A({i})',en+'.') for i,(zh,en) in enumerate(dep,1)]
-    timing=a.node('alcohol.dependence_timing','达到数量要求的至少3种表现是否共同出现至少1个月，或若每次不足1个月则在12个月内反复共同出现？',57,'F1x.2','A lead-in',
-        'Three or more of the following manifestations should have occurred together for at least 1 month or, if persisting for periods of less than 1 month, should have occurred together repeatedly within a 12-month period:')
-    a.target('alcohol','F10.2','酒精依赖综合征',ALL(alcohol,K(3,ds),timing),note='不将多个互不重叠时段的症状拼接计数；未指定可选的缓解/使用状态。')
-    harm=a.node('alcohol.harm','是否有明确证据饮酒造成或显著促成身体或心理损害？仅有社会不赞同不足。',56,'F1x.1','A',
-        'There must be clear evidence that the substance use was responsible for (or substantially contributed to) physical or psychological harm, including impaired judgement or dysfunctional behaviour, which may lead to disability or have adverse consequences for interpersonal relationships.')
-    identified=a.node('alcohol.harm_identified','上述损害的性质是否能清楚识别并具体说明？',56,'F1x.1','B','The nature of the harm should be clearly identifiable (and specified).')
-    ht=a.node('alcohol.harm_duration','该使用模式是否持续至少1个月或在12个月内反复发生？',57,'F1x.1','C',
-        'The pattern of use has persisted for at least 1 month or has occurred repeatedly within a 12-month period.')
-    he=a.exclude('alcohol','harm_exclusion','根据同一时段的症状及病史，是否不符合酒精相关的其他精神或行为障碍（急性中毒除外）？',57,'F1x.1','D',
-        'The disorder does not meet the criteria for any other mental or behavioural disorder related to the same drug in the same time period (except for acute intoxication, F1x.0).')
-    a.target('alcohol','F10.1','酒精有害使用',ALL(alcohol,harm,identified,ht,he))
-    cessation=a.node('alcohol.withdrawal_cessation','是否有明确证据在反复、通常长期或大量饮酒后近期停酒或减量？',58,'F1x.3','G1',
-        'There must be clear evidence of recent cessation or reduction of substance use after repeated, and usually prolonged and/or high-dose, use of that substance.')
-    we=a.exclude('alcohol','withdrawal_cause','根据患者陈述及现有资料，是否这些症状不能由无关身体疾病或其他精神行为障碍更好解释？',58,'F1x.3','G3',
-        'Symptoms and signs are not accounted for by a medical disorder unrelated to substance use, and not better accounted for by another mental or behavioural disorder.')
-    signs=[('舌、眼睑或伸手时震颤','tremor of the tongue, eyelids, or outstretched hands'),('出汗','sweating'),('恶心、干呕或呕吐','nausea, retching, or vomiting'),
-           ('心动过速或高血压','tachycardia or hypertension'),('精神运动性激越','psychomotor agitation'),('头痛','headache'),('失眠','insomnia'),('不适或虚弱','malaise or weakness'),
-           ('短暂视、触、听幻觉或错觉','transient visual, tactile, or auditory hallucinations or illusions'),('癫痫大发作','grand mal convulsions')]
-    ws=[a.node(f'alcohol.withdrawal_{i}',f'本次减停酒后的同一戒断期是否有{zh}？',59,'F10.3',f'B({i})',en+'.') for i,(zh,en) in enumerate(signs,1)]
-    delirium=a.node('alcohol.delirium','根据具体症状、病程及现有资料，是否符合F05谵妄的完整标准？缺少相关资料时回答信息不足。',61,'F1x.4','B','The criteria for delirium (F05.-) must be met.',clinical=True)
-    wb=ALL(alcohol,cessation,we,K(3,ws))
-    a.target('alcohol','F10.3','酒精戒断状态',ALL(wb,NOT(delirium)))
-    a.target('alcohol','F10.4','酒精戒断状态伴谵妄',ALL(wb,delirium))
-    # F1x.5 and F1x.6 have direct research clauses; outside-scope references
-    # require clinician evidence, rather than invented criteria or absent=no.
-    ps=[a.node('alcohol.psychotic_'+key,q,62,'F1x.5',cl,en,clinical=clinical) for key,q,cl,en,clinical in [
-        ('symptoms','根据具体描述及现有资料，是否存在符合本条性质的精神病性症状？','A symptom premise','Onset of psychotic symptoms',True),
-        ('onset','精神病性症状是否在使用酒精期间或其后2周内起病？','A','Onset of psychotic symptoms must occur during or within 2 weeks of substance use.',False),
-        ('duration_min','精神病性症状是否持续超过48小时？','B','The psychotic symptoms must persist for more than 48 hours.',False),
-        ('duration_max','该障碍病程是否不超过6个月？','C','Duration of the disorder must not exceed 6 months.',False)]]
-    a.target('alcohol','F10.5','酒精所致精神病性障碍',ALL(alcohol,*ps),note='根据具体描述核对症状性质，不能只凭自报诊断名称认定满足。')
-    am=[a.node('alcohol.amnesic_'+key,q,page,'F1x.6',cl,en,clinical=clinical) for key,q,page,cl,en,clinical in [
-        ('recent','是否有新材料学习受损，严重到干扰日常生活？',62,'A(1)','a defect of recent memory (impaired learning of new material) to a degree sufficient to interfere with daily living;',False),
-        ('past','是否回忆既往经历的能力下降？',62,'A(2)','a reduced ability to recall past experiences.',False),
-        ('immediate','根据患者陈述及现有资料，是否即刻回忆缺陷不存在或相对不存在？',62,'B(1)','defect in immediate recall (as tested, for example, by the digit span);',True),
-        ('consciousness','根据患者陈述及现有资料，是否不存在或相对不存在意识混浊及F05 A所定义注意障碍？',62,'B(2)','clouding of consciousness and disturbance of attention, as defined in F05.-, criterion A;',True),
-        ('dementia','根据患者陈述及现有资料，是否不存在或相对不存在总体智力下降/痴呆？',62,'B(3)','global intellectual decline (dementia).',True),
-        ('cause','体格、神经检查、实验室或病史是否无可解释这些症状的非物质相关脑病客观证据？',63,'C',
-         'There is no objective evidence from physical and neurological examination, laboratory tests, or history of a disorder or disease of the brain (especially involving bilaterally the diencephalic and medial temporal structures), other than that related to substance use, that can reasonably be presumed to be responsible for the clinical manifestations described under criterion A.',True)]]
-    a.target('alcohol','F10.6','酒精相关遗忘综合征',ALL(alcohol,*am))
-    for i in ('immediate','consciousness','dementia'):
-        a.nodes['alcohol.amnesic_'+i]['original_clause']='All of the following are absent (or relatively absent): '+a.nodes['alcohol.amnesic_'+i]['original_clause']
-    link=a.node('alcohol.residual_link','本次残留或迟发综合征是否与酒精有明确关系；若停用后起病，是否有强有力的关联证据？',63,'F1x.7','A',
-        'Conditions and disorders meeting the criteria for the individual syndromes listed below should be clearly related to substance use. Where onset of the condition or disorder occurs subsequent to use of psychoactive substances, strong evidence should be provided to demonstrate a link.',clinical=True)
-    details=a.node('alcohol.residual_description','收集的材料是否已清楚记载残留状态的类型、严重度、病程以及研究需要的完整描述？',63,'F1x.7','Comments',
-        'In view of the considerable variation in this category, the characteristics of such residual states or conditions should be clearly documented in terms of their type, severity, and duration. For research purposes full descriptive details should be specified.',clinical=True)
-    for code,label,quote in [
-        ('F10.70','闪回','Flashbacks'),
-        ('F10.71','残留人格或行为障碍','The general criteria for F07.-, personality and behavioural disorder due to brain disease, damage and dysfunction, must be met.'),
-        ('F10.72','残留心境障碍','The criteria for F06.3, organic mood [affective] disorder, must be met.'),
-        ('F10.73','痴呆','The general criteria for dementia (F00-F03) must be met.'),
-        ('F10.74','其他持续性认知损害','The criteria for F06.7, mild cognitive disorder, must be met, except for the exclusion of psychoactive substance use in criterion D.'),
-        ('F10.75','迟发精神病性障碍','The general criteria for F1x.5, psychotic disorder, must be met, except with regard to the onset of the disorder, which is more than 2 weeks but not more than 6 weeks after substance use.')]:
-        verified=a.node('alcohol.residual_'+code[-2:],f'根据所收集的症状、病程及相关资料，是否属于{label}，并符合本条引用的完整综合征条件？',63,code.replace('10','1x'),
-            'syndrome / B if applicable',quote,clinical=True)
-        a.target('alcohol',code,'酒精相关'+label,ALL(alcohol,link,details,verified),
-            note='交叉引用条件须有具体事实支持；原文明示的客观检查或病程证据缺失时保持未知，不以自述替代检查结果。')

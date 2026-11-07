@@ -24,13 +24,16 @@ def test_l2_accepts_icd10_symptoms_and_preserves_episode_context():
     assert state.diagnostic_context.sources["diagnostic_details"]
 
 
-def test_l2_vocabulary_sources_are_in_the_local_icd10_catalog_or_cddg():
+def test_l2_vocabulary_sources_are_in_the_local_catalog_or_cite_a_who_document():
     catalog = build_catalog()
     assert catalog["standard"] == "WHO ICD-10"
     for label, source in ICD10_SYMPTOM_TERMS.values():
         assert label
-        if source == "WHO_CDDG_1992 F30.1 PDF p.127":
-            assert catalog["documents"]["WHO_CDDG_1992"]["isbn"] == "9241544228"
+        document_id, separator, citation = source.partition(" ")
+        if separator:
+            assert document_id in catalog["documents"]
+            clause, page_marker, page = citation.partition(" PDF p.")
+            assert clause and page_marker and page.isdigit() and int(page) > 0
         else:
             node = catalog["nodes"][source]
             assert node["original_clause"] and "calculation" not in node
